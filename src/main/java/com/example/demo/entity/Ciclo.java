@@ -23,7 +23,7 @@ public class Ciclo {
 	@Column(name="tipo", length=40)
 	private String tipo;
 	
-	@OneToMany(mappedBy="ciclo", orphanRemoval=true)
+	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
 	List <Alumno> alumnos = new ArrayList<>();
 
 	public Ciclo(int id, String nombre, String tipo, List<Alumno> alumnos) {

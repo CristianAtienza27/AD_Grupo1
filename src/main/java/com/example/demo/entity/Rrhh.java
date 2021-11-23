@@ -33,7 +33,7 @@ public class Rrhh {
 	@Column(name="empresa", length=200)
 	private String empresa;
 	
-	@OneToMany(mappedBy="rrhh", orphanRemoval=true)
+	@OneToMany(mappedBy="rrhhid", orphanRemoval=true)
 	List <Oferta> rrhhid = new ArrayList<>();
 
 	public Rrhh(int id, String nombre, String apellidos, String email, String password, String telefono, String empresa,
