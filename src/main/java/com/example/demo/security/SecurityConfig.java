@@ -13,28 +13,28 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-//	@Autowired
-//	private UserDetailsServiceImpl userDetails;
-//	
-//	@Bean
-//	public BCryptPasswordEncoder passwordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
-//	
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
-//	}
+	@Autowired
+	private UserDetailsServiceImpl userDetails;
+	
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/static/**","/assets/**","/css/**","/js/**","/public/**","/auth/**").permitAll()
 		.antMatchers("/admin").hasRole("ADMIN").anyRequest().authenticated()
 			.and()
-		.formLogin().loginPage("/auth/login").defaultSuccessUrl("/public/index",true).failureUrl("/auth/login?error=true")
+		.formLogin().loginPage("/auth/login").defaultSuccessUrl("/public",true).failureUrl("/auth/login?error=true")
 		.loginProcessingUrl("/auth/login-post").permitAll()
 			.and()
-		.logout().logoutSuccessUrl("/auth/login");		
+		.logout().logoutSuccessUrl("/public");		
 	}
 
 }
