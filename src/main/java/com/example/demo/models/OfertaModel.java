@@ -2,7 +2,7 @@ package com.example.demo.models;
 
 import java.util.Date;
 
-import com.example.demo.entity.Rrhh;
+import com.example.demo.entity.Usuario;
 
 public class OfertaModel {
 
@@ -15,17 +15,14 @@ public class OfertaModel {
 	private String requisitos;
 	
 	private Date fechamax;
-	
-	private Rrhh rrhhid;
 
-	public OfertaModel(int id, String titular, String descripcion, String requisitos, Date fechamax, Rrhh rrhhid) {
+	public OfertaModel(int id, String titular, String descripcion, String requisitos, Date fechamax) {
 		super();
 		this.id = id;
 		this.titular = titular;
 		this.descripcion = descripcion;
 		this.requisitos = requisitos;
 		this.fechamax = fechamax;
-		this.rrhhid = rrhhid;
 	}
 	
 	public OfertaModel() {
@@ -70,14 +67,6 @@ public class OfertaModel {
 
 	public void setFechamax(Date fechamax) {
 		this.fechamax = fechamax;
-	}
-
-	public Rrhh getRrhhid() {
-		return rrhhid;
-	}
-
-	public void setRrhhid(Rrhh rrhhid) {
-		this.rrhhid = rrhhid;
 	}
 	
 	

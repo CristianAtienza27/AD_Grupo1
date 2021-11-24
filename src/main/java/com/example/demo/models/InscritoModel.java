@@ -2,20 +2,20 @@ package com.example.demo.models;
 
 import java.util.Date;
 
-import com.example.demo.entity.Alumno;
+import com.example.demo.entity.Usuario;
 import com.example.demo.entity.Oferta;
 
 public class InscritoModel {
 
 	private int id;
 	
-	private Alumno idAlumno;
+	private Usuario idAlumno;
 	
 	private Oferta idOferta;
 	
 	private Date fecha_inscripcion;
 
-	public InscritoModel(int id, Alumno idAlumno, Oferta idOferta, Date fecha_inscripcion) {
+	public InscritoModel(int id, Usuario idAlumno, Oferta idOferta, Date fecha_inscripcion) {
 		super();
 		this.id = id;
 		this.idAlumno = idAlumno;
@@ -35,11 +35,11 @@ public class InscritoModel {
 		this.id = id;
 	}
 
-	public Alumno getIdAlumno() {
+	public Usuario getIdAlumno() {
 		return idAlumno;
 	}
 
-	public void setIdAlumno(Alumno idAlumno) {
+	public void setIdAlumno(Usuario idAlumno) {
 		this.idAlumno = idAlumno;
 	}
 

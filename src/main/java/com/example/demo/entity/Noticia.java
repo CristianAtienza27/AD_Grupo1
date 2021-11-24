@@ -81,5 +81,4 @@ public class Noticia {
 		this.cicloID = cicloID;
 	}
 	
-	
 }

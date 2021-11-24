@@ -20,7 +20,7 @@ public class Inscrito {
 	
 	@ManyToOne
 	@JoinColumn(name="idAlumno")
-	private Alumno idAlumno;
+	private Usuario idAlumno;
 	
 	@ManyToOne
 	@JoinColumn(name="idOferta")
@@ -30,7 +30,7 @@ public class Inscrito {
 	@Temporal(TemporalType.DATE)
 	private Date fecha_inscripcion;
 
-	public Inscrito(int id, Alumno idAlumno, Oferta idOferta, Date fecha_inscripcion) {
+	public Inscrito(int id, Usuario idAlumno, Oferta idOferta, Date fecha_inscripcion) {
 		super();
 		this.id = id;
 		this.idAlumno = idAlumno;
@@ -50,11 +50,11 @@ public class Inscrito {
 		this.id = id;
 	}
 
-	public Alumno getIdAlumno() {
+	public Usuario getIdAlumno() {
 		return idAlumno;
 	}
 
-	public void setIdAlumno(Alumno idAlumno) {
+	public void setIdAlumno(Usuario idAlumno) {
 		this.idAlumno = idAlumno;
 	}
 

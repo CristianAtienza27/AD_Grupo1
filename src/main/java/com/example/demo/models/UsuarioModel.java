@@ -1,55 +1,54 @@
-package com.example.demo.entity;
+package com.example.demo.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-@Entity
-public class Rrhh {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+import com.example.demo.entity.Ciclo;
+import com.example.demo.entity.Oferta;
+
+public class UsuarioModel {
+
 	private int id;
 	
-	@Column(name="nombre", length=30)
 	private String nombre;
 	
-	@Column(name="apellidos", length=50)
 	private String apellidos;
 	
-	@Column(name="email", length=50)
+	private String telefono;
+	
+	private boolean enabled;
+	
 	private String email;
 	
 	private String password;
 	
-	@Column(name="telefono", length=10)
-	private String telefono;
+	private String role;
 	
-	@Column(name="empresa", length=200)
 	private String empresa;
 	
-	@OneToMany(mappedBy="rrhhid", orphanRemoval=true)
-	List <Oferta> rrhhid = new ArrayList<>();
 
-	public Rrhh(int id, String nombre, String apellidos, String email, String password, String telefono, String empresa,
-			List<Oferta> rrhhid) {
+	public UsuarioModel(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,
+			String role, String empresa) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
+		this.telefono = telefono;
+		this.enabled = false;
 		this.email = email;
 		this.password = password;
-		this.telefono = telefono;
-		this.empresa = empresa;
-		this.rrhhid = rrhhid;
+		this.role = role;
 	}
 
-	public Rrhh() {
+	public UsuarioModel() {
 		super();
 	}
 
@@ -77,6 +76,14 @@ public class Rrhh {
 		this.apellidos = apellidos;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -93,12 +100,12 @@ public class Rrhh {
 		this.password = password;
 	}
 
-	public String getTelefono() {
-		return telefono;
+	public String getRole() {
+		return role;
 	}
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getEmpresa() {
@@ -108,15 +115,13 @@ public class Rrhh {
 	public void setEmpresa(String empresa) {
 		this.empresa = empresa;
 	}
-
-	public List<Oferta> getRrhhid() {
-		return rrhhid;
-	}
-
-	public void setRrhhid(List<Oferta> rrhhid) {
-		this.rrhhid = rrhhid;
-	}
 	
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 	
 }
-

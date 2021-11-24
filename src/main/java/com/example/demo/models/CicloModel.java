@@ -3,7 +3,7 @@ package com.example.demo.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.entity.Alumno;
+import com.example.demo.entity.Usuario;
 
 public class CicloModel {
 
@@ -12,18 +12,13 @@ public class CicloModel {
 	private String nombre;
 	
 	private String tipo;
-	
-	List <Alumno> alumnos = new ArrayList<>();
 
-	public CicloModel(int id, String nombre, String tipo, List<Alumno> alumnos) {
+	public CicloModel(int id, String nombre, String tipo) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.tipo = tipo;
-		this.alumnos = alumnos;
 	}
-	
-	
 
 	public CicloModel() {
 		super();
@@ -51,14 +46,6 @@ public class CicloModel {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-	}
-
-	public List<Alumno> getAlumnos() {
-		return alumnos;
-	}
-
-	public void setAlumnos(List<Alumno> alumnos) {
-		this.alumnos = alumnos;
 	}
 	
 	

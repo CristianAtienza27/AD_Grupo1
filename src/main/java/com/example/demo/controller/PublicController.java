@@ -7,14 +7,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.demo.entity.Alumno;
-import com.example.demo.service.AlumnoService;
+import com.example.demo.entity.Usuario;
+import com.example.demo.service.UsuarioService;
 
 @Controller
 public class PublicController {
 	
 	@Autowired
-	private AlumnoService alumnoService;
+	private UsuarioService alumnoService;
 
 	@GetMapping("/public")
 	public String slash(Authentication auth,HttpSession session) {
@@ -24,7 +24,7 @@ public class PublicController {
 			String username = auth.getName();
 			
 			if(session.getAttribute("alumno")==null) {
-				Alumno alumno = alumnoService.findByNombre(username);
+				Usuario alumno = alumnoService.findByNombre(username);
 				alumno.setPassword(null);
 				session.setAttribute("alumno", alumno);
 			}

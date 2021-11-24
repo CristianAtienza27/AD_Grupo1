@@ -11,16 +11,13 @@ public class NoticiaModel {
 	private String descripcion;
 	
 	private String imagen;
-	
-	private Ciclo cicloID;
 
-	public NoticiaModel(int id, String titulo, String descripcion, String imagen, Ciclo cicloID) {
+	public NoticiaModel(int id, String titulo, String descripcion, String imagen) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.imagen = imagen;
-		this.cicloID = cicloID;
 	}
 
 	public NoticiaModel() {
@@ -58,14 +55,5 @@ public class NoticiaModel {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-
-	public Ciclo getCicloID() {
-		return cicloID;
-	}
-
-	public void setCicloID(Ciclo cicloID) {
-		this.cicloID = cicloID;
-	}
-	
 	
 }

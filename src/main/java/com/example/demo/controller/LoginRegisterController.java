@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.entity.Alumno;
-import com.example.demo.service.AlumnoService;
+import com.example.demo.entity.Usuario;
+import com.example.demo.service.UsuarioService;
 
 @Controller
 public class LoginRegisterController {
 	
 	@Autowired
-	private AlumnoService alumnoService;
+	private UsuarioService alumnoService;
 	
 	@GetMapping("/")
 	public String slash() {
@@ -30,20 +30,20 @@ public class LoginRegisterController {
 			redirAttrs.addFlashAttribute("fallo", "Username or password are incorrect");
 			return "redirect:/auth/login";
 		}else {
-			model.addAttribute("alumno",new Alumno());
+			model.addAttribute("alumno",new Usuario());
 			return "login";
 		}
 	}
 	
 	@GetMapping("/auth/register")
 	public String registerForm(Model model) {
-		model.addAttribute("usuario",new Alumno());
+		model.addAttribute("usuario",new Usuario());
 		return "register";
 	}
 	
 	@PostMapping("/auth/register")
-	public String register(@ModelAttribute Alumno alumno, Model model) {
-		alumno.setActivo(false);
+	public String register(@ModelAttribute Usuario alumno, Model model) {
+		alumno.setEnabled(false);
 		model.addAttribute("usuario",alumnoService.register(alumno));
 		return "redirect:/auth/login";
 	}

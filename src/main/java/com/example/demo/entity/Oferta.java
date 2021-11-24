@@ -35,9 +35,9 @@ public class Oferta {
 	
 	@ManyToOne
 	@JoinColumn(name="rrhhid")
-	private Rrhh rrhhid;
+	private Usuario rrhhid;
 
-	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax, Rrhh rrhhid) {
+	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax, Usuario rrhhid) {
 		super();
 		this.id = id;
 		this.titular = titular;
@@ -91,11 +91,11 @@ public class Oferta {
 		this.fechamax = fechamax;
 	}
 
-	public Rrhh getRrhhid() {
+	public Usuario getRrhhid() {
 		return rrhhid;
 	}
 
-	public void setRrhhid(Rrhh rrhhid) {
+	public void setRrhhid(Usuario rrhhid) {
 		this.rrhhid = rrhhid;
 	}
 	
