@@ -26,8 +26,8 @@ public class AlumnoServiceImpl implements AlumnoService{
 	}
 
 	@Override
-	public Alumno findByNombre(String name) {
-		return alumnoRepository.findByNombre(name);
+	public Alumno findByEmail(String name) {
+		return alumnoRepository.findByEmail(name);
 	}
 
 	@Override
@@ -40,6 +40,12 @@ public class AlumnoServiceImpl implements AlumnoService{
 	public AlumnoModel transform(Alumno alumno) {
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(alumno, AlumnoModel.class);
+	}
+
+	@Override
+	public Alumno findByNombre(String name) {
+		// TODO Auto-generated method stub
+		return alumnoRepository.findByNombre(name);
 	}
 
 }

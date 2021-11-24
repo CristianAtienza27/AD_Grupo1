@@ -5,6 +5,7 @@ import com.example.demo.models.AlumnoModel;
 
 
 public interface AlumnoService {
+	public Alumno findByEmail(String name);
 	public Alumno findByNombre(String name);
 	public Alumno register(Alumno alumno);
 	Alumno transform(AlumnoModel alumnoModel);

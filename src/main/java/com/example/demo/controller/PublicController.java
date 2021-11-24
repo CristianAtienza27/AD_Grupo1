@@ -24,7 +24,7 @@ public class PublicController {
 			String username = auth.getName();
 			
 			if(session.getAttribute("alumno")==null) {
-				Alumno alumno = alumnoService.findByNombre(username);
+				Alumno alumno = alumnoService.findByEmail(username);
 				alumno.setPassword(null);
 				session.setAttribute("alumno", alumno);
 			}

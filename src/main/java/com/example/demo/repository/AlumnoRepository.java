@@ -7,5 +7,6 @@ import com.example.demo.entity.Alumno;
 
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno,Long>{
-	public Alumno findByNombre(String username);
+	public Alumno findByEmail(String email);
+	public Alumno findByNombre(String email);
 }
