@@ -25,8 +25,12 @@ public class PublicController {
 			
 			if(session.getAttribute("usuario")==null) {
 				Usuario usuario = usuarioService.findByEmail(username);
-				usuario.setPassword(null);
-				session.setAttribute("usuario", usuario);
+				if(usuario.isEnabled()==false)
+					return "redirect:auth/login?notEnable";
+				else {
+					usuario.setPassword(null);
+					session.setAttribute("usuario", usuario);
+				}
 			}
 			return "index";
 		}

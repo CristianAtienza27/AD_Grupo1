@@ -25,11 +25,19 @@ public class LoginRegisterController {
 	}
 	
 	@GetMapping("/auth/login")
-	public String loginForm(@RequestParam(value="error",required=false) String error,Model model,RedirectAttributes redirAttrs) {
+	public String loginForm(@RequestParam(value="error",required=false) String error,@RequestParam(value="logout",required=false) String logout,
+			@RequestParam(value="notEnable",required=false) String enable,Model model,RedirectAttributes redirAttrs) {
 		if(error!=null) {
 			redirAttrs.addFlashAttribute("fallo", "Username or password are incorrect");
 			return "redirect:/auth/login";
-		}else {
+		}if(logout!=null){
+			redirAttrs.addFlashAttribute("fallo", "Logout successfully");
+			return "redirect:/auth/login";
+		}if(enable!=null){
+			redirAttrs.addFlashAttribute("fallo", "User not enable yet. Please wait");
+			return "redirect:/auth/login";
+		}
+		else {
 			model.addAttribute("alumno",new Usuario());
 			return "login";
 		}
