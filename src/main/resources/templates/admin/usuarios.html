@@ -46,111 +46,46 @@
         <header class="masthead">
             <div class="container px-5">
                 <div class="row gx-5 align-items-center">
-                    <div class="col-lg-6">
-                        <!-- Mashead text and app badges-->
-                        <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                            <h1 class="display-1 lh-1 mb-3">Do login now!</h1>
-                            
-                            <form class="form-subscribe" id="contactForm" method="POST" th:action="@{/auth/login-post}">
-                                <!-- Email address input-->
-                                <div class="row">
-                                    <div class="col">
-                                        <input class="form-control form-control-lg" id="email" type="email" placeholder="example@example.com" name="email"/>
-                                        <br>
-                                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password" name="password"/>
-                                        <br>
-                                        <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Login</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                    <div>
+                            <h1 class="display-1 lh-1 mb-3">Users</h1>
                     </div>
-                    <div class="col-lg-6">
-                        <!-- Masthead device mockup feature-->
-                        <div class="masthead-device-mockup">
-                            <svg class="circle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="circleGradient" gradientTransform="rotate(45)">
-                                        <stop class="gradient-start-color" offset="0%"></stop>
-                                        <stop class="gradient-end-color" offset="100%"></stop>
-                                    </linearGradient>
-                                </defs>
-                                <circle cx="50" cy="50" r="50"></circle></svg
-                            ><svg class="shape-1 d-none d-sm-block" viewBox="0 0 240.83 240.83" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03" transform="translate(120.42 -49.88) rotate(45)"></rect>
-                                <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03" transform="translate(-49.88 120.42) rotate(-45)"></rect></svg
-                            ><svg class="shape-2 d-none d-sm-block" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"></circle></svg>
-                            <div class="device-wrapper">
-                                <div class="device" data-device="iPhoneX" data-orientation="portrait" data-color="black">
-                                    <div class="screen bg-black">
-                                        <!-- PUT CONTENTS HERE:-->
-                                        <!-- * * This can be a video, image, or just about anything else.-->
-                                        <!-- * * Set the max width of your media to 100% and the height to-->
-                                        <!-- * * 100% like the demo example below.-->
-                                        <video muted="muted" autoplay="" loop="" style="max-width: 100%; height: 100%"><source th:src="@{/assets/img/demo-screen.mp4}" type="video/mp4" /></video>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <table class="table">
+				  <thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Name</th>
+				      <th scope="col">Surname</th>
+				      <th scope="col">Email</th>
+				      <th scope="col">Phone number</th>
+				      <th scope="col">Cicle</th>
+				      <th scope="col">¿Enable?</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="user: ${users}">
+				      <th th:text="${user.nombre}"></th>
+				      <th th:text="${user.apellidos}"></th>
+				      <th th:text="${user.email}"></th>
+				      <th th:text="${user.telefono}"></th>
+				      <th th:text="${user.telefono}"></th>
+				      <th>
+				      	<form th:if="${user.enabled == true}" th:action="@{'/admin/disableUser/' + ${user.id}}" method="POST">
+				      		<button  type="submit" class="btn btn-danger">Disable</button>
+				      	</form>
+				      	<form th:if="${user.enabled == false}" th:action="@{'/admin/enableUser/' + ${user.id}}" method="POST">
+				      		<button  type="submit" class="btn btn-success">Enable</button>
+				      	</form>
+				      </th>     
+				    </tr>
+				  </tbody>
+			</table>
                 </div>
             </div>
         </header>
         <!-- Quote/testimonial aside-->
-        <aside class="text-center bg-gradient-primary-to-secondary">
-            <div class="container px-5">
-                <div class="row gx-5 justify-content-center">
-                    <div class="col-xl-8">
-                        <div class="h2 fs-1 text-white mb-4">"An intuitive solution to a common problem that we all face, wrapped up in a single app!"</div>
-                        <img th:src="@{/assets/img/tnw-logo.svg}" alt="..." style="height: 3rem" />
-                    </div>
-                </div>
-            </div>
-        </aside>
         <!-- App features section-->
         
         <footer th:replace="index :: footer" class="footer bg-light">
         </footer>
-        <!-- Feedback Modal-->
-        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                        <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Register</h5>
-                        <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body border-0 p-4">
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- * * SB Forms Contact Form * *-->
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- This form is pre-integrated with SB Forms.-->
-                        <!-- To make this form functional, sign up at-->
-                        <!-- https://startbootstrap.com/solution/contact-forms-->
-                        <!-- to get an API token!-->
-                        
-                        <form class="form-subscribe" id="contactForm" method="POST" th:action="@{/auth/register}">
-                                <!-- Email address input-->
-                                <div class="row">
-                                    <div class="col">
-                                    	<input class="form-control form-control-lg" id="nombre" type="text" placeholder="Name" name="nombre"/>
-                                        <br>
-                                        <input class="form-control form-control-lg" id="apellidos" type="text" placeholder="Surname" name="apellidos"/>
-                                        <br>
-                                        <input class="form-control form-control-lg" id="telefono" type="number" placeholder="Phone number" name="telefono"/>
-                                        <br>
-                                        <input class="form-control form-control-lg" id="email" type="email" placeholder="example@example.com" name="email"/>
-                                        <br>
-                                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password" name="password"/>
-                                        <br>
-                                        <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Register</button>
-                                    </div>
-                                </div>
-                            </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script th:src="@{/js/scripts.js}"></script>
