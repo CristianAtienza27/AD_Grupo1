@@ -27,6 +27,7 @@
                     <i class="bi-list"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
+                <li th:if="${session.usuario!=null}" class="nav-item"><span>Bienvenido/a <span class="font-italic" th:text="${session.usuario.nombre}"></span></span></li>
                 <li>
                 	<span th:if="${mensaje != null}" class="btn btn-success"><span th:text="${mensaje}"></span></span>
                 </li>
