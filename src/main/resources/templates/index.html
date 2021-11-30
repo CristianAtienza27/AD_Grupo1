@@ -26,12 +26,12 @@
                     Menu
                     <i class="bi-list"></i>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">ç
+                <div class="collapse navbar-collapse" id="navbarResponsive">
                 <li>
-                	<span th:if="${mensaje != null}"><span th:text="${mensaje}"></span></span>
+                	<span th:if="${mensaje != null}" class="btn btn-success"><span th:text="${mensaje}"></span></span>
                 </li>
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                    	<form th:if="${session.alumno!=null}" th:action="@{/logout}" method="POST">
+                    	<form th:if="${session.usuario!=null}" th:action="@{/logout}" method="POST">
 		                	<li class="nav-item"><button type="submit" class="btn btn-danger">Logout</button></li>
 		                </form>
 		                &nbsp;
