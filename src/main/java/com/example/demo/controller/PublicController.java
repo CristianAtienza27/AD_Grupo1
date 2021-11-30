@@ -36,6 +36,8 @@ public class PublicController {
 				Usuario usuario = usuarioService.findByEmail(username);
 				if(usuario.isEnabled()==false)
 					return "redirect:auth/login?notEnable";
+				if(usuario.getRole().equals("ROLE_ADMIN"))
+					return "redirect:/admin/users";
 				else {
 					usuario.setPassword(null);
 					session.setAttribute("usuario", usuario);

@@ -1,5 +1,8 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,6 +48,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public Usuario findByEmail(String email) {
 		return usuarioRepository.findByEmail(email);
+	}
+
+	@Override
+	public Usuario findById(Long id) {
+		Usuario us=null;
+		Optional<Usuario> user=usuarioRepository.findById(id);
+		us=user.get();
+		return us;
 	}
 
 }
