@@ -16,7 +16,7 @@ import com.example.demo.service.UsuarioService;
 public class PublicController {
 	
 	@Autowired
-	private UsuarioService alumnoService;
+	private UsuarioService usuarioService;
 
 	@GetMapping("/public")
 	public String slash(Authentication auth,HttpSession session, 
@@ -32,10 +32,10 @@ public class PublicController {
 		}else {
 			String username = auth.getName();
 			
-			if(session.getAttribute("alumno")==null) {
-				Usuario alumno = alumnoService.findByNombre(username);
-				alumno.setPassword(null);
-				session.setAttribute("alumno", alumno);
+			if(session.getAttribute("usuario")==null) {
+				Usuario usuario = usuarioService.findByEmail(username);
+				usuario.setPassword(null);
+				session.setAttribute("usuario", usuario);
 			}
 			return "index";
 		}

@@ -17,7 +17,7 @@ import com.example.demo.service.UsuarioService;
 public class LoginRegisterController {
 	
 	@Autowired
-	private UsuarioService alumnoService;
+	private UsuarioService usuarioService;
 	
 	@GetMapping("/")
 	public String slash() {
@@ -44,7 +44,8 @@ public class LoginRegisterController {
 	@PostMapping("/auth/register")
 	public String register(@ModelAttribute Usuario alumno, Model model) {
 		alumno.setEnabled(false);
-		model.addAttribute("usuario",alumnoService.register(alumno));
+		alumno.setRole("ROLE_ALUMNO");
+		model.addAttribute("usuario",usuarioService.register(alumno));
 		return "redirect:/auth/login";
 	}
 

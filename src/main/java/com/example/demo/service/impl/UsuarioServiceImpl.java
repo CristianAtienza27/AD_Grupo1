@@ -17,17 +17,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
-	private UsuarioRepository alumnoRepository;
+	private UsuarioRepository usuarioRepository;
 
 	@Override
 	public Usuario register(Usuario alumno) {
 		alumno.setPassword(passwordEncoder.encode(alumno.getPassword()));
-		return alumnoRepository.save(alumno);
+		return usuarioRepository.save(alumno);
 	}
 
 	@Override
 	public Usuario findByNombre(String name) {
-		return alumnoRepository.findByNombre(name);
+		return usuarioRepository.findByNombre(name);
 	}
 
 	@Override
@@ -40,6 +40,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public UsuarioModel transform(Usuario alumno) {
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(alumno, UsuarioModel.class);
+	}
+
+	@Override
+	public Usuario findByEmail(String email) {
+		return usuarioRepository.findByEmail(email);
 	}
 
 }
