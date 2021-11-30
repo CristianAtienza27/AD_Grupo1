@@ -7,5 +7,6 @@ import com.example.demo.entity.Ciclo;
 
 @Repository
 public interface CicloRepository extends JpaRepository<Ciclo, Long>{
-	public Ciclo findByNombre(String cicloName);
+	//public Ciclo findById(int id);
+	//public Ciclo findByNombre(String cicloName);
 }	

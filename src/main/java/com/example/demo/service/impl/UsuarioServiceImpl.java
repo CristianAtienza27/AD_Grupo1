@@ -47,4 +47,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return usuarioRepository.findByEmail(email);
 	}
 
+	@Override
+	public Usuario findByRole(String role) {
+		return usuarioRepository.findByRole(role);
+	}
+
 }
