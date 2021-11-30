@@ -6,6 +6,7 @@ import com.example.demo.models.UsuarioModel;
 
 public interface UsuarioService {
 	public Usuario findByNombre(String name);
+	public Usuario findByEmail(String email);
 	public Usuario register(Usuario alumno);
 	Usuario transform(UsuarioModel alumnoModel);
 	UsuarioModel transform(Usuario alumno);

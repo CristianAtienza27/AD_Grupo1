@@ -27,8 +27,10 @@
                     <i class="bi-list"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
+                
+                <li th:if="${session.usuario!=null}" class="nav-item"><span>Bienvenido/a <span class="font-italic" th:text="${session.usuario.nombre}"></span></span></li>
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                    	<form th:if="${session.alumno!=null}" th:action="@{/logout}" method="POST">
+                    	<form th:if="${session.usuario!=null}" th:action="@{/logout}" method="POST">
 		                	<li class="nav-item"><button type="submit" class="btn btn-danger">Logout</button></li>
 		                </form>
 		                &nbsp;
@@ -241,7 +243,7 @@
                                 <!-- Email address input-->
                                 <div class="row">
                                     <div class="col">
-                                        <input class="form-control form-control-lg" id="username" type="text" placeholder="Nombre" name="username"/>
+                                        <input class="form-control form-control-lg" id="email" type="email" placeholder="example@example.com" name="email"/>
                                         <br>
                                         <input class="form-control form-control-lg" id="password" type="password" placeholder="Password" name="password"/>
                                         <br>
