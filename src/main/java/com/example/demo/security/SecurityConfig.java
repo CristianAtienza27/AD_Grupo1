@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/static/**","/assets/**","/css/**","/js/**","/public/**","/auth/**").permitAll()
-		.antMatchers("/admin").hasRole("ADMIN").anyRequest().authenticated()
+		.antMatchers("/admin").permitAll().anyRequest().authenticated()
 			.and()
 		.formLogin().loginPage("/auth/login").usernameParameter("email").defaultSuccessUrl("/public",true).failureUrl("/auth/login?error")
 		.loginProcessingUrl("/auth/login-post").permitAll()

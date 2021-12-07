@@ -1,17 +1,20 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
 
 
 public interface UsuarioService {
-	public Usuario findByNombre(String name);
-	public Usuario findById(Long id);
-	public Usuario findByEmail(String email);
-	public Usuario register(Usuario alumno);
-	public Usuario findByRole(String role);
-	Usuario transform(UsuarioModel alumnoModel);
-	UsuarioModel transform(Usuario alumno);
+	Usuario register(UsuarioModel usuario);
+	List<UsuarioModel> showAll(String role);
+	Usuario transform(UsuarioModel usuarioModel);
+	UsuarioModel transform(Usuario usuario);
+	Usuario addUser(UsuarioModel usuario); 
+	Usuario updateUser(UsuarioModel usuario);
+	UsuarioModel findUserById(long id);
+	UsuarioModel findUserByEmail(String email);
+	int removeUser(long id);
 }

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Usuario;
+import com.example.demo.models.UsuarioModel;
 import com.example.demo.repository.UsuarioRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario alumno = usuarioRepository.findByEmail(username);
+	    UsuarioModel alumno = usuarioRepository.findByEmail(username);
 		UserBuilder builder = null;
 		
 		if(alumno != null) {
