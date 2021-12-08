@@ -40,6 +40,9 @@ public class PublicController {
 					return "redirect:auth/login?notEnable";
 				if(usuario.getRole().equals("ROLE_ADMIN"))
 					return "redirect:/admin/users"; 
+				else if(usuario.getRole().equals("ROLE_ALUMNO")) {
+					return "redirect:/user/details/" + usuario.getId();
+				}
 				else {
 					usuario.setPassword(null);
 					session.setAttribute("usuario", usuario);
