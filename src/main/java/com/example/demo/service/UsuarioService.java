@@ -11,7 +11,7 @@ public interface UsuarioService {
 	public Usuario findById(Long id);
 	public Usuario findByEmail(String email);
 	public Usuario register(Usuario alumno);
-	public Usuario findByRole(String role);
+	public List<Usuario> findByRole(String role);
 	Usuario transform(UsuarioModel alumnoModel);
 	UsuarioModel transform(Usuario alumno);
 }

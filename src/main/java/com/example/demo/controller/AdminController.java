@@ -20,7 +20,7 @@ public class AdminController {
 	
 	@GetMapping("/users")
 	public String showAll(Model model) {
-		model.addAttribute("users",usuarioService.findByROLE_ALUMNO());
+		model.addAttribute("users",usuarioService.findByRole("ROLE_ALUMNO"));
 		return "admin/usuarios";
 	}
 	

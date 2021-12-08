@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,8 +50,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Usuario findByRole(String role) {
+	public List<Usuario> findByRole(String role) {
 		return usuarioRepository.findByRole(role);
+	}
+
+	@Override
+	public Usuario findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
