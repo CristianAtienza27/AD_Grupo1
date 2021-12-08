@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.entity.Usuario;
+import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.UsuarioService;
 
 @Controller
@@ -33,11 +33,13 @@ public class PublicController {
 			String username = auth.getName();
 			
 			if(session.getAttribute("usuario")==null) {
-				Usuario usuario = usuarioService.findByEmail(username);
+				
+				UsuarioModel usuario = usuarioService.findUserByEmail(username);
+				
 				if(usuario.isEnabled()==false)
 					return "redirect:auth/login?notEnable";
 				if(usuario.getRole().equals("ROLE_ADMIN"))
-					return "redirect:/admin/users";
+					return "redirect:/admin/users"; 
 				else {
 					usuario.setPassword(null);
 					session.setAttribute("usuario", usuario);
