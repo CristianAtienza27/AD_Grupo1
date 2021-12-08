@@ -33,6 +33,10 @@
                             	<div class="alert alert-danger" role="alert" th:text="${fallo}"></div>
                         </div>
                 </ul>
+                <form th:action="@{/logout}" method="POST">
+		                	<li class="nav-item"><button type="submit" class="btn btn-danger">Logout</button></li>
+		        </form>
+		        &nbsp;
                     <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                         <span class="d-flex align-items-center">
                             <i class="bi-chat-text-fill me-2"></i>

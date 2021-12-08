@@ -59,19 +59,24 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public int removeUser(long id) {
+	public int removeUser(int id) {
 		usuarioRepository.deleteById(id);
 		return 0;
 	}
 
 	@Override
-	public UsuarioModel findUserById(long id) {
+	public UsuarioModel findUserById(int id) {
 		return transform(usuarioRepository.findById(id).orElse(null));
 	}
 
 	@Override
-	public UsuarioModel findUserByEmail(String email) {
+	public Usuario findUserByEmail(String email) {
 		return usuarioRepository.findByEmail(email);
+	}
+
+	@Override
+	public List<Usuario> findByRole(String string) {
+		return usuarioRepository.findByRole(string);
 	}
 
 }

@@ -18,7 +18,7 @@ import com.example.demo.service.UsuarioService;
 public class AdminController {
 	
 	@Autowired
-	@Qualifier("usuarioRepository")
+//	@Qualifier("usuarioRepository")
 	private UsuarioService usuarioService;
 	
 	@GetMapping("/users")
@@ -28,18 +28,19 @@ public class AdminController {
 	}
 	
 	@PostMapping("disableUser/{id}")
-	public String disable(@PathVariable long id) {
+	public String disable(@PathVariable int id,Model model) {
 		UsuarioModel us = usuarioService.findUserById(id);
 		us.setEnabled(false);
-		usuarioService.register(us);
+		model.addAttribute("user",usuarioService.addUser(us));
 		return "redirect:/admin/users";
 	}
 	
 	@PostMapping("enableUser/{id}")
-	public String enable(@PathVariable long id) {
+	public String enable(@PathVariable int id, Model model) {
 		UsuarioModel us = usuarioService.findUserById(id);
+		System.out.println(us);
 		us.setEnabled(true);
-		usuarioService.register(us);
+		model.addAttribute("user",usuarioService.addUser(us));
 		return "redirect:/admin/users";
 	}
 

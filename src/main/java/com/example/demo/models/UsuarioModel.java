@@ -123,5 +123,12 @@ public class UsuarioModel {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
+	@Override
+	public String toString() {
+		return "UsuarioModel [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono
+				+ ", enabled=" + enabled + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", empresa=" + empresa + "]";
+	}
 	
 }

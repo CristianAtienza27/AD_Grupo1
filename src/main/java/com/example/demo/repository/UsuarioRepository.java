@@ -12,9 +12,9 @@ import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario,Long>{
+public interface UsuarioRepository extends JpaRepository<Usuario,Integer>{
 	public UsuarioModel findByNombre(String username);
-	public UsuarioModel findByEmail(String email);
+	public Usuario findByEmail(String email);
 	public List<Usuario> findByRole(String role);
 	public Collection<UsuarioModel> findByCicloID(Ciclo ciclo); 
 }
