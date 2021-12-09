@@ -55,6 +55,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario updateUser(UsuarioModel usuario) {
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		usuario.setEnabled(true);
 		return usuarioRepository.save(transform(usuario));
 	}
 

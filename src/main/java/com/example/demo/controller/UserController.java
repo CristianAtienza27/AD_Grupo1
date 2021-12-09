@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,9 +29,19 @@ public class UserController {
 	private UsuarioService usuarioService;
 	
 	@GetMapping("/details/{id}")
-	public String details(@PathVariable(name="id", required=false) Integer id, Model model) {
-		model.addAttribute("user", usuarioService.findUserById(id));
-		return FORM_VIEW;
+	public String details(Authentication auth,HttpSession session, 
+			@PathVariable(name="id", required=false) Integer id, Model model) {
+		
+		if(session.getAttribute("usuario")==null) {
+			String username = auth.getName();
+			Usuario usuario = usuarioService.findUserByEmail(username);
+			
+			model.addAttribute("user", usuarioService.findUserById(id));
+			return FORM_VIEW;
+		}
+		
+		return "redirect:/auth/login";
+
 	}
 	
 	@PostMapping("/details/update")
@@ -42,10 +54,10 @@ public class UserController {
 		}
 		else {
 			usuarioService.updateUser(usuarioModel);
-			flash.addFlashAttribute("success","Datos del usuario actualizados satisfactoriamente");
+			flash.addFlashAttribute("mensaje","Datos del usuario actualizados satisfactoriamente");
 		}
 		
-		return "redirectTo:/user/details/" + usuarioModel.getId();
+		return "redirect:/user/details/" + usuarioModel.getId();
 	}
 	
 }
