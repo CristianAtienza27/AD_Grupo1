@@ -1,0 +1,27 @@
+<div th:fragment="modalDeleteCiclo" class="modal fade"
+	th:id="*{'modalDeleteCiclo' + {ciclo.id}}" tabindex="-1"
+	aria-labelledby="feedbackModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-gradient-primary-to-secondary p-4">
+				<h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Eliminar
+					Ciclo</h5>
+				<button class="btn-close btn-close-white" type="button"
+					data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body border-0 p-4">
+
+				<div class="row">
+					<div class="col">
+					<p th:text="'¿Deseas eliminar el ciclo de ' + ${ciclo.nombre} + '?'"></p>
+						<a th:href="@{/admin/ciclos/delete/} + ${ciclo.id}" class="btn btn-primary btn-xs" id="submitButton"
+							type="submit">Eliminar</a>
+						<button class="btn btn-primary btn-xs" data-bs-dismiss="modal"
+							aria-label="Close" id="submitButton" type="button">Cancelar</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

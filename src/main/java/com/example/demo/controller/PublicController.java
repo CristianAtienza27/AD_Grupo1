@@ -24,7 +24,7 @@ public class PublicController {
 		
 		if(logout != null) {
 			redirect.addFlashAttribute("mensaje", "Ha hecho logout correctamente");
-			return "redirect:/public";
+			return "redirect:/auth/login";
 		}
 		
 		if(auth == null) {
@@ -38,9 +38,10 @@ public class PublicController {
 				
 				if(usuario.isEnabled()==false)
 					return "redirect:auth/login?notEnable";
-				if(usuario.getRole().equals("ROLE_ADMIN"))
-					return "redirect:/admin/users"; 
-				else if(usuario.getRole().equals("ROLE_ALUMNO")) {
+				if(usuario.getRole().equals("ROLE_ADMIN")) {
+					return "redirect:/admin/alumnos"; 
+				}
+				else if(usuario.getRole().equals("ROLE_ALUMNO") || usuario.getRole().equals("ROLE_RRHH")) {
 					return "redirect:/user/details/" + usuario.getId();
 				}
 				else {

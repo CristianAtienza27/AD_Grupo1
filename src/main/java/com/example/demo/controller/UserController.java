@@ -33,8 +33,10 @@ public class UserController {
 			@PathVariable(name="id", required=false) Integer id, Model model) {
 		
 		if(session.getAttribute("usuario")==null) {
+			
 			String username = auth.getName();
 			Usuario usuario = usuarioService.findUserByEmail(username);
+			session.setAttribute("usuario", usuario);
 			
 			model.addAttribute("user", usuarioService.findUserById(id));
 			return FORM_VIEW;

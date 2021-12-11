@@ -1,5 +1,9 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +42,20 @@ public class CicloServiceImpl implements CicloService{
 	}
 
 	@Override
-	public int removeCiclo(long id) {
+	public int removeCiclo(int id) {
 		cicloRepository.deleteById(id);
 		return 0;
+	}
+
+	@Override
+	public List<CicloModel> listAllCiclos() {
+		return cicloRepository.findAll().stream()
+				.map(c -> transform(c)).collect(Collectors.toList());
+	}
+
+	@Override
+	public CicloModel findCicloById(int id) {
+		return transform(cicloRepository.findById(id).orElse(null));
 	}
 	
 }

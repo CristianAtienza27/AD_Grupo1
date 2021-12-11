@@ -1,0 +1,31 @@
+<div th:fragment="modalCiclo" class="modal fade" th:id="*{'modalCiclo' + {ciclo.id}}" tabindex="-1"
+	aria-labelledby="feedbackModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-gradient-primary-to-secondary p-4">
+				<h5 class="modal-title font-alt text-white" id="feedbackModalLabel"
+					th:text="${ciclo.id} == 0 ? 'Nuevo Ciclo' : 'Editar Ciclo'"></h5>
+				<button class="btn-close btn-close-white" type="button"
+					data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body border-0 p-4">
+
+				<form class="form-subscribe" method="POST"
+					th:action="@{/admin/ciclos/} + ${ciclo.id}" th:object="${ciclo}">
+					<!-- Email address input-->
+					<div class="row">
+						<div class="col">
+							<input type="hidden" th:value="${ciclo.id}" id="id"> <input
+								class="form-control form-control-lg" id="nombre" type="text"
+								th:value="${ciclo.nombre}" placeholder="Nombre" name="nombre" /> <br>
+							<input class="form-control form-control-lg" id="tipo" type="text"
+								th:value="${ciclo.tipo}" placeholder="Tipo" name="tipo" /> <br>
+							<button class="btn btn-primary btn-lg" id="submitButton"
+								type="submit" th:text="${ciclo.id} == 0 ? 'Insertar' : 'Confirmar'"></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
