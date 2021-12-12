@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -35,6 +36,8 @@ public class AdminController {
 
 	@Autowired
 	private CicloService cicloService;
+	
+	// 					USUARIOS					// 	
 
 	@GetMapping("/alumnos")
 	public ModelAndView showStudents(HttpSession session, Authentication auth, Model model) {
@@ -46,7 +49,7 @@ public class AdminController {
 		mav.addObject("users", usuarioService.showAll("ROLE_ALUMNO"));
 		return mav;
 	}
-
+	
 	@GetMapping("/RRHH")
 	public ModelAndView showRRHH(HttpSession session, Authentication auth, Model model) {
 		String username = auth.getName();
@@ -54,9 +57,73 @@ public class AdminController {
 		session.setAttribute("usuario", usuario);
 		ModelAndView mav = new ModelAndView(USERS_VIEW);
 		mav.addObject("titulo", "RRHH");
+		mav.addObject("user", new Usuario());
 		mav.addObject("users", usuarioService.showAll("ROLE_RRHH"));
 		return mav;
 	}
+	
+	@PostMapping("disableUser/{id}")
+	public String disable(@PathVariable int id, Model model,RedirectAttributes flash) {
+		UsuarioModel us = usuarioService.findUserById(id);
+		us.setEnabled(false);
+		model.addAttribute("user", usuarioService.updateUser(us));
+		flash.addFlashAttribute("mensaje", "Alumno desactivado correctamente");
+		return "redirect:/admin/alumnos";
+	}
+
+	@PostMapping("enableUser/{id}")
+	public String enable(@PathVariable int id, Model model,RedirectAttributes flash) {
+		UsuarioModel us = usuarioService.findUserById(id);
+		us.setEnabled(true);
+		model.addAttribute("user", usuarioService.updateUser(us));
+		flash.addFlashAttribute("mensaje", "Alumno activado correctamente");
+		return "redirect:/admin/alumnos";
+	}
+	
+	@PostMapping({"/RRHH/{id}"})
+	public String AddOrEditRRHH(@Valid @ModelAttribute("user") Usuario usuario, 
+			BindingResult bindingResult,
+			@PathVariable(name="id", required=false) Integer id,
+			Model model, RedirectAttributes flash) {
+		
+		if(bindingResult.hasErrors()) {
+			
+			model.addAttribute("users", usuarioService.showAll("ROLE_RRHH"));
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/admin/RRHH";
+		}
+		
+		if(id == 0) {
+			usuarioService.addUser(usuarioService.transform(usuario));
+			flash.addFlashAttribute("mensaje", "Personal de RRHH añadido correctamente");
+		}
+		else {
+			usuario.setId(id);
+			usuarioService.updateUser(usuarioService.transform(usuario));
+			flash.addFlashAttribute("mensaje", "Personal de RRHH editado correctamente");
+		}
+		
+		return "redirect:/admin/RRHH";
+	}
+	
+//	@PostMapping("alumnos/{id}")
+//	public String AddOrEdit
+	
+	@GetMapping("alumnos/delete/{id}")
+	public String deleteAlumno(@PathVariable(name="id") Integer id, RedirectAttributes flash) {
+		usuarioService.removeUser(id);
+		flash.addFlashAttribute("mensaje", "Alumno eliminado correctamente");
+		return "redirect:/admin/alumnos";
+	}
+	
+	@GetMapping("/RRHH/delete/{id}")
+	public String deleteRRHH(@PathVariable(name="id") Integer id, RedirectAttributes flash) {
+		usuarioService.removeUser(id);
+		flash.addFlashAttribute("mensaje", "Personal de RRHH eliminado correctamente");
+		return "redirect:/admin/RRHH";
+	}
+	
+	// 					CICLOS					// 					
 
 	@GetMapping("/ciclos")
 	public ModelAndView showCiclos(HttpSession session, Authentication auth, Model model) {
@@ -70,22 +137,25 @@ public class AdminController {
 	}
 	
 	@PostMapping({"/ciclos/{id}"})
-	public String AddOrEditCiclo(@PathVariable(name="id", required=false) Integer id, 
-			@ModelAttribute("ciclo") CicloModel cicloModel,BindingResult bindingResult,
+	public String AddOrEditCiclo(@Valid @ModelAttribute("ciclo") Ciclo ciclo, 
+			BindingResult bindingResult,
+			@PathVariable(name="id", required=false) Integer id,
 			Model model, RedirectAttributes flash) {
 		
 		if(bindingResult.hasErrors()) {
+			
 			model.addAttribute("ciclos", cicloService.listAllCiclos());
-			return CICLOS_VIEW;
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/admin/ciclos";
 		}
 		
 		if(id == 0) {
-			cicloService.addCiclo(cicloModel);
+			cicloService.addCiclo(cicloService.transform(ciclo));
 			flash.addFlashAttribute("mensaje", "Ciclo añadido correctamente");
 		}
 		else {
-			cicloModel.setId(id);
-			cicloService.updateCiclo(cicloModel);
+			ciclo.setId(id);
+			cicloService.updateCiclo(cicloService.transform(ciclo));
 			flash.addFlashAttribute("mensaje", "Ciclo editado correctamente");
 		}
 		
@@ -97,24 +167,6 @@ public class AdminController {
 		cicloService.removeCiclo(id);
 		flash.addFlashAttribute("mensaje","Ciclo eliminado correctamente");
 		return "redirect:/admin/ciclos";
-	}
-	
-
-	@PostMapping("disableUser/{id}")
-	public String disable(@PathVariable int id, Model model) {
-		UsuarioModel us = usuarioService.findUserById(id);
-		us.setEnabled(false);
-		model.addAttribute("user", usuarioService.addUser(us));
-		return "redirect:/admin/users";
-	}
-
-	@PostMapping("enableUser/{id}")
-	public String enable(@PathVariable int id, Model model) {
-		UsuarioModel us = usuarioService.findUserById(id);
-		System.out.println(us);
-		us.setEnabled(true);
-		model.addAttribute("user", usuarioService.addUser(us));
-		return "redirect:/admin/users";
 	}
 
 }

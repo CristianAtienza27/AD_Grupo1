@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Ciclo {
@@ -17,10 +20,14 @@ public class Ciclo {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Column(name="nombre", length=60)
+	@Column(name="nombre", nullable = false, length=60)
+	@NotEmpty(message="El campo nombre no puede ir vacío")
+	@Size(min=3, max=60, message="El campo nombre debe tener entre 3 y 60 caracteres")
 	private String nombre;
 	
-	@Column(name="tipo", length=40)
+	@Column(name="tipo", nullable = false, length=40)
+	@NotEmpty(message="El campo tipo no puede ir vacío")
+	@Size(min=3, max=60, message="El campo tipo debe tener entre 3 y 60 caracteres")
 	private String tipo;
 	
 	@OneToMany(mappedBy="cicloID", orphanRemoval=true)

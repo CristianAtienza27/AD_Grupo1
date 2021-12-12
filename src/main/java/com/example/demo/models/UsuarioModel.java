@@ -34,7 +34,8 @@ public class UsuarioModel {
 	
 	private String empresa;
 	
-
+//	private int cicloID;
+	
 	public UsuarioModel(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,
 			String role, String empresa) {
 		super();
@@ -123,6 +124,14 @@ public class UsuarioModel {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+	
+//	public int getCicloID() {
+//		return cicloID;
+//	}
+//
+//	public void setCicloID(int cicloID) {
+//		this.cicloID = cicloID;
+//	}
 
 	@Override
 	public String toString() {

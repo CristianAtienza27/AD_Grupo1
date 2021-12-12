@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Inscrito {
@@ -28,6 +29,7 @@ public class Inscrito {
 	
 	@Column(name="fecha_inscripcion")
 	@Temporal(TemporalType.DATE)
+	@NotNull(message="El campo fecha de inscripción no puede ser nulo")
 	private Date fecha_inscripcion;
 
 	public Inscrito(int id, Usuario idAlumno, Oferta idOferta, Date fecha_inscripcion) {

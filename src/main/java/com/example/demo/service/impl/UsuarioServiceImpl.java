@@ -50,13 +50,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario addUser(UsuarioModel usuario) {
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		usuario.setEnabled(usuario.getRole() == "ROLE_ALUMNO" ? false : true); 
 		return usuarioRepository.save(transform(usuario));
 	}
 
 	@Override
 	public Usuario updateUser(UsuarioModel usuario) {
 		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-		usuario.setEnabled(true);
 		return usuarioRepository.save(transform(usuario));
 	}
 

@@ -17,9 +17,11 @@
 						<div class="col">
 							<input type="hidden" th:value="${ciclo.id}" id="id"> <input
 								class="form-control form-control-lg" id="nombre" type="text"
-								th:value="${ciclo.nombre}" placeholder="Nombre" name="nombre" /> <br>
+								th:value="${ciclo.nombre}" placeholder="Nombre" name="nombre" />
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Error</small>
 							<input class="form-control form-control-lg" id="tipo" type="text"
-								th:value="${ciclo.tipo}" placeholder="Tipo" name="tipo" /> <br>
+								 th:value="${ciclo.tipo}" placeholder="Tipo" name="tipo" />
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></small> <br>
 							<button class="btn btn-primary btn-lg" id="submitButton"
 								type="submit" th:text="${ciclo.id} == 0 ? 'Insertar' : 'Confirmar'"></button>
 						</div>

@@ -15,16 +15,21 @@ public class OfertaModel {
 	private String requisitos;
 	
 	private Date fechamax;
-
-	public OfertaModel(int id, String titular, String descripcion, String requisitos, Date fechamax) {
+	
+	private int numCandidatos;
+	
+	public OfertaModel(int id, String titular, String descripcion, String requisitos, int numCandidatos,
+			Date fechamax) {
 		super();
 		this.id = id;
 		this.titular = titular;
 		this.descripcion = descripcion;
 		this.requisitos = requisitos;
+		this.numCandidatos = numCandidatos;
 		this.fechamax = fechamax;
 	}
 	
+
 	public OfertaModel() {
 		super();
 	}
@@ -67,6 +72,14 @@ public class OfertaModel {
 
 	public void setFechamax(Date fechamax) {
 		this.fechamax = fechamax;
+	}
+	
+	public int getNumCandidatos() {
+		return numCandidatos;
+	}
+
+	public void setNumCandidatos(int numCandidatos) {
+		this.numCandidatos = numCandidatos;
 	}
 	
 	

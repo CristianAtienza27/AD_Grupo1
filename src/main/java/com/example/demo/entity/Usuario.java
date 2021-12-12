@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Usuario {
@@ -19,22 +23,41 @@ public class Usuario {
 	private int id;
 	
 	@Column(name="nombre", length = 40)
+	@NotNull
+	@NotEmpty(message="El campo nombre no puede ir vacío")
+	@Size(min=3, max=40, message="El campo nombre debe tener entre 3 y 40 caracteres")
 	private String nombre;
 	
 	@Column(name="apellidos", length = 40)
+	@NotNull
+	@NotEmpty(message="El campo apellidos no puede ir vacío")
+	@Size(min=3, max=40, message="El campo apellidos debe tener entre 3 y 60 caracteres")
 	private String apellidos;
 	
 	@Column(name="telefono", length=10)
+	@NotNull
+	@NotEmpty(message="El campo teléfono no puede ir vacío")
+	@Size(min=3, max=10, message="El campo teléfono debe tener entre 3 y 60 caracteres")
 	private String telefono;
 	
 	private boolean enabled;
 	
 	@Column(name="email", length = 50)
+	@Email(message="El formato del email no es correcto")
+	@NotNull
+	@NotEmpty(message="El campo email no puede ir vacío")
+	@Size(min=5, max=50, message="El campo email debe tener entre 5 y 60 caracteres")
 	private String email;
 	
+	@NotNull
+	@NotEmpty(message="El campo contraseña no puede ir vacío")
+	@Size(min=4, max=255, message="El campo contraseña debe tener entre 4 y 255 caracteres")
 	private String password;
 	
 	@Column(name="role", length = 20)
+	@NotNull
+	@NotEmpty(message="El campo role no puede ir vacío")
+	@Size(min=3, max=20, message="El campo role debe tener entre 3 y 20 caracteres")
 	private String role;
 	
 	@Column(name="empresa", length=200)
@@ -134,9 +157,6 @@ public class Usuario {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-
-	
+	}	
 	
 }

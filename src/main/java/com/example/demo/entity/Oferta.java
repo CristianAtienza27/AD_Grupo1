@@ -12,6 +12,9 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Oferta {
@@ -20,22 +23,35 @@ public class Oferta {
 	private int id;
 	
 	@Column(name="titular", length=60)
+	@NotNull
+	@NotEmpty(message="El campo titular no puede ir vacío")
+	@Size(min=3, max=60, message="El campo titular debe tener entre 3 y 60 caracteres")
 	private String titular;
 	
 	@Column(name="descripcion", length=255)
+	@NotNull
+	@NotEmpty(message="El campo descripción no puede ir vacío")
+	@Size(min=3, max=255, message="El campo descripción debe tener entre 3 y 255 caracteres")
 	private String descripcion;
 	
 	@Column(name="requisitos")
 	@Lob
+	@NotEmpty(message="El campo requisitos no puede ir vacío")
 	private String requisitos;
 	
 	@Column(name="fechamax")
+	@NotNull(message="El campo fecha no puede ir vacío")
 	@Temporal(TemporalType.DATE)
 	private Date fechamax;
+	
+	@Column(name="numCandidatos")
+	@NotNull(message="El campo número de candidatos no puede ir vacío")
+	private int numCandidatos;
 	
 	@ManyToOne
 	@JoinColumn(name="rrhhid")
 	private Usuario rrhhid;
+	
 
 	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax, Usuario rrhhid) {
 		super();
@@ -89,6 +105,14 @@ public class Oferta {
 
 	public void setFechamax(Date fechamax) {
 		this.fechamax = fechamax;
+	}
+	
+	public int getNumCandidatos() {
+		return numCandidatos;
+	}
+
+	public void setNumCandidatos(int numCandidatos) {
+		this.numCandidatos = numCandidatos;
 	}
 
 	public Usuario getRrhhid() {

@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Noticia {
@@ -16,9 +19,15 @@ public class Noticia {
 	private int id;
 	
 	@Column(name="titulo", length=50)
+	@NotNull
+	@NotEmpty(message="El campo título no puede ir vacío")
+	@Size(min=3, max=50, message="El campo título debe tener entre 3 y 50 caracteres")
 	private String titulo;
 	
 	@Column(name="descripcion", length=255)
+	@NotNull
+	@NotEmpty(message="El campo descripción no puede ir vacío")
+	@Size(min=3, max=255, message="El campo descripción debe tener entre 3 y 255 caracteres")
 	private String descripcion;
 	
 	@Column(name="imagen", length=50)

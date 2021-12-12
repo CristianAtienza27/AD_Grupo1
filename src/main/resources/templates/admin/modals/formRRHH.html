@@ -1,0 +1,59 @@
+<div th:fragment="modalRRHH" class="modal fade"
+	th:id="*{'modalRRHH' + {user.id}}" tabindex="-1"
+	aria-labelledby="feedbackModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-gradient-primary-to-secondary p-4">
+				<h5 class="modal-title font-alt text-white" id="feedbackModalLabel"
+					th:text="${user.id} == 0 ? 'Nuevo personal RRHH' : 'Editar personal RRHH'"></h5>
+				<button class="btn-close btn-close-white" type="button"
+					data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body border-0 p-4">
+
+				<form class="form-subscribe" method="POST"
+					th:action="@{/admin/RRHH/} + ${user.id}" th:object="${user}">
+					<!-- Email address input-->
+					<div class="row">
+						<div class="col">
+							<input type="hidden" th:value="${user.id}" id="id">
+							<input type="hidden" th:value="ROLE_RRHH" name="role" id="role"> <input
+								class="form-control form-control-lg" id="nombre" type="text"
+								th:value="${user.nombre}" placeholder="Nombre" name="nombre" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small><br>
+							<input class="form-control form-control-lg" id="apellidos"
+								th:value="${user.apellidos}" type="text" placeholder="Apellidos" name="apellidos" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('apellidos')}"
+								th:errors="*{apellidos}"></small> <br> 
+							<input
+								class="form-control form-control-lg" id="email" type="email"
+								th:value="${user.email}" placeholder="Email" name="email" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small><br>
+							<input class="form-control form-control-lg" id="password"
+								type="password" placeholder="Password" name="password" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+							<br>
+							<input class="form-control form-control-lg" id="telefono"
+								th:value="${user.telefono}" type="text" placeholder="Teléfono" name="telefono" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('telefono')}" th:errors="telefono"></small>
+							<br>
+							<input class="form-control form-control-lg" id="empresa"
+								th:value="${user.empresa}" type="text" placeholder="Empresa" name="empresa" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('empresa')}" th:errors="*{empresa}"></small>
+							<br>
+							<button class="btn btn-primary btn-lg" id="submitButton"
+								type="submit"
+								th:text="${user.id} == 0 ? 'Insertar' : 'Confirmar'"></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

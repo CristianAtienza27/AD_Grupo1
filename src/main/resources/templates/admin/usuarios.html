@@ -28,8 +28,9 @@
 </head>
 <body id="page-top">
 	<!-- Navigation-->
-	   <nav th:replace="index :: nav" class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
-     </nav>
+	<nav th:replace="index :: nav"
+		class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+	</nav>
 	<!-- Mashead header-->
 	<header class="masthead">
 		<div class="container px-5">
@@ -37,15 +38,21 @@
 				<div>
 					<h1 class="display-1 lh-1 mb-3" th:text="${titulo}"></h1>
 				</div>
+				<div th:if="${titulo == 'RRHH'}">
+					<a data-bs-toggle="modal"
+						th:attr="data-bs-target='#modalRRHH' + ${user.id}"
+						class="btn btn-success">Añadir</a>
+					<div th:replace="admin/modals/formRRHH :: modalRRHH"></div>
+				</div>
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Surname</th>
+							<th scope="col">Nombre</th>
+							<th scope="col">Apellidos</th>
 							<th scope="col">Email</th>
-							<th scope="col">Phone number</th>
-							<th scope="col">Cicle</th>
-							<th scope="col">¿Enable?</th>
+							<th scope="col">Teléfono</th>
+							<th scope="col"
+								th:text="${titulo} == 'Alumnos' ? 'Ciclo' : 'Empresa'"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -54,17 +61,32 @@
 							<th th:text="${user.apellidos}"></th>
 							<th th:text="${user.email}"></th>
 							<th th:text="${user.telefono}"></th>
-							<th th:text="${user.telefono}"></th>
-							<th>
+							<th th:text="${titulo} == 'Alumnos' ? ${user.telefono} : ${user.empresa}"></th>
+							<th th:if="${user.role == 'ROLE_ALUMNO'}">
 								<form th:if="${user.enabled == true}"
 									th:action="@{'/admin/disableUser/' + ${user.id}}" method="POST">
-									<button type="submit" class="btn btn-danger">Disable</button>
+									<button type="submit" class="btn btn-danger">Desactivar</button>
 								</form>
 								<form th:if="${user.enabled == false}"
 									th:action="@{'/admin/enableUser/' + ${user.id}}" method="POST">
-									<button type="submit" class="btn btn-success">Enable</button>
+									<button type="submit" class="btn btn-success">Activar</button>
 								</form>
 							</th>
+							<th th:if="${user.role == 'ROLE_ALUMNO'}">
+							<a data-bs-toggle="modal"
+								th:attr="data-bs-target='#modalDeleteUser' + ${user.id}"
+								class="btn btn-danger">Eliminar</a>
+								<div th:replace="admin/modals/deleteUser :: modalDeleteUser"></div>
+							</th>
+							<th th:if="${user.role == 'ROLE_RRHH'}">
+							<a data-bs-toggle="modal"
+								th:attr="data-bs-target='#modalRRHH' + ${user.id}"
+								class="btn btn-warning">Editar</a>
+								<div th:replace="admin/modals/formRRHH :: modalRRHH"></div>
+							<a data-bs-toggle="modal"
+								th:attr="data-bs-target='#modalDeleteUser' + ${user.id}"
+								class="btn btn-danger">Eliminar</a>
+								<div th:replace="admin/modals/deleteUser :: modalDeleteUser"></div>
 						</tr>
 					</tbody>
 				</table>
