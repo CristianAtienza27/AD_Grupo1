@@ -78,6 +78,15 @@ public class Ciclo {
 	public void setAlumnos(List<Usuario> alumnos) {
 		this.alumnos = alumnos;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Ciclo [id=" + id + ", nombre=" + nombre + "]";
+	}
+	
+	
 	
 	
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -19,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Usuario;
-import com.example.demo.models.CicloModel;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.UsuarioService;
@@ -105,9 +105,6 @@ public class AdminController {
 		
 		return "redirect:/admin/RRHH";
 	}
-	
-//	@PostMapping("alumnos/{id}")
-//	public String AddOrEdit
 	
 	@GetMapping("alumnos/delete/{id}")
 	public String deleteAlumno(@PathVariable(name="id") Integer id, RedirectAttributes flash) {

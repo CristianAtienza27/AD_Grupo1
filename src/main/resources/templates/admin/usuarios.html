@@ -61,7 +61,7 @@
 							<th th:text="${user.apellidos}"></th>
 							<th th:text="${user.email}"></th>
 							<th th:text="${user.telefono}"></th>
-							<th th:text="${titulo} == 'Alumnos' ? ${user.telefono} : ${user.empresa}"></th>
+							<th th:text="${titulo} == 'Alumnos' ? ${user.cicloID.nombre} : ${user.empresa}"></th>
 							<th th:if="${user.role == 'ROLE_ALUMNO'}">
 								<form th:if="${user.enabled == true}"
 									th:action="@{'/admin/disableUser/' + ${user.id}}" method="POST">

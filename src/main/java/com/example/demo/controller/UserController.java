@@ -55,6 +55,7 @@ public class UserController {
 			return "FORM_VIEW";
 		}
 		else {
+			usuarioModel.setEnabled(true);
 			usuarioService.updateUser(usuarioModel);
 			flash.addFlashAttribute("mensaje","Datos del usuario actualizados satisfactoriamente");
 		}

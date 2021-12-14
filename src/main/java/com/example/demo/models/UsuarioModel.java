@@ -34,7 +34,7 @@ public class UsuarioModel {
 	
 	private String empresa;
 	
-//	private int cicloID;
+	private Ciclo cicloID;
 	
 	public UsuarioModel(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,
 			String role, String empresa) {
@@ -125,19 +125,21 @@ public class UsuarioModel {
 		this.telefono = telefono;
 	}
 	
-//	public int getCicloID() {
-//		return cicloID;
-//	}
-//
-//	public void setCicloID(int cicloID) {
-//		this.cicloID = cicloID;
-//	}
+	
+
+	public Ciclo getCicloID() {
+		return cicloID;
+	}
+
+	public void setCicloID(Ciclo cicloID) {
+		this.cicloID = cicloID;
+	}
 
 	@Override
 	public String toString() {
 		return "UsuarioModel [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono
 				+ ", enabled=" + enabled + ", email=" + email + ", password=" + password + ", role=" + role
-				+ ", empresa=" + empresa + "]";
+				+ ", ciclo=" + cicloID + "]";
 	}
 	
 }
