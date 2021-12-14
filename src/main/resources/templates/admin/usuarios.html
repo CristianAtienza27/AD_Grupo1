@@ -53,8 +53,6 @@
 							<th scope="col">Teléfono</th>
 							<th scope="col"
 								th:text="${titulo} == 'Alumnos' ? 'Ciclo' : 'Empresa'"></th>
-							<th scope="col">Acción</th>
-							<th scope="col">¿Eliminar?</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -63,7 +61,7 @@
 							<th th:text="${user.apellidos}"></th>
 							<th th:text="${user.email}"></th>
 							<th th:text="${user.telefono}"></th>
-							<th th:text="${user.cicloID}"></th>
+							<th th:text="${titulo} == 'Alumnos' ? ${user.cicloID.nombre} : ${user.empresa}"></th>
 							<th th:if="${user.role == 'ROLE_ALUMNO'}">
 								<form th:if="${user.enabled == true}"
 									th:action="@{'/admin/disableUser/' + ${user.id}}" method="POST">

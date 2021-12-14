@@ -34,10 +34,10 @@ public class UsuarioModel {
 	
 	private String empresa;
 	
-	private CicloModel cicloID;
+	private Ciclo cicloID;
 	
 	public UsuarioModel(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,
-			String role, String empresa,CicloModel cicloID) {
+			String role, String empresa) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -125,11 +125,13 @@ public class UsuarioModel {
 		this.telefono = telefono;
 	}
 	
-	public CicloModel getCicloID() {
+	
+
+	public Ciclo getCicloID() {
 		return cicloID;
 	}
 
-	public void setCicloID(CicloModel cicloID) {
+	public void setCicloID(Ciclo cicloID) {
 		this.cicloID = cicloID;
 	}
 
@@ -137,9 +139,7 @@ public class UsuarioModel {
 	public String toString() {
 		return "UsuarioModel [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono
 				+ ", enabled=" + enabled + ", email=" + email + ", password=" + password + ", role=" + role
-				+ ", empresa=" + empresa + ", cicloID=" + cicloID + "]";
+				+ ", ciclo=" + cicloID + "]";
 	}
-
-
 	
 }

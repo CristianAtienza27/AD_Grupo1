@@ -157,6 +157,29 @@ public class Usuario {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}	
+	}
+	
+	public Ciclo getCicloID() {
+		return cicloID;
+	}
+
+	public void setCicloID(Ciclo cicloID) {
+		this.cicloID = cicloID;
+	}
+
+	public List<Oferta> getRrhh() {
+		return rrhh;
+	}
+
+	public void setRrhh(List<Oferta> rrhh) {
+		this.rrhh = rrhh;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", cicloID=" + cicloID + "]";
+	}
+	
+	
 	
 }
