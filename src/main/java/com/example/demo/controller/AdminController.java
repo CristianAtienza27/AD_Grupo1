@@ -47,6 +47,9 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView(USERS_VIEW);
 		mav.addObject("titulo", "Alumnos");
 		mav.addObject("users", usuarioService.showAll("ROLE_ALUMNO"));
+		for(UsuarioModel u:usuarioService.showAll("ROLE_ALUMNO"))
+			System.out.println(u);
+				
 		return mav;
 	}
 	

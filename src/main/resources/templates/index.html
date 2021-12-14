@@ -45,7 +45,7 @@
 						class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
 						href="#" role="button" aria-expanded="false">Menu</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" th:href="@{/admin/alumnos}">Alumnos</a></li>
+							<li th:if="${session.usuario.role} == 'ROLE_ADMIN'"><a class="dropdown-item" th:href="@{/admin/alumnos}">Alumnos</a></li>
 							<li><a class="dropdown-item" th:href="@{/admin/RRHH}">RRHH</a></li>
 							<li><a class="dropdown-item" th:href="@{/admin/ciclos}">Ciclos</a></li>
 						</ul>
