@@ -44,11 +44,10 @@ public class AdminController {
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
+		
 		ModelAndView mav = new ModelAndView(USERS_VIEW);
 		mav.addObject("titulo", "Alumnos");
 		mav.addObject("users", usuarioService.showAll("ROLE_ALUMNO"));
-		for(UsuarioModel u:usuarioService.showAll("ROLE_ALUMNO"))
-			System.out.println(u);
 				
 		return mav;
 	}
@@ -58,10 +57,12 @@ public class AdminController {
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
+		
 		ModelAndView mav = new ModelAndView(USERS_VIEW);
 		mav.addObject("titulo", "RRHH");
 		mav.addObject("user", new Usuario());
 		mav.addObject("users", usuarioService.showAll("ROLE_RRHH"));
+		
 		return mav;
 	}
 	
@@ -130,6 +131,7 @@ public class AdminController {
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
+		
 		ModelAndView mav = new ModelAndView(CICLOS_VIEW);
 		mav.addObject("ciclo", new Ciclo());
 		mav.addObject("ciclos", cicloService.listAllCiclos());

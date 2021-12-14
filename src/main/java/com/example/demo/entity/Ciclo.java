@@ -32,6 +32,13 @@ public class Ciclo {
 	
 	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
 	List <Usuario> alumnos = new ArrayList<>();
+	
+	public Ciclo(int id, String nombre, String tipo) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.tipo = tipo;
+	}
 
 	public Ciclo(int id, String nombre, String tipo, List<Usuario> alumnos) {
 		super();
@@ -40,7 +47,6 @@ public class Ciclo {
 		this.tipo = tipo;
 		this.alumnos = alumnos;
 	}
-	
 	
 
 	public Ciclo() {

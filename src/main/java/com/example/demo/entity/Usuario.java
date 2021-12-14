@@ -42,7 +42,7 @@ public class Usuario {
 	
 	private boolean enabled;
 	
-	@Column(name="email", length = 50)
+	@Column(name="email", length = 50, unique=true)
 	@Email(message="El formato del email no es correcto")
 	@NotNull
 	@NotEmpty(message="El campo email no puede ir vacío")
@@ -81,6 +81,20 @@ public class Usuario {
 		this.email = email;
 		this.password = password;
 		this.role = role;
+	}
+	
+	public Usuario(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,
+			String role, String empresa, Ciclo cicloID) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.telefono = telefono;
+		this.enabled = false;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.cicloID = cicloID;
 	}
 
 	public Usuario() {
@@ -177,8 +191,18 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", cicloID=" + cicloID + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono
+				+ ", enabled=" + enabled + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", empresa=" + empresa + ", cicloID=" + cicloID + ", rrhh=" + rrhh + "]";
 	}
+
+//	@Override
+//	public String toString() {
+//		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", cicloID=" + cicloID + "]";
+//	}
+	
+	
+	
 	
 	
 	

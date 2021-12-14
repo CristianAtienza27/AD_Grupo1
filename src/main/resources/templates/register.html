@@ -30,19 +30,43 @@
                         <!-- Mashead text and app badges-->
                         <div class="mb-5 mb-lg-0 text-center text-lg-start">
                             <h1 class="display-1 lh-1 mb-3">Register now!</h1>
-                            <form class="form-subscribe" id="contactForm" method="POST" th:action="@{/auth/register}">
+                            <form class="form-subscribe" id="contactForm" method="POST" th:object="${user}" th:action="@{/auth/register}">
                                 <!-- Email address input-->
                                 <div class="row">
                                     <div class="col">
-                                    	<input class="form-control form-control-lg" id="nombre" type="text" placeholder="Name" name="nombre"/>
+                                    <input type="hidden" th:value="ROLE_ALUMNO" name="role" id="role">
+                                    	<input class="form-control form-control-lg" th:value="${user.nombre}" id="nombre" type="text" placeholder="Name" name="nombre"/>
+	                                    	<small
+												class="form-text text-danger"
+												th:if="${#fields.hasErrors('nombre')}" th:errors="${user.nombre}">
+											</small>
                                         <br>
-                                        <input class="form-control form-control-lg" id="apellidos" type="text" placeholder="Surname" name="apellidos"/>
+                                        <input class="form-control form-control-lg" th:value="${user.apellidos}" id="apellidos" type="text" placeholder="Surname" name="apellidos"/>
+                                        	<small
+												class="form-text text-danger"
+												th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}">
+											</small>
                                         <br>
-                                        <input class="form-control form-control-lg" id="telefono" type="number" placeholder="Phone number" name="telefono"/>
+                                        <input class="form-control form-control-lg" th:value="${user.telefono}" id="telefono" type="number" placeholder="Phone number" name="telefono"/>
                                         <br>
-                                        <input class="form-control form-control-lg" id="email" type="email" placeholder="example@example.com" name="email"/>
+                                        <select class="form-select" aria-label="Default select example" name="cicloID">
+<!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
+										  <div th:each="ciclo : ${ciclos}">
+										  	<option th:text="${ciclo.nombre}" th:value="${ciclo.id}"></option>
+										  </div>
+										</select>
+										<br>
+                                        <input class="form-control form-control-lg" th:value="${user.email}" id="email" type="email" placeholder="example@example.com" name="email"/>
+                                        	<small
+												class="form-text text-danger"
+												th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+											</small>
                                         <br>
-                                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password" name="password"/>
+                                        <input class="form-control form-control-lg" th:value="${user.password}" id="password" type="password" placeholder="Password" name="password"/>
+                                        <small
+												class="form-text text-danger"
+												th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+										</small>
                                         <br>
                                         <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Register</button>
                                     </div>
