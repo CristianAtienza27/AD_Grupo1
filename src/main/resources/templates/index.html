@@ -40,22 +40,26 @@
 				<li><span th:if="${mensaje != null}" class="btn btn-success"><span
 						th:text="${mensaje}"></span></span> <span th:if="${fallo != null}"
 					class="btn btn-danger"><span th:text="${fallo}"></span></span></li>
-				<ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+				<ul  th:if="${session.usuario!=null}" class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+				<div th:if="${session.usuario.role} == 'ROLE_ADMIN'">
 					<li class="nav-item dropdown" th:if="${session.usuario!=null}"><a
 						class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
 						href="#" role="button" aria-expanded="false">Menu</a>
 						<ul class="dropdown-menu">
-							<li th:if="${session.usuario.role} == 'ROLE_ADMIN'"><a class="dropdown-item" th:href="@{/admin/alumnos}">Alumnos</a></li>
+							<li ><a class="dropdown-item" th:href="@{/admin/alumnos}">Alumnos</a></li>
 							<li><a class="dropdown-item" th:href="@{/admin/RRHH}">RRHH</a></li>
 							<li><a class="dropdown-item" th:href="@{/admin/ciclos}">Ciclos</a></li>
 						</ul>
 					</li>
+					</div>
 						&nbsp;&nbsp;
 					<form th:if="${session.usuario!=null}" th:action="@{/logout}"
 						method="POST">
 						<li class="nav-item"><button type="submit"
 								class="btn btn-danger">Logout</button></li>
 					</form>
+					</ul>
+					<ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
 					<li class="nav-item"><a class="nav-link me-lg-3"
 						th:if="${session.usuario==null}" th:href="@{/auth/register}">Register</a></li>
 						&nbsp;&nbsp;
