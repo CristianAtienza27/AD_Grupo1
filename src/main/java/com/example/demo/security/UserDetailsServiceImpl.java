@@ -21,12 +21,12 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	    Usuario alumno = usuarioRepository.findByEmail(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	    Usuario alumno = usuarioRepository.findByEmail(email);
 		UserBuilder builder = null;
-		
+
 		if(alumno != null) {
-			builder = User.withUsername(username);
+			builder = User.withUsername(email);
 			builder.disabled(false);
 			builder.password(alumno.getPassword());
 			builder.authorities(new SimpleGrantedAuthority("ROLE_USER"));
