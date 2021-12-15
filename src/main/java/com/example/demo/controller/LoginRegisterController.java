@@ -50,8 +50,9 @@ public class LoginRegisterController {
 			return "redirect:/auth/login";
 		}
 		else {
-//			model.addAttribute("alumno",new Usuario());
-			return "login";
+			model.addAttribute("alumno",new Usuario());
+			model.addAttribute("ciclos", cicloService.listAllCiclos());
+			return LOGIN_VIEW;
 		}
 		
 	}

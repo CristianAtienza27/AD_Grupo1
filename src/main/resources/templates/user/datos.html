@@ -48,12 +48,17 @@
 							<label class="form-label">Email </label> <input type="email"
 								class="form-control" th:field=*{email} id="telefono">
 						</div>
+						<label class="form-label">Ciclos </label>
+						 <select class="form-select" aria-label="Default select example" name="cicloID">
+<!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
+							<div th:each="ciclo : ${ciclos}">
+								<option th:text="${ciclo.nombre}" th:value="${ciclo.id}"></option>
+							</div>
+						</select>
+						<br>
 						<div class="mb-3">
 							<label class="form-label">Teléfono </label> <input type="number"
 								class="form-control" th:field="*{telefono}" id="telefono">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Ciclo </label>
 						</div>
 						<div class="mb-3">
 							<label class="form-label">Contraseña </label> <input type="password"

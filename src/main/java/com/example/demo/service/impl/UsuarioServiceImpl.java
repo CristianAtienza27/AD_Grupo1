@@ -82,4 +82,16 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return usuarioRepository.findByRole(string);
 	}
 
+	@Override
+	public Usuario enabledUser(UsuarioModel usuario) {
+		usuario.setEnabled(true);
+		return usuarioRepository.save(transform(usuario));
+	}
+
+	@Override
+	public Usuario disabledUser(UsuarioModel usuario) {
+		usuario.setEnabled(false);
+		return usuarioRepository.save(transform(usuario));
+	}
+
 }

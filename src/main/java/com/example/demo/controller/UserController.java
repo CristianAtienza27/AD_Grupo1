@@ -17,50 +17,50 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
+import com.example.demo.service.CicloService;
 import com.example.demo.service.UsuarioService;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+
 	private static final String FORM_VIEW = "user/datos";
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
+	@Autowired
+	private CicloService cicloService;
+
 	@GetMapping("/details/{id}")
-	public String details(Authentication auth,HttpSession session, 
-			@PathVariable(name="id", required=false) Integer id, Model model) {
-		
-		if(session.getAttribute("usuario")==null) {
-			
-			String username = auth.getName();
-			Usuario usuario = usuarioService.findUserByEmail(username);
-			session.setAttribute("usuario", usuario);
-			
-			model.addAttribute("user", usuarioService.findUserById(id));
-			return FORM_VIEW;
-		}
-		
-		return "redirect:/auth/login";
+	public String details(Authentication auth, HttpSession session,
+			@PathVariable(name = "id", required = false) Integer id, Model model) {
+
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+
+		model.addAttribute("user", usuarioService.findUserById(id));
+		model.addAttribute("ciclos", cicloService.listAllCiclos());
+		return FORM_VIEW;
 
 	}
-	
+
 	@PostMapping("/details/update")
-	public String updateUser(@Valid @ModelAttribute("user") UsuarioModel usuarioModel,
-	BindingResult bindingResult,Model model, RedirectAttributes flash) {
-		
-		if(bindingResult.hasErrors()) {
-			model.addAttribute("user", usuarioModel);
-			return "FORM_VIEW";
+	public String updateUser(@Valid @ModelAttribute("user") Usuario usuario, BindingResult bindingResult, Model model,
+			RedirectAttributes flash) {
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("user", usuario);
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return FORM_VIEW;
+		} else {
+			usuario.setEnabled(true);
+			usuarioService.updateUser(usuarioService.transform(usuario));
+			flash.addFlashAttribute("mensaje", "Datos del usuario actualizados satisfactoriamente");
 		}
-		else {
-			usuarioModel.setEnabled(true);
-			usuarioService.updateUser(usuarioModel);
-			flash.addFlashAttribute("mensaje","Datos del usuario actualizados satisfactoriamente");
-		}
-		
-		return "redirect:/user/details/" + usuarioModel.getId();
+
+		return "redirect:/user/details/" + usuario.getId();
 	}
-	
+
 }

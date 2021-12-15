@@ -15,6 +15,8 @@ public interface UsuarioService {
 	Usuario updateUser(UsuarioModel usuario);
 	UsuarioModel findUserById(int id);
 	Usuario findUserByEmail(String email);
+	Usuario enabledUser(UsuarioModel usuario);
+	Usuario disabledUser(UsuarioModel usuario);
 	int removeUser(int id);
 	List<Usuario> findByRole(String string);
 }

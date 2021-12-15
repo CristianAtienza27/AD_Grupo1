@@ -157,6 +157,13 @@
                                         <br>
                                         <input class="form-control form-control-lg" id="telefono" type="number" placeholder="Phone number" name="telefono"/>
                                         <br>
+                                         <select class="form-select" aria-label="Default select example" name="cicloID">
+<!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
+										  <div th:each="ciclo : ${ciclos}">
+										  	<option th:text="${ciclo.nombre}" th:value="${ciclo.id}"></option>
+										  </div>
+										</select>
+										<br>
                                         <input class="form-control form-control-lg" id="email" type="email" placeholder="example@example.com" name="email"/>
                                         <br>
                                         <input class="form-control form-control-lg" id="password" type="password" placeholder="Password" name="password"/>

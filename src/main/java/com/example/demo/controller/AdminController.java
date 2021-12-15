@@ -69,8 +69,7 @@ public class AdminController {
 	@PostMapping("disableUser/{id}")
 	public String disable(@PathVariable int id, Model model,RedirectAttributes flash) {
 		UsuarioModel us = usuarioService.findUserById(id);
-		us.setEnabled(false);
-		model.addAttribute("user", usuarioService.updateUser(us));
+		model.addAttribute("user", usuarioService.disabledUser(us));
 		flash.addFlashAttribute("mensaje", "Alumno desactivado correctamente");
 		return "redirect:/admin/alumnos";
 	}
@@ -78,8 +77,7 @@ public class AdminController {
 	@PostMapping("enableUser/{id}")
 	public String enable(@PathVariable int id, Model model,RedirectAttributes flash) {
 		UsuarioModel us = usuarioService.findUserById(id);
-		us.setEnabled(true);
-		model.addAttribute("user", usuarioService.updateUser(us));
+		model.addAttribute("user", usuarioService.enabledUser(us));
 		flash.addFlashAttribute("mensaje", "Alumno activado correctamente");
 		return "redirect:/admin/alumnos";
 	}

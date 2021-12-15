@@ -15,6 +15,8 @@ import com.example.demo.service.UsuarioService;
 @Controller
 public class PublicController {
 	
+	private static final String INDEX_VIEW = "index";
+	
 	@Autowired
 	private UsuarioService usuarioService;
 
@@ -28,7 +30,7 @@ public class PublicController {
 		}
 		
 		if(auth == null) {
-			return "index";
+			return INDEX_VIEW;
 		}else {
 			String username = auth.getName();
 			
@@ -49,7 +51,7 @@ public class PublicController {
 					session.setAttribute("usuario", usuario);
 				}
 			}
-			return "index";
+			return INDEX_VIEW;
 		}
 	}
 	
