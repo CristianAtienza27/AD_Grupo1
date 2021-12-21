@@ -43,7 +43,6 @@ public class UserController {
 		model.addAttribute("user", usuarioService.findUserById(id));
 		model.addAttribute("ciclos", cicloService.listAllCiclos());
 		return FORM_VIEW;
-
 	}
 
 	@PostMapping("/details/update")

@@ -42,7 +42,7 @@ public class Usuario {
 	
 	private boolean enabled;
 	
-	@Column(name="email", length = 50, unique=true)
+	@Column(name="email", length = 50)
 	@Email(message="El formato del email no es correcto")
 	@NotNull
 	@NotEmpty(message="El campo email no puede ir vacío")
