@@ -64,6 +64,7 @@ public class AdminController {
 		
 		ModelAndView mav = new ModelAndView(NOTICIAS_VIEW);
 		mav.addObject("titulo", "Noticias");
+		mav.addObject("noticia", new Noticia());
 		mav.addObject("noticias", noticiaService.showAll());
 				
 		return mav;
