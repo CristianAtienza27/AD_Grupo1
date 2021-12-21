@@ -33,6 +33,9 @@ public class Ciclo {
 	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
 	List <Usuario> alumnos = new ArrayList<>();
 	
+	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
+	List <Noticia> noticias = new ArrayList<>();
+	
 	public Ciclo(int id, String nombre, String tipo) {
 		super();
 		this.id = id;
@@ -85,7 +88,13 @@ public class Ciclo {
 		this.alumnos = alumnos;
 	}
 
+	public List<Noticia> getNoticias() {
+		return noticias;
+	}
 
+	public void setNoticias(List<Noticia> noticias) {
+		this.noticias = noticias;
+	}
 
 	@Override
 	public String toString() {
