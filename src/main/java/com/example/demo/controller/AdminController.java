@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -22,6 +20,7 @@ import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
+import com.example.demo.service.NoticiaService;
 import com.example.demo.service.UsuarioService;
 
 @Controller
@@ -29,6 +28,7 @@ import com.example.demo.service.UsuarioService;
 public class AdminController {
 	
 	private static final String USERS_VIEW = "admin/usuarios";
+	private static final String NOTICIAS_VIEW = "admin/noticias";
 	private static final String CICLOS_VIEW = "admin/ciclos";
 
 	@Autowired
@@ -36,6 +36,9 @@ public class AdminController {
 
 	@Autowired
 	private CicloService cicloService;
+	
+	@Autowired
+	private NoticiaService noticiaService;
 	
 	// 					USUARIOS					// 	
 
@@ -48,6 +51,19 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView(USERS_VIEW);
 		mav.addObject("titulo", "Alumnos");
 		mav.addObject("users", usuarioService.showAll("ROLE_ALUMNO"));
+				
+		return mav;
+	}
+	
+	@GetMapping("/noticias")
+	public ModelAndView showNoticias(HttpSession session, Authentication auth, Model model) {
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		ModelAndView mav = new ModelAndView(NOTICIAS_VIEW);
+		mav.addObject("titulo", "Noticias");
+		mav.addObject("noticias", noticiaService.showAll());
 				
 		return mav;
 	}
