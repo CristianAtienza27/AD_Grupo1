@@ -1,0 +1,39 @@
+<div th:fragment="modalNoticia" class="modal fade" th:id="*{'modalNoticia' + {noticia.id}}" tabindex="-1"
+	aria-labelledby="feedbackModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-gradient-primary-to-secondary p-4">
+				<h5 class="modal-title font-alt text-white" id="feedbackModalLabel"
+					th:text="${noticia.id} == 0 ? 'Nueva Noticia' : 'Editar Noticia'"></h5>
+				<button class="btn-close btn-close-white" type="button"
+					data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body border-0 p-4">
+
+				<form class="form-subscribe" method="POST"
+					th:action="@{/admin/noticia/} + ${noticia.id}" th:object="${noticia}">
+					<!-- Email address input-->
+					<div class="row">
+						<div class="col">
+							<input type="hidden" th:value="${noticia.id}" id="id"> <input
+								class="form-control form-control-lg" id="titulo" type="text"
+								th:value="${noticia.titulo}" placeholder="Titulo" name="titulo" />
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Error</small><br>
+							<input class="form-control form-control-lg" id="descripcion" type="text"
+								 th:value="${noticia.descripcion}" placeholder="Descripcion" name="descripcion" />
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small> <br>
+							<input class="form-control form-control-lg" id="cicloid" type="text"
+								 th:value="${noticia.cicloID}" placeholder="Ciclo id" name="cicloID" />
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('cicloID')}" th:errors="*{cicloID}"></small> <br>
+							<input class="form-control form-control-lg" id="imagen" type="file"
+								 th:value="${noticia.imagen}" placeholder="imagen" name="imagen" />
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('imagen')}" th:errors="*{imagen}"></small> <br>
+							<button class="btn btn-primary btn-lg" id="submitButton"
+								type="submit" th:text="${noticia.id} == 0 ? 'Insertar' : 'Confirmar'"></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

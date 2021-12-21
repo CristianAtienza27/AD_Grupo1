@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Ciclo;
+import com.example.demo.entity.Noticia;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
@@ -63,6 +64,7 @@ public class AdminController {
 		
 		ModelAndView mav = new ModelAndView(NOTICIAS_VIEW);
 		mav.addObject("titulo", "Noticias");
+		mav.addObject("noticia", new Noticia());
 		mav.addObject("noticias", noticiaService.showAll());
 				
 		return mav;

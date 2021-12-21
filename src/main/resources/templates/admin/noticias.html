@@ -6,7 +6,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Login</title>
+<title>Noticias</title>
 <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
 <!-- Bootstrap icons-->
 <link rel="stylesheet" type="text/css"
@@ -38,11 +38,11 @@
 				<div>
 					<h1 class="display-1 lh-1 mb-3" th:text="${titulo}"></h1>
 				</div>
-				<div th:if="${titulo == 'Noticias'}">
+				<div>
 					<a data-bs-toggle="modal"
-						th:attr="data-bs-target='#modalRRHH' + ${noticia.id}"
+						th:attr="data-bs-target='#modalNoticia' + ${noticia.id}"
 						class="btn btn-success">Añadir</a>
-					<div th:replace="admin/modals/formRRHH :: modalRRHH"></div>
+					<div th:replace="admin/modals/formNoticia :: modalNoticia"></div>
 				</div>
 				<table class="table">
 					<thead class="thead-dark">
@@ -52,25 +52,17 @@
 							<th scope="col">Descripcion</th>
 							<th scope="col">Ciclo</th>
 							<th scope="col">Imagen</th>
+							<th scope="col">Modificar</th>
+							<th scope="col">Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="noticia ${noticias}">
+						<tr th:each="noticia : ${noticias}">
 							<th th:text="${noticia.id}"></th>
 							<th th:text="${noticia.titulo}"></th>
 							<th th:text="${noticia.descripcion}"></th>
 							<th th:text="${noticia.cicloID.nombre}"></th>
-							<th><img th:src="@{'/assets/img/' + ${noticia.imagen}}"/></th>
-							
-							<th>
-							<a data-bs-toggle="modal"
-								th:attr="data-bs-target='#modalRRHH' + ${noticia.id}"
-								class="btn btn-warning">Editar</a>
-								<div th:replace="admin/modals/formRRHH :: modalRRHH"></div>
-							<a data-bs-toggle="modal"
-								th:attr="data-bs-target='#modalDeleteUser' + ${noticia.id}"
-								class="btn btn-danger">Eliminar</a>
-								<div th:replace="admin/modals/deleteUser :: modalDeleteUser"></div>
+							<th><img th:src="@{'/assets/img/' + ${noticia.imagen}}" width="100" height="100"/></th>
 						</tr>
 					</tbody>
 				</table>
