@@ -67,17 +67,26 @@ public class LoginRegisterController {
 	
 	@PostMapping("/auth/register")
 	public String register(@Valid @ModelAttribute Usuario alumno, BindingResult bindingResult, RedirectAttributes flash) {
-		
 		if(bindingResult.hasErrors()) {
 			flash.addFlashAttribute("fallo",bindingResult.getAllErrors().get(0).getDefaultMessage());
 			return "redirect:/auth/register";
 		}
 		
-		alumno.setEnabled(false);
-		alumno.setRole("ROLE_ALUMNO");
-		usuarioService.register(usuarioService.transform(alumno));
-		flash.addFlashAttribute("mensaje","Registrado con éxito, espere a ser activado por el administrador");
-		return "redirect:/auth/login";
+		if(usuarioService.findUserByEmail(alumno.getEmail())==null) {
+			alumno.setEnabled(false);
+			alumno.setRole("ROLE_ALUMNO");
+			usuarioService.register(usuarioService.transform(alumno));
+			flash.addFlashAttribute("mensaje","Registrado con éxito, espere a ser activado por el administrador");
+			return "redirect:/auth/login";
+		}else {
+			flash.addFlashAttribute("fallo","Ese email ya está registrado");
+			return "redirect:/auth/register";
+		}
+			
+		
+		
+		
+		
 	}
 
 }

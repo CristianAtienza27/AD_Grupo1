@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 			builder = User.withUsername(email);
 			builder.disabled(false);
 			builder.password(alumno.getPassword());
-			builder.authorities(new SimpleGrantedAuthority("ROLE_USER"));
+			builder.authorities(alumno.getRole());
 		}else {
 			throw new UsernameNotFoundException("username not found");
 		}
