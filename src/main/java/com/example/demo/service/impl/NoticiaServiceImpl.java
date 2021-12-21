@@ -38,4 +38,20 @@ public class NoticiaServiceImpl implements NoticiaService{
 				map(c->transform(c)).collect(Collectors.toList());
 	}
 
+	@Override
+	public Noticia addNoticia(NoticiaModel noticia) {
+		return noticiaRepository.save(transform(noticia));
+	}
+
+	@Override
+	public Noticia updateNoticia(NoticiaModel noticia) {
+		return noticiaRepository.save(transform(noticia));
+	}
+
+	@Override
+	public int removeNoticia(int id) {
+		noticiaRepository.deleteById(id);
+		return 0;
+	}
+
 }

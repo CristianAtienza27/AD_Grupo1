@@ -9,5 +9,8 @@ import com.example.demo.models.UsuarioModel;
 public interface NoticiaService {
 	Noticia transform(NoticiaModel noticiaModel);
 	NoticiaModel transform(Noticia noticia);
+	Noticia addNoticia(NoticiaModel noticia);
+	Noticia updateNoticia(NoticiaModel noticia);
+	int removeNoticia(int id);
 	List<NoticiaModel> showAll();
 }

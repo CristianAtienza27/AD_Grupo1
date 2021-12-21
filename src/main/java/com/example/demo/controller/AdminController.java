@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Ciclo;
+import com.example.demo.entity.Noticia;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
@@ -184,5 +185,35 @@ public class AdminController {
 		flash.addFlashAttribute("mensaje","Ciclo eliminado correctamente");
 		return "redirect:/admin/ciclos";
 	}
+	
+	// 					NOTICIAS					//
+	
+	@PostMapping("/noticias/{id}")
+	public String addOrEdit(@Valid @ModelAttribute("noticia") Noticia noticia, 
+			BindingResult bindingResult,
+			@PathVariable(name="id", required=false) Integer id,
+			Model model, RedirectAttributes flash) {
+		
+		if(bindingResult.hasErrors()) {
+			
+			model.addAttribute("noticias", noticiaService.showAll());
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/admin/noticias";
+		}
+		
+		if(id == 0) {
+			noticiaService.addNoticia(noticiaService.transform(noticia));
+			flash.addFlashAttribute("mensaje", "Noticia añadida correctamente");
+		}
+		else {
+			noticia.setId(id);
+			noticiaService.updateNoticia(noticiaService.transform(noticia));
+			flash.addFlashAttribute("mensaje", "Noticia editada correctamente");
+		}
+		
+		return "redirect:/admin/noticias";
+	}
+	
+	
 
 }

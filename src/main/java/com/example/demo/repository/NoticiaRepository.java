@@ -9,7 +9,7 @@ import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Noticia;
 
 @Repository
-public interface NoticiaRepository extends JpaRepository<Noticia, Long>{
+public interface NoticiaRepository extends JpaRepository<Noticia, Integer>{
 	public Noticia findById(int id);
 	public Noticia findByTitulo(String titulo);
 	public Collection<Noticia> findByCicloID(Ciclo ciclo);
