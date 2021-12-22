@@ -1,18 +1,16 @@
 package com.example.demo.repository;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Oferta;
-import com.example.demo.entity.Usuario;
-import com.example.demo.models.UsuarioModel;
+import com.example.demo.models.OfertaModel;
 
 
 @Repository
-public interface OfertaRepository extends JpaRepository<Oferta, Long>{
+public interface OfertaRepository extends JpaRepository<Oferta, Integer>{
 	public Oferta findByTitular(String titular);
 	public Oferta findById(int id);
-	Collection<UsuarioModel> findByRrhhid(Usuario transform);
 }

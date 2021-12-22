@@ -1,0 +1,27 @@
+<div th:fragment="modalDeleteOferta" class="modal fade"
+	th:id="*{'modalDeleteOferta' + {oferta.id}}" tabindex="-1"
+	aria-labelledby="feedbackModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-gradient-primary-to-secondary p-4">
+				<h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Eliminar
+					oferta</h5>
+				<button class="btn-close btn-close-white" type="button"
+					data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body border-0 p-4">
+
+				<div class="row">
+					<div class="col">
+					<p th:text="'¿Deseas eliminar la oferta ' + ${oferta.titular} + '?'"></p>
+						<a th:href="@{/rrhh/ofertas/delete/} + ${oferta.id}" class="btn btn-primary btn-xs" id="submitButton"
+							type="submit">Eliminar</a>
+						<button class="btn btn-primary btn-xs" data-bs-dismiss="modal"
+							aria-label="Close" id="submitButton" type="button">Cancelar</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

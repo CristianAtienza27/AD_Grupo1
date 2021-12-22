@@ -18,17 +18,30 @@ public class OfertaModel {
 	
 	private int numCandidatos;
 	
-	public OfertaModel(int id, String titular, String descripcion, String requisitos, int numCandidatos,
-			Date fechamax) {
+	private Usuario rrhhid;
+	
+	
+	
+
+	public OfertaModel(int id, String titular, String descripcion, String requisitos, Date fechamax, int numCandidatos,
+			Usuario rrhhid) {
 		super();
 		this.id = id;
 		this.titular = titular;
 		this.descripcion = descripcion;
 		this.requisitos = requisitos;
-		this.numCandidatos = numCandidatos;
 		this.fechamax = fechamax;
+		this.numCandidatos = numCandidatos;
+		this.rrhhid = rrhhid;
 	}
-	
+
+	public Usuario getRrhhid() {
+		return rrhhid;
+	}
+
+	public void setRrhhid(Usuario rrhhid) {
+		this.rrhhid = rrhhid;
+	}
 
 	public OfertaModel() {
 		super();

@@ -10,7 +10,7 @@
 			</div>
 			<div class="modal-body border-0 p-4">
 
-				<form class="form-subscribe" method="POST"
+				<form enctype="multipart/form-data" class="form-subscribe" method="POST"
 					th:action="@{/admin/noticia/} + ${noticia.id}" th:object="${noticia}">
 					<!-- Email address input-->
 					<div class="row">
@@ -22,9 +22,11 @@
 							<input class="form-control form-control-lg" id="descripcion" type="text"
 								 th:value="${noticia.descripcion}" placeholder="Descripcion" name="descripcion" />
 								<small class="form-text text-danger" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small> <br>
-							<input class="form-control form-control-lg" id="cicloid" type="text"
-								 th:value="${noticia.cicloID}" placeholder="Ciclo id" name="cicloID" />
-								<small class="form-text text-danger" th:if="${#fields.hasErrors('cicloID')}" th:errors="*{cicloID}"></small> <br>
+							<select class="form-select" aria-label="Default select example" name="cicloID">
+							  <div th:each="ciclo : ${ciclos}">
+							  	<option th:text="${ciclo.nombre}" th:value="${ciclo.id}"></option>
+							  </div>
+							</select> <br>
 							<input class="form-control form-control-lg" id="imagen" type="file"
 								 th:value="${noticia.imagen}" placeholder="imagen" name="imagen" />
 								<small class="form-text text-danger" th:if="${#fields.hasErrors('imagen')}" th:errors="*{imagen}"></small> <br>

@@ -51,6 +51,7 @@
 							<li th:if="${session.usuario.role} == 'ROLE_ADMIN'"><a class="dropdown-item" th:href="@{/admin/noticias}">Noticias</a></li>
 							<li th:if="${session.usuario.role} == 'ROLE_ALUMNO'"><a class="dropdown-item" th:href="@{'/user/details/' + ${session.usuario.id}}">Perfil</a></li>
 							<li th:if="${session.usuario.role} == 'ROLE_RRHH'"><a class="dropdown-item" th:href="@{'/user/details/' + ${session.usuario.id}}">Perfil</a></li>
+							<li th:if="${session.usuario.role} == 'ROLE_RRHH'"><a class="dropdown-item" th:href="@{/rrhh/ofertas}">Trabajos</a></li>
 						</ul>
 					</li>
 						&nbsp;&nbsp;

@@ -1,0 +1,55 @@
+<div th:fragment="modalOferta" class="modal fade"
+	th:id="*{'modalOferta' + {oferta.id}}" tabindex="-1"
+	aria-labelledby="feedbackModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-gradient-primary-to-secondary p-4">
+				<h5 class="modal-title font-alt text-white" id="feedbackModalLabel"
+					th:text="${oferta.id} == 0 ? 'Nueva oferta' : 'Editar oferta'"></h5>
+				<button class="btn-close btn-close-white" type="button"
+					data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body border-0 p-4">
+
+				<form class="form-subscribe" method="POST"
+					th:action="@{/rrhh/ofertas/} + ${oferta.id}" th:object="${oferta}">
+					<!-- Email address input-->
+					<div class="row">
+						<div class="col">
+							<input type="hidden" th:value="${oferta.id}" id="id">
+							<input type="hidden" th:value="${oferta.rrhhid}" id="rrhhid" name="rrhhid">
+							<input
+								class="form-control form-control-lg" id="titular" type="text"
+								th:value="${oferta.titular}" placeholder="Titular" name="titular" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('titular')}" th:errors="*{titular}"></small><br>
+							<input class="form-control form-control-lg" id="descripcion"
+								th:value="${oferta.descripcion}" type="text" placeholder="Descripcion" name="descripcion" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('descripcion')}"
+								th:errors="*{descripcion}"></small> <br> 
+							<input
+								class="form-control form-control-lg" id="numCandidatos" type="number"
+								th:value="${oferta.numCandidatos}" placeholder="Numero de candidatos" name="numCandidatos" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('numCandidatos')}" th:errors="*{oferta.numCandidatos}"></small><br>
+							<input class="form-control form-control-lg" id="requisitos"
+								type="text" placeholder="Requisitos" th:value="${oferta.requisitos}"  name="requisitos" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('requisitos')}" th:errors="*{requisitos}"></small>
+							<br>
+							<input class="form-control form-control-lg" id="fechamax"
+								th:value="${oferta.fechamax}" type="date" placeholder="Fecha Max" name="fechamax" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('fechamax')}" th:value="2000-02-02" th:errors="fechamax"></small>
+							<br>
+							<button class="btn btn-primary btn-lg" id="submitButton"
+								type="submit"
+								th:text="${oferta.id} == 0 ? 'Insertar' : 'Confirmar'"></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

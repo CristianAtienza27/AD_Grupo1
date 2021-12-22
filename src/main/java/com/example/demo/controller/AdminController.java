@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Ciclo;
@@ -23,6 +26,8 @@ import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.NoticiaService;
 import com.example.demo.service.UsuarioService;
+import com.example.demo.upload.FileController;
+import com.example.demo.upload.StorageService;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,6 +45,9 @@ public class AdminController {
 	
 	@Autowired
 	private NoticiaService noticiaService;
+	
+	@Autowired
+	private StorageService storageService;
 	
 	// 					USUARIOS					// 	
 
@@ -65,6 +73,7 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView(NOTICIAS_VIEW);
 		mav.addObject("titulo", "Noticias");
 		mav.addObject("noticia", new Noticia());
+		mav.addObject("ciclos", cicloService.listAllCiclos());
 		mav.addObject("noticias", noticiaService.showAll());
 				
 		return mav;
@@ -189,21 +198,31 @@ public class AdminController {
 	
 	// 					NOTICIAS					//
 	
-	@PostMapping("/noticias/{id}")
+	@PostMapping("/noticia/{id}")
 	public String addOrEdit(@Valid @ModelAttribute("noticia") Noticia noticia, 
 			BindingResult bindingResult,
 			@PathVariable(name="id", required=false) Integer id,
-			Model model, RedirectAttributes flash) {
+			Model model, RedirectAttributes flash,@RequestParam("imagen") MultipartFile file) {
 		
-		if(bindingResult.hasErrors()) {
-			
-			model.addAttribute("noticias", noticiaService.showAll());
-			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-			return "redirect:/admin/noticias";
-		}
+//		if(bindingResult.hasErrors()) {
+//			
+//			model.addAttribute("noticias", noticiaService.showAll());
+//			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+//			return "redirect:/admin/noticias";
+//		}
 		
 		if(id == 0) {
-			noticiaService.addNoticia(noticiaService.transform(noticia));
+			
+			String image=storageService.store(file, noticia.getId());
+			String[] path = MvcUriComponentsBuilder.fromMethodName(FileController.class, "serveFile", image).build().toUriString().split("/");
+			
+			Noticia c = new Noticia();
+			c.setDescripcion(noticia.getDescripcion());
+			c.setTitulo(noticia.getTitulo());
+			c.setCicloID(noticia.getCicloID());
+			System.out.println(path[path.length-1]);
+			c.setImagen(path[path.length-1]);
+			noticiaService.addNoticia(noticiaService.transform(c));
 			flash.addFlashAttribute("mensaje", "Noticia añadida correctamente");
 		}
 		else {

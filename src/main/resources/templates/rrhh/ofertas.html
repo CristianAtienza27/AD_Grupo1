@@ -36,35 +36,34 @@
 		<div class="container px-5">
 			<div class="row gx-5 align-items-center">
 				<div>
-					<h1 class="display-1 lh-1 mb-3">Ciclos</h1>
-				</div>
-				<div>
-					<a data-bs-toggle="modal"
-						th:attr="data-bs-target='#modalCiclo' + ${ciclo.id}"
-						class="btn btn-success">Añadir</a>
-					<div th:replace="admin/modals/formCiclo :: modalCiclo"></div>
+					<h1 class="display-1 lh-1 mb-3">Ofertas</h1>
 				</div>
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col">Nombre</th>
-							<th scope="col">Tipo</th>
+							<th scope="col">Titular</th>
+							<th scope="col">Descripcion</th>
+							<th scope="col">Numero de candidatos</th>
+							<th scope="col">Requisitos</th>
+							<th scope="col">Fecha maxima</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="ciclo: ${ciclos}">
-							<th th:text="${ciclo.nombre}"></th>
-							<th th:text="${ciclo.tipo}"></th>
+						<tr th:each="oferta: ${ofertas}">
+							<th th:text="${oferta.titular}"></th>
+							<th th:text="${oferta.descripcion}"></th>
+							<th th:text="${oferta.numCandidatos}"></th>
+							<th th:text="${oferta.requisitos}"></th>
+							<th th:text="${oferta.fechamax}"></th>
 							<th><a data-bs-toggle="modal"
-								th:attr="data-bs-target='#modalCiclo' + ${ciclo.id}"
+								th:attr="data-bs-target='#modalOferta' + ${oferta.id}"
 								class="btn btn-warning">Editar</a>
-								<div th:replace="admin/modals/formCiclo :: modalCiclo"></div> <a
+								<div th:replace="admin/modals/formOferta :: modalOferta"></div> <a
 								data-bs-toggle="modal"
-								th:attr="data-bs-target='#modalDeleteCiclo' + ${ciclo.id}"
+								th:attr="data-bs-target='#modalDeleteOferta' + ${oferta.id}"
 								class="btn btn-danger">Eliminar</a>
-								<div th:replace="admin/modals/deleteCiclo :: modalDeleteCiclo">
+								<div th:replace="admin/modals/deleteOferta :: modalDeleteOferta">
 							</th>
-							</div>
 						</tr>
 					</tbody>
 				</table>
