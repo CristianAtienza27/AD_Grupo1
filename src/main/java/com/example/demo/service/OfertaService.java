@@ -15,4 +15,5 @@ public interface OfertaService {
 	Oferta updateOferta(OfertaModel ofertaModel);
 	int removeOferta(int id);
 	Oferta findById(int id);
+	List<Oferta> showAll();
 }

@@ -50,4 +50,9 @@ public class OfertaServiceImpl implements OfertaService{
 		return ofertaRepository.findById(id);
 	}
 
+	@Override
+	public List<Oferta> showAll() {
+		return ofertaRepository.findAll();
+	}
+
 }
