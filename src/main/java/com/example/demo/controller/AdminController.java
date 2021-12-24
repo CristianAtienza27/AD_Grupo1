@@ -74,7 +74,7 @@ public class AdminController {
 		mav.addObject("titulo", "Noticias");
 		mav.addObject("noticia", new Noticia());
 		mav.addObject("ciclos", cicloService.listAllCiclos());
-		mav.addObject("noticias", noticiaService.showAll());
+		mav.addObject("noticias", noticiaService.listAllNoticias());
 				
 		return mav;
 	}

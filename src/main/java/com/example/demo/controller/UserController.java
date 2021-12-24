@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Usuario;
-import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
+import com.example.demo.service.NoticiaService;
 import com.example.demo.service.UsuarioService;
 
 @Controller
@@ -25,15 +26,19 @@ import com.example.demo.service.UsuarioService;
 public class UserController {
 
 	private static final String FORM_VIEW = "user/datos";
+	private static final String NOTICIAS_VIEW = "user/noticias";
 
 	@Autowired
 	private UsuarioService usuarioService;
 
 	@Autowired
 	private CicloService cicloService;
+	
+	@Autowired 
+	private NoticiaService noticiaService;
 
 	@GetMapping("/details/{id}")
-	public String details(Authentication auth, HttpSession session,
+	public String details(HttpSession session, Authentication auth,
 			@PathVariable(name = "id", required = false) Integer id, Model model) {
 
 		String username = auth.getName();
@@ -60,6 +65,18 @@ public class UserController {
 		}
 
 		return "redirect:/user/details/" + usuario.getId();
+	}
+	
+	@GetMapping("/noticias")
+	public String showNoticias(Authentication auth, HttpSession session, Model model) {
+		
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		model.addAttribute("noticias", cicloService.listAllNoticiasByCiclo(cicloService.transform(usuario.getCicloID())));
+
+		return NOTICIAS_VIEW;
 	}
 
 }

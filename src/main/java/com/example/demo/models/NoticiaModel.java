@@ -31,8 +31,6 @@ public class NoticiaModel {
 		this.cicloID = cicloID;
 	}
 
-
-
 	public NoticiaModel() {
 		super();
 	}

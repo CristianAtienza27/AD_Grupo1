@@ -48,6 +48,25 @@ public class UsuarioModel {
 		this.password = password;
 		this.role = role;
 	}
+	
+	
+
+	public UsuarioModel(int id, String nombre, String apellidos, String telefono, boolean enabled, String email,
+			String password, String role, String empresa, Ciclo cicloID) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.telefono = telefono;
+		this.enabled = enabled;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.empresa = empresa;
+		this.cicloID = cicloID;
+	}
+
+
 
 	public UsuarioModel() {
 		super();

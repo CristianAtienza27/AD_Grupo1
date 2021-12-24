@@ -101,7 +101,4 @@ public class Ciclo {
 		return "Ciclo [id=" + id + ", nombre=" + nombre + "]";
 	}
 	
-	
-	
-	
 }

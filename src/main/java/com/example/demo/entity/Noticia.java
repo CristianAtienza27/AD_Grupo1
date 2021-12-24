@@ -36,6 +36,14 @@ public class Noticia {
 	@ManyToOne
 	@JoinColumn(name="cicloID")
 	private Ciclo cicloID;
+	
+	public Noticia(int id, String titulo,String descripcion,String imagen) {
+		super();
+		this.id = id;
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.imagen = imagen;
+	}
 
 	public Noticia(int id, String titulo, String descripcion, String imagen, Ciclo cicloID) {
 		super();

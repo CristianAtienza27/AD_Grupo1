@@ -6,7 +6,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Datos</title>
+<title>Noticias</title>
 <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
 <!-- Bootstrap icons-->
 <link rel="stylesheet" type="text/css"
@@ -28,50 +28,47 @@
 </head>
 <body id="page-top">
 	<!-- Navigation-->
-	 <nav th:replace="index :: nav" class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
-     </nav>
+	<nav th:replace="index :: nav"
+		class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+	</nav>
+	<!-- Mashead header-->
 	<header class="masthead">
 		<div class="container px-5">
-			<div class="row col-md-6">
-				<div class="offset-6">
-					<form th:action="@{/user/details/update}" th:object="${user}" method="POST">
-						<input type="hidden" th:field="*{id}" id="id">
-						<div class="mb-3">
-							<label class="form-label">Nombre </label> <input type="text"
-								class="form-control" th:field="*{nombre}" id="nombre">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Apellidos </label> <input type="text"
-								class="form-control" th:field="*{apellidos}" id="apellidos">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Email </label> <input type="email"
-								class="form-control" th:field=*{email} id="telefono">
-						</div>
-						<label class="form-label">Ciclos </label>
-						 <select class="form-select" aria-label="Default select example" name="cicloID">
-<!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
-							<div th:each="ciclo : ${ciclos}">
-								<option th:text="${ciclo.nombre}" th:value="${ciclo.id}"></option>
-							</div>
-						</select>
-						<br>
-						<div class="mb-3">
-							<label class="form-label">Teléfono </label> <input type="number"
-								class="form-control" th:field="*{telefono}" id="telefono">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Contraseña </label> <input type="password"
-								class="form-control" th:field="*{password}" id="password">
-						</div>
-						<input type="hidden" th:field="*{role}" id="role">
-						<button type="submit" class="btn btn-primary">Actualizar</button>
-					</form>
+			<div class="row gx-5 align-items-center">
+				<div>
+					<h1 class="display-1 lh-1 mb-3" th:text="${titulo}"></h1>
 				</div>
-			</div>
-		</div>
+				
+<div class="accordion" id="accordionPanelsStayOpenExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        NOTICIAS
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+      <div class="row row-cols-1 row-cols-md-3 g-4 accordion-body">
+  <div th:each="noticia : ${noticias}" class="col">
+    <div class="card h-100">
+      <img th:src="@{'/assets/img/' + ${noticia.imagen}}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title" th:text="${noticia.titulo}"></h5>
+        <p th:text="${noticia.descripcion}" class="card-text"></p>
+      </div>
+      <div class="card-footer">
+        <p th:text="${noticia.cicloID.nombre}"></p>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
+
+</div>
 	</header>
-	
+	<!-- Quote/testimonial aside-->
+	<!-- App features section-->
+
 	<footer th:replace="index :: footer" class="footer bg-light">
 	</footer>
 	<script

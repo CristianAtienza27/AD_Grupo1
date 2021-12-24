@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Noticia;
+import com.example.demo.models.CicloModel;
 import com.example.demo.models.NoticiaModel;
 import com.example.demo.repository.NoticiaRepository;
 import com.example.demo.service.NoticiaService;
@@ -31,13 +33,13 @@ public class NoticiaServiceImpl implements NoticiaService{
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(noticia, NoticiaModel.class);
 	}
-
+	
 	@Override
-	public List<NoticiaModel> showAll() {
+	public List<NoticiaModel> listAllNoticias() {
 		return noticiaRepository.findAll().stream().
 				map(c->transform(c)).collect(Collectors.toList());
 	}
-
+	
 	@Override
 	public Noticia addNoticia(NoticiaModel noticia) {
 		return noticiaRepository.save(transform(noticia));

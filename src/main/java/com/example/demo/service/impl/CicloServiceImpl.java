@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -10,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Ciclo;
 import com.example.demo.models.CicloModel;
+import com.example.demo.models.NoticiaModel;
 import com.example.demo.repository.CicloRepository;
+import com.example.demo.repository.NoticiaRepository;
 import com.example.demo.service.CicloService;
 
 @Service
@@ -18,6 +19,9 @@ public class CicloServiceImpl implements CicloService{
 
 	@Autowired
 	private CicloRepository cicloRepository;
+	
+	@Autowired
+	private NoticiaRepository noticiaRepository;
 	
 	@Override
 	public Ciclo transform(CicloModel cicloModel) {
@@ -56,6 +60,14 @@ public class CicloServiceImpl implements CicloService{
 	@Override
 	public CicloModel findCicloById(int id) {
 		return transform(cicloRepository.findById(id).orElse(null));
+	}
+
+	@Override
+	public List<NoticiaModel> listAllNoticiasByCiclo(CicloModel ciclo) {
+		ModelMapper modelMapper = new ModelMapper();
+		return noticiaRepository.findByCicloID(transform(ciclo)).stream()
+				.map(n -> modelMapper.map(n, NoticiaModel.class))
+				.collect(Collectors.toList());
 	}
 	
 }

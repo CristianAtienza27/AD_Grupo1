@@ -44,7 +44,7 @@ public class PublicController {
 					return "redirect:/admin/alumnos"; 
 				}
 				else if(usuario.getRole().equals("ROLE_ALUMNO") || usuario.getRole().equals("ROLE_RRHH")) {
-					return "redirect:/user/details/" + usuario.getId();
+					return "redirect:/user/noticias";
 				}
 				else {
 					usuario.setPassword(null);
