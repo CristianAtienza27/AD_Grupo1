@@ -77,8 +77,7 @@ public class RrhhController {
 		try {
 			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 			oferta.setFechamax(date1);
-			Oferta o = ofertaService.findById(oferta.getId());
-			oferta.setRrhhid(o.getRrhhid());
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,11 +85,14 @@ public class RrhhController {
 		
 		
 		if(id == 0) {
+			oferta.setId(id);
+			oferta.setRrhhid(usuario);
 			ofertaService.addOferta(ofertaService.transform(oferta));
 			flash.addFlashAttribute("mensaje", "Oferta añadida correctamente");
 		}
 		else {
-			oferta.setId(id);
+			Oferta o = ofertaService.findById(oferta.getId());
+			oferta.setRrhhid(o.getRrhhid());
 			ofertaService.updateOferta(ofertaService.transform(oferta));
 			flash.addFlashAttribute("mensaje", "Oferta editada correctamente");
 		}
@@ -99,9 +101,18 @@ public class RrhhController {
 	}
 	
 	@GetMapping("/ofertas/delete/{id}")
-	public String deleteCiclo(@PathVariable(name="id") Integer id, RedirectAttributes flash) {
+	public String deleteCiclo(Authentication auth, HttpSession session,@PathVariable(name="id") Integer id, RedirectAttributes flash) {
+		
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
 		ofertaService.removeOferta(id);
 		flash.addFlashAttribute("mensaje","Oferta eliminada correctamente");
-		return "redirect:/rrhh/ofertas";
+		if(usuario.getRole().equals("ROLE_ADMIN"))
+			return "redirect:/admin/ofertas";
+		else
+			return "redirect:/rrhh/ofertas";
+			
 	}
 }

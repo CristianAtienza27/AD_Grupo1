@@ -6,7 +6,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Ciclos</title>
+<title>Ofertas</title>
 <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
 <!-- Bootstrap icons-->
 <link rel="stylesheet" type="text/css"
@@ -37,6 +37,12 @@
 			<div class="row gx-5 align-items-center">
 				<div>
 					<h1 class="display-1 lh-1 mb-3">Ofertas</h1>
+				</div>
+				<div>
+					<a data-bs-toggle="modal"
+						th:attr="data-bs-target='#modalOferta' + ${oferta.id}"
+						class="btn btn-success">Añadir</a>
+					<div th:replace="admin/modals/formOferta :: modalOferta"></div>
 				</div>
 				<table class="table">
 					<thead class="thead-dark">

@@ -21,10 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Noticia;
+import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.NoticiaService;
+import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
 import com.example.demo.upload.FileController;
 import com.example.demo.upload.StorageService;
@@ -48,6 +50,9 @@ public class AdminController {
 	
 	@Autowired
 	private StorageService storageService;
+	
+	@Autowired
+	private OfertaService ofertaService;
 	
 	// 					USUARIOS					// 	
 
@@ -232,6 +237,21 @@ public class AdminController {
 		}
 		
 		return "redirect:/admin/noticias";
+	}
+	
+	// OFERTAS //
+	
+	@GetMapping("/ofertas")
+	public String details(Authentication auth, HttpSession session,
+			@PathVariable(name = "id", required = false) Integer id, Model model) {
+
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+
+		model.addAttribute("oferta",new Oferta());
+		model.addAttribute("ofertas",ofertaService.showAll());
+		return "rrhh/ofertas";
 	}
 	
 	
