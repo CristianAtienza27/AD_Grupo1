@@ -6,7 +6,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Noticias</title>
+<title>Datos</title>
 <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
 <!-- Bootstrap icons-->
 <link rel="stylesheet" type="text/css"
@@ -28,58 +28,46 @@
 </head>
 <body id="page-top">
 	<!-- Navigation-->
-	<nav th:replace="index :: nav"
-		class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
-	</nav>
-	<!-- Mashead header-->
+	 <nav th:replace="index :: nav" class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+     </nav>
 	<header class="masthead">
 		<div class="container px-5">
-			<div class="row gx-5 align-items-center">
-				<div>
-					<h1 class="display-1 lh-1 mb-3" th:text="${titulo}"></h1>
+			<div class="row col-md-6">
+				<div class="offset-6">
+					<form th:action="@{/user/details/update}" th:object="${user}" method="POST">
+						<input type="hidden" th:field="*{id}" id="id">
+						<div class="mb-3">
+							<label class="form-label">Nombre </label> <input type="text"
+								class="form-control" th:field="*{nombre}" id="nombre">
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Apellidos </label> <input type="text"
+								class="form-control" th:field="*{apellidos}" id="apellidos">
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Teléfono </label> <input type="number"
+								class="form-control" th:field="*{telefono}" id="telefono">
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Empresa </label> <input type="text"
+								class="form-control" th:field=*{empresa} id="empresa">
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Email </label> <input type="email"
+								class="form-control" th:field=*{email} id="telefono">
+						</div>
+						<div class="mb-3">
+							<label class="form-label">Contraseña </label> <input type="password"
+								class="form-control" th:field="*{password}" id="password">
+						</div>
+						<input type="hidden" th:field="*{role}" id="role">
+						<button type="submit" class="btn btn-primary">Actualizar</button>
+					</form>
 				</div>
-				<div>
-					<a data-bs-toggle="modal"
-						th:attr="data-bs-target='#modalNoticia' + ${noticia.id}"
-						class="btn btn-success">Añadir</a>
-					<div th:replace="admin/modals/formNoticia :: modalNoticia"></div>
-				</div>
-				<table class="table">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col">ID</th>
-							<th scope="col">Titulo</th>
-							<th scope="col">Descripcion</th>
-							<th scope="col">Ciclo</th>
-							<th scope="col">Imagen</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="noticia : ${noticias}">
-							<th th:text="${noticia.id}"></th>
-							<th th:text="${noticia.titulo}"></th>
-							<th th:text="${noticia.descripcion}"></th>
-							<th th:text="${noticia.cicloID.nombre}"></th>
-							<th><img th:src="@{'/assets/img/' + ${noticia.imagen}}" width="100" height="100"/></th>
-							<th><a data-bs-toggle="modal"
-								th:attr="data-bs-target='#modalNoticia' + ${noticia.id}"
-								class="btn btn-warning">Editar</a>
-								<div th:replace="admin/modals/formNoticia :: modalNoticia"></div></th>
-							<th> <a
-								data-bs-toggle="modal"
-								th:attr="data-bs-target='#modalDeleteNoticia' + ${noticia.id}"
-								class="btn btn-danger">Eliminar</a>
-								<div th:replace="admin/modals/deleteNoticia :: modalDeleteNoticia">
-							</th>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</header>
-	<!-- Quote/testimonial aside-->
-	<!-- App features section-->
-
+	
 	<footer th:replace="index :: footer" class="footer bg-light">
 	</footer>
 	<script

@@ -11,6 +11,7 @@ public interface NoticiaService {
 	NoticiaModel transform(Noticia noticia);
 	Noticia addNoticia(NoticiaModel noticia);
 	Noticia updateNoticia(NoticiaModel noticia);
+	NoticiaModel findNoticiaById(int id);
 	int removeNoticia(int id);
 	List<NoticiaModel> listAllNoticias();
 }

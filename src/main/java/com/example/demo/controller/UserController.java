@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,8 @@ import com.example.demo.service.UsuarioService;
 @RequestMapping("/user")
 public class UserController {
 
-	private static final String FORM_VIEW = "user/datos";
+	private static final String FORM_ALUMNO_VIEW = "user/datosAlumno";
+	private static final String FORM_RRHH_VIEW = "user/datosRRHH";
 	private static final String NOTICIAS_VIEW = "user/noticias";
 
 	@Autowired
@@ -36,8 +38,11 @@ public class UserController {
 	
 	@Autowired 
 	private NoticiaService noticiaService;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
-	@GetMapping("/details/{id}")
+	@GetMapping("/details")
 	public String details(HttpSession session, Authentication auth,
 			@PathVariable(name = "id", required = false) Integer id, Model model) {
 
@@ -45,9 +50,16 @@ public class UserController {
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
 
-		model.addAttribute("user", usuarioService.findUserById(id));
-		model.addAttribute("ciclos", cicloService.listAllCiclos());
-		return FORM_VIEW;
+		if(usuario.getRole().equals("ROLE_ALUMNO")) {
+			model.addAttribute("user", usuario);
+			model.addAttribute("ciclos", cicloService.listAllCiclos());
+			return FORM_ALUMNO_VIEW;
+		}
+		else {
+			model.addAttribute("user", usuario);
+			return FORM_RRHH_VIEW;
+		}
+		
 	}
 
 	@PostMapping("/details/update")
@@ -57,15 +69,16 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("user", usuario);
 			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-			return FORM_VIEW;
 		} else {
 			usuario.setEnabled(true);
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			usuarioService.updateUser(usuarioService.transform(usuario));
 			flash.addFlashAttribute("mensaje", "Datos del usuario actualizados satisfactoriamente");
 		}
 
-		return "redirect:/user/details/" + usuario.getId();
+		return "redirect:/user/details/";
 	}
+	
 	
 	@GetMapping("/noticias")
 	public String showNoticias(Authentication auth, HttpSession session, Model model) {

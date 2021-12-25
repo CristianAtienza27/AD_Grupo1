@@ -30,12 +30,14 @@
 				<li th:if="${session.usuario!=null}" class="nav-item"><span>Bienvenido/a
 						<span class="font-italic" th:text="${session.usuario.nombre}"></span>
 				</span>&nbsp;</li>
-				<li><span th:if="${mensaje != null}" class="btn btn-success"><span
-						th:text="${mensaje}"></span></span> <span th:if="${fallo != null}"
-					class="btn btn-danger"><span th:text="${fallo}"></span></span></li>
+				<li>
+					<span th:if="${mensaje != null}" class="btn btn-success">
+					<span th:text="${mensaje}"></span></span> 
+					<span th:if="${fallo != null}" class="btn btn-danger"><span th:text="${fallo}"></span></span>
+				</li>
 				<ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-					<li class="nav-item dropdown" th:if="${session.usuario!=null}"><a
-						class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+					<li class="nav-item dropdown" th:if="${session.usuario!=null}">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
 						href="#" role="button" aria-expanded="false">Menu</a>
 						<ul class="dropdown-menu">
 							<li th:if="${session.usuario.role} == 'ROLE_ADMIN'"><a class="dropdown-item" th:href="@{/admin/alumnos}">Alumnos</a></li>

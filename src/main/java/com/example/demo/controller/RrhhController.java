@@ -55,16 +55,16 @@ public class RrhhController {
 			@PathVariable(name="id", required=false) Integer id,
 			Model model, RedirectAttributes flash,@RequestParam("fechamax") String date) {
 		
-//		if(bindingResult.hasErrors()) {
-//			
-//			String username = auth.getName();
-//			Usuario usuario = usuarioService.findUserByEmail(username);
-//			session.setAttribute("usuario", usuario);
-//
-//			model.addAttribute("ofertas",usuario.getRrhh());
-//			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-//			return "redirect:/rrhh/ofertas";
-//		}
+		if(bindingResult.hasErrors()) {
+			
+			String username = auth.getName();
+			Usuario usuario = usuarioService.findUserByEmail(username);
+			session.setAttribute("usuario", usuario);
+
+			model.addAttribute("ofertas",usuario.getRrhh());
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/rrhh/ofertas";
+		}
 		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
@@ -109,6 +109,7 @@ public class RrhhController {
 		
 		ofertaService.removeOferta(id);
 		flash.addFlashAttribute("mensaje","Oferta eliminada correctamente");
+		
 		if(usuario.getRole().equals("ROLE_ADMIN"))
 			return "redirect:/admin/ofertas";
 		else

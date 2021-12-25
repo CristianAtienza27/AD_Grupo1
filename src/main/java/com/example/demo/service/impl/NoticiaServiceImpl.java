@@ -56,4 +56,9 @@ public class NoticiaServiceImpl implements NoticiaService{
 		return 0;
 	}
 
+	@Override
+	public NoticiaModel findNoticiaById(int id) {
+		return transform(noticiaRepository.findById(id));
+	}
+
 }

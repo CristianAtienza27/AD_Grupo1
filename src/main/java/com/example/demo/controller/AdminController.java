@@ -29,6 +29,7 @@ import com.example.demo.service.NoticiaService;
 import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
 import com.example.demo.upload.FileController;
+import com.example.demo.upload.StorageException;
 import com.example.demo.upload.StorageService;
 
 @Controller
@@ -65,21 +66,6 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView(USERS_VIEW);
 		mav.addObject("titulo", "Alumnos");
 		mav.addObject("users", usuarioService.showAll("ROLE_ALUMNO"));
-				
-		return mav;
-	}
-	
-	@GetMapping("/noticias")
-	public ModelAndView showNoticias(HttpSession session, Authentication auth, Model model) {
-		String username = auth.getName();
-		Usuario usuario = usuarioService.findUserByEmail(username);
-		session.setAttribute("usuario", usuario);
-		
-		ModelAndView mav = new ModelAndView(NOTICIAS_VIEW);
-		mav.addObject("titulo", "Noticias");
-		mav.addObject("noticia", new Noticia());
-		mav.addObject("ciclos", cicloService.listAllCiclos());
-		mav.addObject("noticias", noticiaService.listAllNoticias());
 				
 		return mav;
 	}
@@ -132,7 +118,6 @@ public class AdminController {
 			flash.addFlashAttribute("mensaje", "Personal de RRHH añadido correctamente");
 		}
 		else {
-			usuario.setId(id);
 			usuarioService.updateUser(usuarioService.transform(usuario));
 			flash.addFlashAttribute("mensaje", "Personal de RRHH editado correctamente");
 		}
@@ -186,7 +171,6 @@ public class AdminController {
 			flash.addFlashAttribute("mensaje", "Ciclo añadido correctamente");
 		}
 		else {
-			ciclo.setId(id);
 			cicloService.updateCiclo(cicloService.transform(ciclo));
 			flash.addFlashAttribute("mensaje", "Ciclo editado correctamente");
 		}
@@ -203,35 +187,59 @@ public class AdminController {
 	
 	// 					NOTICIAS					//
 	
+	@GetMapping("/noticias")
+	public ModelAndView showNoticias(HttpSession session, Authentication auth, Model model) {
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		ModelAndView mav = new ModelAndView(NOTICIAS_VIEW);
+		mav.addObject("titulo", "Noticias");
+		mav.addObject("noticia", new Noticia());
+		mav.addObject("ciclos", cicloService.listAllCiclos());
+		mav.addObject("noticias", noticiaService.listAllNoticias());
+				
+		return mav;
+	}
+	
 	@PostMapping("/noticia/{id}")
-	public String addOrEdit(@Valid @ModelAttribute("noticia") Noticia noticia, 
+	public String addOrEditNoticia(@Valid @ModelAttribute("noticia") Noticia noticia, 
 			BindingResult bindingResult,
 			@PathVariable(name="id", required=false) Integer id,
 			Model model, RedirectAttributes flash,@RequestParam("imagen") MultipartFile file) {
 		
 //		if(bindingResult.hasErrors()) {
 //			
-//			model.addAttribute("noticias", noticiaService.showAll());
+//			model.addAttribute("noticias", noticiaService.listAllNoticias());
 //			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
 //			return "redirect:/admin/noticias";
 //		}
 		
+		String image = null;
+		String[] path = null;
+		
+		try {
+			image = storageService.store(file, noticia.getId());
+			path = MvcUriComponentsBuilder.fromMethodName(FileController.class, "serveFile", image).build().toUriString().split("/");
+		}
+		catch(StorageException exS) {
+			System.out.println(exS.getMessage());
+		}
+		
 		if(id == 0) {
-			
-			String image=storageService.store(file, noticia.getId());
-			String[] path = MvcUriComponentsBuilder.fromMethodName(FileController.class, "serveFile", image).build().toUriString().split("/");
-			
-			Noticia c = new Noticia();
-			c.setDescripcion(noticia.getDescripcion());
-			c.setTitulo(noticia.getTitulo());
-			c.setCicloID(noticia.getCicloID());
-			System.out.println(path[path.length-1]);
-			c.setImagen(path[path.length-1]);
-			noticiaService.addNoticia(noticiaService.transform(c));
+			noticia.setImagen(path != null ? (path[path.length-1]) : null);
+			noticiaService.addNoticia(noticiaService.transform(noticia));
 			flash.addFlashAttribute("mensaje", "Noticia añadida correctamente");
 		}
 		else {
-			noticia.setId(id);
+			
+			noticia.setImagen(path != null ? (path[path.length-1]) : null);
+			
+			if(noticia.getImagen() == null) {
+				Noticia noticiaOld = noticiaService.transform(noticiaService.findNoticiaById(id));
+				noticia.setImagen(noticiaOld.getImagen());
+			}
+			
 			noticiaService.updateNoticia(noticiaService.transform(noticia));
 			flash.addFlashAttribute("mensaje", "Noticia editada correctamente");
 		}
@@ -239,7 +247,14 @@ public class AdminController {
 		return "redirect:/admin/noticias";
 	}
 	
-	// OFERTAS //
+	@GetMapping("/noticia/delete/{id}")
+	public String deleteNoticia(@PathVariable(name="id") Integer id, RedirectAttributes flash) {
+		noticiaService.removeNoticia(id);
+		flash.addFlashAttribute("mensaje","Noticia eliminada correctamente");
+		return "redirect:/admin/noticias";
+	}
+	
+	// 					OFERTAS					//
 	
 	@GetMapping("/ofertas")
 	public String details(Authentication auth, HttpSession session,
@@ -254,6 +269,4 @@ public class AdminController {
 		return "rrhh/ofertas";
 	}
 	
-	
-
 }
