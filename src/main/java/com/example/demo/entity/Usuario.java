@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -68,6 +69,7 @@ public class Usuario {
 	private Ciclo cicloID;
 	
 	@OneToMany(mappedBy="rrhhid", orphanRemoval=true)
+	@OrderBy("fechamax ASC")
 	List <Oferta> rrhh = new ArrayList<>();
 
 	public Usuario(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,

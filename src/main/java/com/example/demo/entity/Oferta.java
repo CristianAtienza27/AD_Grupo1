@@ -40,7 +40,6 @@ public class Oferta {
 	private String requisitos;
 	
 	@Column(name="fechamax")
-	@NotNull(message="El campo fecha no puede ir vacío")
 	@Temporal(TemporalType.DATE)
 	private Date fechamax;
 	

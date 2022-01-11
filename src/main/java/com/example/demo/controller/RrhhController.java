@@ -46,6 +46,9 @@ public class RrhhController {
 
 		model.addAttribute("oferta",new Oferta());
 		model.addAttribute("ofertas",usuario.getRrhh());
+		
+		//TODO
+        
 		return "rrhh/ofertas";
 	}
 	
