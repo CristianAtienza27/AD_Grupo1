@@ -1,5 +1,13 @@
 package com.example.demo.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -14,12 +22,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Inscrito;
+import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.CicloService;
+import com.example.demo.service.InscritoService;
 import com.example.demo.service.NoticiaService;
+import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
 
 @Controller
@@ -29,6 +40,7 @@ public class UserController {
 	private static final String FORM_ALUMNO_VIEW = "user/datosAlumno";
 	private static final String FORM_RRHH_VIEW = "user/datosRRHH";
 	private static final String NOTICIAS_VIEW = "user/noticias";
+	private static final String OFERTAS_VIEW = "user/ofertas";
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -38,6 +50,12 @@ public class UserController {
 	
 	@Autowired 
 	private NoticiaService noticiaService;
+	
+	@Autowired 
+	private OfertaService ofertaService;
+	
+	@Autowired 
+	private InscritoService inscritoService;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -90,6 +108,61 @@ public class UserController {
 		model.addAttribute("noticias", cicloService.listAllNoticiasByCiclo(cicloService.transform(usuario.getCicloID())));
 
 		return NOTICIAS_VIEW;
+	}
+	
+	@GetMapping("/ofertas")
+	public String showOfertas(Authentication auth, HttpSession session, Model model) {
+		
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		List<Oferta> ofertas = ofertaService.showAll();
+		List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
+		for (int i = 0; i < inscrito.size(); i++) {
+			for (int j = 0; j < ofertas.size(); j++) {
+				if(inscrito.get(i).equals(ofertas.get(j))) {
+					ofertas.remove(j);
+				}
+			}
+		}
+		
+		for (Oferta inscrito2 : ofertas) {
+			System.out.println(inscrito2.toString());
+		}
+		
+		model.addAttribute("ofertas", ofertas);
+
+		return OFERTAS_VIEW;
+	}
+	
+	@PostMapping("/oferta/{idOferta}/{idUsuario}")
+	public String inscripcion(@PathVariable int idOferta,@PathVariable int idUsuario, Authentication auth, HttpSession session, Model model) {
+		
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		Calendar cal = new GregorianCalendar();
+		        
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String today=cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+1+"-"+cal.get(Calendar.DATE);
+		Date convertedCurrentDate = null;
+		try {
+			convertedCurrentDate = sdf.parse(today);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Inscrito inscrito = new Inscrito();
+		inscrito.setFecha_inscripcion(convertedCurrentDate);
+		inscrito.setIdAlumno(usuario);
+		inscrito.setIdOferta(ofertaService.findById(idOferta));
+		
+		inscritoService.addInscrito(inscritoService.transform(inscrito));
+
+		return "redirect:/user/ofertas";
 	}
 
 }

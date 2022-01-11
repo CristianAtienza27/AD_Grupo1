@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,16 +59,7 @@ public class RrhhController {
 			@PathVariable(name="id", required=false) Integer id,
 			Model model, RedirectAttributes flash,@RequestParam("fechamax") String date) {
 		
-		if(bindingResult.hasErrors()) {
-			
-			String username = auth.getName();
-			Usuario usuario = usuarioService.findUserByEmail(username);
-			session.setAttribute("usuario", usuario);
-
-			model.addAttribute("ofertas",usuario.getRrhh());
-			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-			return "redirect:/rrhh/ofertas";
-		}
+		
 		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
@@ -99,6 +91,26 @@ public class RrhhController {
 			ofertaService.updateOferta(ofertaService.transform(oferta));
 			flash.addFlashAttribute("mensaje", "Oferta editada correctamente");
 		}
+		
+		
+		try {
+			if(bindingResult.hasErrors()) {
+				
+				session.setAttribute("usuario", usuario);
+
+				model.addAttribute("ofertas",usuario.getRrhh());
+				flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/rrhh/ofertas";
+			}
+		}
+		catch(IllegalArgumentException e) {
+				System.out.println("Todo bien");
+		}
+		catch(ConversionFailedException e) {
+			System.out.println("Todo bien");
+		}
+			
+		
 		
 		return "redirect:/rrhh/ofertas";
 	}
