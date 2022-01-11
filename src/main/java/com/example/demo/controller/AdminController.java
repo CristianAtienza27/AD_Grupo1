@@ -1,5 +1,11 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -256,17 +262,70 @@ public class AdminController {
 	
 	// 					OFERTAS					//
 	
-	@GetMapping("/ofertas")
+	@GetMapping("/ofertas/{today}")
 	public String details(Authentication auth, HttpSession session,
+			@PathVariable(name = "id", required = false) Integer id, Model model,
+			@PathVariable(name="today",required=false) String fechaDeEntrada) {
+
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		List<Oferta> ofertasFinales = new ArrayList<Oferta>();
+		
+		Calendar fecha = new GregorianCalendar();
+
+		
+		String today=fecha.get(Calendar.YEAR)+"-"+fecha.get(Calendar.MONTH)+1+"-"+fecha.get(Calendar.DATE);
+
+//		System.out.println(fecha2.before(fecha));
+		System.out.println(fechaDeEntrada);
+		if(fechaDeEntrada==null) {
+			model.addAttribute("ofertas",ofertaService.showAll());
+		}else {
+			List<Oferta> ofertas = ofertaService.showAll();
+			for (Oferta oferta : ofertas) {
+				if(fecha.after(toCalendar(oferta.getFechamax()))){
+					ofertasFinales.add(oferta);
+				};
+			}
+			model.addAttribute("ofertas",ofertasFinales);
+		}
+		
+		for (Oferta oferta : ofertasFinales) {
+			System.out.println(oferta.toString());
+		}
+		
+		model.addAttribute("today",today);
+		model.addAttribute("oferta",new Oferta());
+		return "rrhh/ofertas";
+	}
+	
+	@GetMapping("/ofertas")
+	public String details2(Authentication auth, HttpSession session,
 			@PathVariable(name = "id", required = false) Integer id, Model model) {
 
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
+		
+		Calendar fecha = new GregorianCalendar();
 
+		
+		String today=fecha.get(Calendar.YEAR)+"-"+fecha.get(Calendar.MONTH)+1+"-"+fecha.get(Calendar.DATE);
+
+//		System.out.println(fecha2.before(fecha));
+		
+		model.addAttribute("today",today);
 		model.addAttribute("oferta",new Oferta());
 		model.addAttribute("ofertas",ofertaService.showAll());
 		return "rrhh/ofertas";
+	}
+	
+	public static Calendar toCalendar(Date date){ 
+		  Calendar cal = Calendar.getInstance();
+		  cal.setTime(date);
+		  return cal;
 	}
 	
 }
