@@ -36,6 +36,9 @@ public class Ciclo {
 	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
 	List <Noticia> noticias = new ArrayList<>();
 	
+	@OneToMany(mappedBy="cicloid", orphanRemoval=true)
+	List <Oferta> ofertas = new ArrayList<>();
+	
 	public Ciclo(int id, String nombre, String tipo) {
 		super();
 		this.id = id;
