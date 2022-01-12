@@ -61,35 +61,19 @@ public class RrhhController {
 		
 		System.out.println(date);
 		
-		if(bindingResult.hasErrors()) {
-			
-			String username = auth.getName();
-			Usuario usuario = usuarioService.findUserByEmail(username);
-			session.setAttribute("usuario", usuario);
-
-			model.addAttribute("ofertas",usuario.getRrhh());
-			System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
-			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-			return "redirect:/rrhh/ofertas";
-		}
-		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
 
 		model.addAttribute("ofertas",usuario.getRrhh());
 		
-		
-//		Date date1=null;
-//		try {
-//			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-//			oferta.setFechamax(date1);
-//			
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}  
-		
+		if(bindingResult.hasErrors()) {
+
+			model.addAttribute("ofertas",usuario.getRrhh());
+			System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/rrhh/ofertas";
+		}
 		
 		if(id == 0) {
 			oferta.setId(id);
@@ -99,12 +83,16 @@ public class RrhhController {
 		}
 		else {
 			Oferta o = ofertaService.findById(oferta.getId());
+			System.out.println(o.getRrhhid());
 			oferta.setRrhhid(o.getRrhhid());
 			ofertaService.updateOferta(ofertaService.transform(oferta));
 			flash.addFlashAttribute("mensaje", "Oferta editada correctamente");
 		}
 		
-		return "redirect:/rrhh/ofertas";
+		if(usuario.getRole().equals("ROLE_ADMIN"))
+			return "redirect:/admin/ofertas";
+		else
+			return "redirect:/rrhh/ofertas";
 	}
 	
 	@GetMapping("/ofertas/delete/{id}")
