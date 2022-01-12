@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionFailedException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,9 +57,21 @@ public class RrhhController {
 	public String AddOrEditOferta(Authentication auth, HttpSession session,@Valid @ModelAttribute("oferta") Oferta oferta, 
 			BindingResult bindingResult,
 			@PathVariable(name="id", required=false) Integer id,
-			Model model, RedirectAttributes flash,@RequestParam("fechamax") String date) {
+			Model model, RedirectAttributes flash,@RequestParam("fechamax") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		
+		System.out.println(date);
 		
+		if(bindingResult.hasErrors()) {
+			
+			String username = auth.getName();
+			Usuario usuario = usuarioService.findUserByEmail(username);
+			session.setAttribute("usuario", usuario);
+
+			model.addAttribute("ofertas",usuario.getRrhh());
+			System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/rrhh/ofertas";
+		}
 		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
@@ -68,15 +80,15 @@ public class RrhhController {
 		model.addAttribute("ofertas",usuario.getRrhh());
 		
 		
-		Date date1=null;
-		try {
-			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-			oferta.setFechamax(date1);
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
+//		Date date1=null;
+//		try {
+//			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+//			oferta.setFechamax(date1);
+//			
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}  
 		
 		
 		if(id == 0) {
@@ -91,26 +103,6 @@ public class RrhhController {
 			ofertaService.updateOferta(ofertaService.transform(oferta));
 			flash.addFlashAttribute("mensaje", "Oferta editada correctamente");
 		}
-		
-		
-		try {
-			if(bindingResult.hasErrors()) {
-				
-				session.setAttribute("usuario", usuario);
-
-				model.addAttribute("ofertas",usuario.getRrhh());
-				flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-			return "redirect:/rrhh/ofertas";
-			}
-		}
-		catch(IllegalArgumentException e) {
-				System.out.println("Todo bien");
-		}
-		catch(ConversionFailedException e) {
-			System.out.println("Todo bien");
-		}
-			
-		
 		
 		return "redirect:/rrhh/ofertas";
 	}

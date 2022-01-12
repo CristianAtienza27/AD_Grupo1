@@ -16,6 +16,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Oferta {
 	@Id
@@ -41,17 +43,30 @@ public class Oferta {
 	
 	@Column(name="fechamax")
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechamax;
 	
 	@Column(name="numCandidatos")
 	@NotNull(message="El campo número de candidatos no puede ir vacío")
 	private int numCandidatos;
-	
+	 
 	@ManyToOne
 	@JoinColumn(name="rrhhid")
 	private Usuario rrhhid;
 	
+	@ManyToOne
+	@JoinColumn(name="cicloid")
+	private Ciclo cicloid;
 
+	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax) {
+		super();
+		this.id = id;
+		this.titular = titular;
+		this.descripcion = descripcion;
+		this.requisitos = requisitos;
+		this.fechamax = fechamax;
+	}
+	
 	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax, Usuario rrhhid) {
 		super();
 		this.id = id;
