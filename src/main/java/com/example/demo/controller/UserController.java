@@ -121,7 +121,7 @@ public class UserController {
 		List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
 		for (int i = 0; i < inscrito.size(); i++) {
 			for (int j = 0; j < ofertas.size(); j++) {
-				if(inscrito.get(i).equals(ofertas.get(j))) {
+				if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
 					ofertas.remove(j);
 				}
 			}
