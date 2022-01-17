@@ -131,17 +131,23 @@ public class UserController {
 			ofertas = ofertaService.listAllOfertasByCiclo(ciclo);
 			model.addAttribute("filtro", ciclo.getNombre());
 		}
-		
-//		List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
-//		
-		//Falla
-//		for (int i = 0; i < inscrito.size(); i++) {
-//			for (int j = 0; j < ofertas.size(); j++) {
-//				if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
-//					ofertas.remove(j);
-//				}
-//			}
-//		}
+				
+		try 
+		{
+			
+			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
+			
+			for (int i = 0; i < inscrito.size(); i++) {
+				for (int j = 0; j < ofertas.size(); j++) {
+					if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
+						ofertas.remove(j);
+					}
+				}
+			}
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
 		model.addAttribute("ciclos", cicloService.listAllCiclos());
 		model.addAttribute("ofertas", ofertas);
