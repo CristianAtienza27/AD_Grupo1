@@ -98,7 +98,6 @@ public class UserController {
 		return "redirect:/user/details/";
 	}
 	
-	
 	@GetMapping("/noticias")
 	public String showNoticias(Authentication auth, HttpSession session, Model model) {
 		
@@ -129,7 +128,7 @@ public class UserController {
 		}
 		else {
 			ciclo = cicloService.transform(cicloService.findCicloById(id));
-			ofertas = ofertaService.findByCiclo(ciclo);
+			ofertas = ofertaService.listAllOfertasByCiclo(ciclo);
 			model.addAttribute("filtro", ciclo.getNombre());
 		}
 		

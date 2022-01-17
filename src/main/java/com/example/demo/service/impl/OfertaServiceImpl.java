@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Oferta;
 import com.example.demo.models.CicloModel;
 import com.example.demo.models.OfertaModel;
+import com.example.demo.models.UsuarioModel;
 import com.example.demo.repository.OfertaRepository;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.OfertaService;
+import com.example.demo.service.UsuarioService;
 
 @Service
 public class OfertaServiceImpl implements OfertaService{
@@ -21,6 +23,9 @@ public class OfertaServiceImpl implements OfertaService{
 	
 	@Autowired
 	private CicloService cicloService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@Override
 	public Oferta transform(OfertaModel ofertaModel) {
@@ -61,8 +66,18 @@ public class OfertaServiceImpl implements OfertaService{
 	}
 
 	@Override
-	public List<Oferta> findByCiclo(CicloModel ciclo) {
+	public List<Oferta> listAllOfertasByCiclo(CicloModel ciclo) {
 		return ofertaRepository.findByCicloid(cicloService.transform(ciclo));
 	}
+
+	@Override
+	public List<Oferta> listAllOfertasByRrhh(UsuarioModel rrhh) {
+		return ofertaRepository.findByRrhhid(usuarioService.transform(rrhh));
+	}
+
+//	@Override
+//	public List<Oferta> findByCiclo(CicloModel ciclo) {
+//		return ofertaRepository.findByCicloid(cicloService.transform(ciclo));
+//	}
 
 }

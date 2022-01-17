@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
+import com.example.demo.service.CicloService;
 import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
 
@@ -37,6 +36,9 @@ public class RrhhController {
 	@Autowired
 	private OfertaService ofertaService;
 	
+	@Autowired
+	private CicloService cicloService;
+	
 	@GetMapping("/ofertas")
 	public String details(Authentication auth, HttpSession session,
 			@PathVariable(name = "id", required = false) Integer id, Model model) {
@@ -44,9 +46,10 @@ public class RrhhController {
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
-
+		
+		model.addAttribute("ciclos", cicloService.listAllCiclos());
 		model.addAttribute("oferta",new Oferta());
-		model.addAttribute("ofertas",usuario.getRrhh());
+		model.addAttribute("ofertas",ofertaService.listAllOfertasByRrhh(usuarioService.transform(usuario)));
 		model.addAttribute("rrhh", usuarioService.findByRole("ROLE_RRHH"));
         
 		return "rrhh/ofertas";
