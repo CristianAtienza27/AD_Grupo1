@@ -12,7 +12,7 @@
 			<div class="modal-body border-0 p-4">
 
 				<form class="form-subscribe" method="POST"
-					th:action="@{/rrhh/ofertas/} + ${oferta.id}" th:object="${oferta}">
+					th:action="@{/admin/ofertas/} + ${oferta.id}" th:object="${oferta}">
 					<!-- Email address input-->
 					<div class="row">
 						<div class="col">
@@ -42,8 +42,19 @@
 								th:value="${oferta.fechamax}" type="date" placeholder="Fecha Max" name="fechamax" /> <small
 								class="form-text text-danger"
 								th:if="${#fields.hasErrors('fechamax')}" th:value="2000-02-02" th:errors="fechamax"></small>
-							<input class="form-control form-control-lg" id="rrhhid"
-								th:value="${oferta.rrhhid}" type="hidden" name="rrhhid" />
+							<select class="form-select" aria-label="Default select example" name="rrhhid">
+<!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
+							<div th:each="p : ${rrhh}">
+								<option th:text="${p.nombre} + ' ' + ${p.apellidos}" th:value="${p.id}"></option>
+							</div>
+						</select>
+						
+						<select class="form-select" aria-label="Default select example" name="cicloid">
+<!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
+							<div th:each="ciclo : ${ciclos}">
+								<option th:text="${ciclo.nombre}" th:value="${ciclo.id}"></option>
+							</div>
+						</select>
 							<br>
 							<button class="btn btn-primary btn-lg" id="submitButton"
 								type="submit"

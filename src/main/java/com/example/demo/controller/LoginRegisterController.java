@@ -82,10 +82,7 @@ public class LoginRegisterController {
 			flash.addFlashAttribute("fallo","Ese email ya está registrado");
 			return "redirect:/auth/register";
 		}
-			
-		
-		
-		
+
 		
 	}
 

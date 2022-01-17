@@ -21,41 +21,41 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Oferta {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	@Column(name="titular", length=60)
+
+	@Column(name = "titular", length = 60)
 	@NotNull
-	@NotEmpty(message="El campo titular no puede ir vacío")
-	@Size(min=3, max=60, message="El campo titular debe tener entre 3 y 60 caracteres")
+	@NotEmpty(message = "El campo titular no puede ir vacío")
+	@Size(min = 3, max = 60, message = "El campo titular debe tener entre 3 y 60 caracteres")
 	private String titular;
-	
-	@Column(name="descripcion", length=255)
+
+	@Column(name = "descripcion", length = 255)
 	@NotNull
-	@NotEmpty(message="El campo descripción no puede ir vacío")
-	@Size(min=3, max=255, message="El campo descripción debe tener entre 3 y 255 caracteres")
+	@NotEmpty(message = "El campo descripción no puede ir vacío")
+	@Size(min = 3, max = 255, message = "El campo descripción debe tener entre 3 y 255 caracteres")
 	private String descripcion;
-	
-	@Column(name="requisitos")
+
+	@Column(name = "requisitos")
 	@Lob
-	@NotEmpty(message="El campo requisitos no puede ir vacío")
+	@NotEmpty(message = "El campo requisitos no puede ir vacío")
 	private String requisitos;
-	
-	@Column(name="fechamax")
+
+	@Column(name = "fechamax")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechamax;
-	
-	@Column(name="numCandidatos")
-	@NotNull(message="El campo número de candidatos no puede ir vacío")
+
+	@Column(name = "numCandidatos")
+	@NotNull(message = "El campo número de candidatos no puede ir vacío")
 	private int numCandidatos;
-	 
+
 	@ManyToOne
-	@JoinColumn(name="rrhhid")
+	@JoinColumn(name = "rrhhid")
 	private Usuario rrhhid;
-	
+
 	@ManyToOne
-	@JoinColumn(name="cicloid")
+	@JoinColumn(name = "cicloid")
 	private Ciclo cicloid;
 
 	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax) {
@@ -66,7 +66,7 @@ public class Oferta {
 		this.requisitos = requisitos;
 		this.fechamax = fechamax;
 	}
-	
+
 	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax, Usuario rrhhid) {
 		super();
 		this.id = id;
@@ -76,7 +76,20 @@ public class Oferta {
 		this.fechamax = fechamax;
 		this.rrhhid = rrhhid;
 	}
-	
+
+	public Oferta(int id, String titular, String descripcion, String requisitos, Date fechamax, int numCandidatos,
+			Usuario rrhhid, Ciclo cicloid) {
+		super();
+		this.id = id;
+		this.titular = titular;
+		this.descripcion = descripcion;
+		this.requisitos = requisitos;
+		this.fechamax = fechamax;
+		this.numCandidatos = numCandidatos;
+		this.rrhhid = rrhhid;
+		this.cicloid = cicloid;
+	}
+
 	public Oferta() {
 		super();
 	}
@@ -120,7 +133,7 @@ public class Oferta {
 	public void setFechamax(Date fechamax) {
 		this.fechamax = fechamax;
 	}
-	
+
 	public int getNumCandidatos() {
 		return numCandidatos;
 	}
@@ -136,6 +149,13 @@ public class Oferta {
 	public void setRrhhid(Usuario rrhhid) {
 		this.rrhhid = rrhhid;
 	}
-	
-	
+
+	public Ciclo getCicloid() {
+		return cicloid;
+	}
+
+	public void setCicloid(Ciclo cicloid) {
+		this.cicloid = cicloid;
+	}
+
 }

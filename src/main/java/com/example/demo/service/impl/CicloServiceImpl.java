@@ -58,8 +58,8 @@ public class CicloServiceImpl implements CicloService{
 	}
 
 	@Override
-	public CicloModel findCicloById(int id) {
-		return transform(cicloRepository.findById(id).orElse(null));
+	public Ciclo findCicloById(int id) {
+		return cicloRepository.findById(id).orElse(null);
 	}
 
 	@Override

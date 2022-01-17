@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -22,11 +21,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Inscrito;
 import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
+import com.example.demo.models.CicloModel;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.InscritoService;
 import com.example.demo.service.NoticiaService;
@@ -110,31 +111,45 @@ public class UserController {
 		return NOTICIAS_VIEW;
 	}
 	
-	@GetMapping("/ofertas")
-	public String showOfertas(Authentication auth, HttpSession session, Model model) {
+	@GetMapping({"/ofertas","/ofertas/ciclo{id}"})
+	public String showOfertas(@PathVariable(name="id",required=false) Integer id,
+			Authentication auth, HttpSession session, Model model) {
 		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
 		
-		List<Oferta> ofertas = ofertaService.showAll();
-		List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
-		for (int i = 0; i < inscrito.size(); i++) {
-			for (int j = 0; j < ofertas.size(); j++) {
-				if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
-					ofertas.remove(j);
-				}
-			}
+		List<Oferta> ofertas = null;
+		CicloModel ciclo = null;
+		
+		if(id == null)
+		{
+			ofertas = ofertaService.showAll();
+			model.addAttribute("filtro", "Mostrar todas");
+		}
+		else {
+			ciclo = cicloService.transform(cicloService.findCicloById(id));
+			ofertas = ofertaService.findByCiclo(ciclo);
+			model.addAttribute("filtro", ciclo.getNombre());
 		}
 		
-		for (Oferta inscrito2 : ofertas) {
-			System.out.println(inscrito2.toString());
-		}
+//		List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
+//		
+		//Falla
+//		for (int i = 0; i < inscrito.size(); i++) {
+//			for (int j = 0; j < ofertas.size(); j++) {
+//				if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
+//					ofertas.remove(j);
+//				}
+//			}
+//		}
 		
+		model.addAttribute("ciclos", cicloService.listAllCiclos());
 		model.addAttribute("ofertas", ofertas);
 
 		return OFERTAS_VIEW;
 	}
+	
 	
 	@PostMapping("/oferta/{idOferta}/{idUsuario}")
 	public String inscripcion(@PathVariable int idOferta,@PathVariable int idUsuario, Authentication auth, HttpSession session, Model model) {
@@ -148,6 +163,7 @@ public class UserController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String today=cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+1+"-"+cal.get(Calendar.DATE);
 		Date convertedCurrentDate = null;
+		
 		try {
 			convertedCurrentDate = sdf.parse(today);
 		} catch (ParseException e) {

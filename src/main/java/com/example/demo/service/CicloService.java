@@ -9,7 +9,7 @@ import com.example.demo.models.NoticiaModel;
 public interface CicloService {
 	Ciclo transform(CicloModel cicloModel);
 	CicloModel transform(Ciclo ciclo);
-	CicloModel findCicloById(int id);
+	Ciclo findCicloById(int id);
 	List<CicloModel> listAllCiclos();
 	List<NoticiaModel> listAllNoticiasByCiclo(CicloModel ciclo);
 	Ciclo addCiclo(CicloModel cicloModel);

@@ -98,6 +98,15 @@ public class Ciclo {
 	public void setNoticias(List<Noticia> noticias) {
 		this.noticias = noticias;
 	}
+	
+
+	public List<Oferta> getOfertas() {
+		return ofertas;
+	}
+
+	public void setOfertas(List<Oferta> ofertas) {
+		this.ofertas = ofertas;
+	}
 
 	@Override
 	public String toString() {

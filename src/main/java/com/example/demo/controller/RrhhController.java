@@ -47,8 +47,7 @@ public class RrhhController {
 
 		model.addAttribute("oferta",new Oferta());
 		model.addAttribute("ofertas",usuario.getRrhh());
-		
-		//TODO
+		model.addAttribute("rrhh", usuarioService.findByRole("ROLE_RRHH"));
         
 		return "rrhh/ofertas";
 	}
@@ -78,18 +77,6 @@ public class RrhhController {
 		session.setAttribute("usuario", usuario);
 
 		model.addAttribute("ofertas",usuario.getRrhh());
-		
-		
-//		Date date1=null;
-//		try {
-//			date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-//			oferta.setFechamax(date1);
-//			
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}  
-		
 		
 		if(id == 0) {
 			oferta.setId(id);

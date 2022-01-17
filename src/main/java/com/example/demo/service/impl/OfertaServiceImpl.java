@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Oferta;
+import com.example.demo.models.CicloModel;
 import com.example.demo.models.OfertaModel;
 import com.example.demo.repository.OfertaRepository;
+import com.example.demo.service.CicloService;
 import com.example.demo.service.OfertaService;
 
 @Service
@@ -16,6 +18,9 @@ public class OfertaServiceImpl implements OfertaService{
 	
 	@Autowired
 	private OfertaRepository ofertaRepository;
+	
+	@Autowired
+	private CicloService cicloService;
 
 	@Override
 	public Oferta transform(OfertaModel ofertaModel) {
@@ -53,6 +58,11 @@ public class OfertaServiceImpl implements OfertaService{
 	@Override
 	public List<Oferta> showAll() {
 		return ofertaRepository.findAll();
+	}
+
+	@Override
+	public List<Oferta> findByCiclo(CicloModel ciclo) {
+		return ofertaRepository.findByCicloid(cicloService.transform(ciclo));
 	}
 
 }

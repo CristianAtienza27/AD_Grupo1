@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -214,12 +215,12 @@ public class AdminController {
 			@PathVariable(name="id", required=false) Integer id,
 			Model model, RedirectAttributes flash,@RequestParam("imagen") MultipartFile file) {
 		
-//		if(bindingResult.hasErrors()) {
-//			
-//			model.addAttribute("noticias", noticiaService.listAllNoticias());
-//			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-//			return "redirect:/admin/noticias";
-//		}
+		if(bindingResult.hasErrors()) {
+			
+			model.addAttribute("noticias", noticiaService.listAllNoticias());
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/admin/noticias";
+		}
 		
 		String image = null;
 		String[] path = null;
@@ -262,7 +263,7 @@ public class AdminController {
 	
 	// 					OFERTAS					//
 	
-	@GetMapping("/ofertas/{today}")
+	@GetMapping({"/ofertas","/ofertas/{today}"})
 	public String details(Authentication auth, HttpSession session,
 			@PathVariable(name = "id", required = false) Integer id, Model model,
 			@PathVariable(name="today",required=false) String fechaDeEntrada) {
@@ -274,21 +275,22 @@ public class AdminController {
 		List<Oferta> ofertasFinales = new ArrayList<Oferta>();
 		
 		Calendar fecha = new GregorianCalendar();
-
 		
 		String today=fecha.get(Calendar.YEAR)+"-"+fecha.get(Calendar.MONTH)+1+"-"+fecha.get(Calendar.DATE);
-
-//		System.out.println(fecha2.before(fecha));
-		System.out.println(fechaDeEntrada);
+		System.out.println("Fecha de hoy " + today);
+		
 		if(fechaDeEntrada==null) {
 			model.addAttribute("ofertas",ofertaService.showAll());
+			System.out.println("sin Fecha de entrada");
 		}else {
 			List<Oferta> ofertas = ofertaService.showAll();
 			for (Oferta oferta : ofertas) {
-				if(fecha.after(toCalendar(oferta.getFechamax()))){
+				if(fecha.before(toCalendar(oferta.getFechamax()))){
 					ofertasFinales.add(oferta);
+					System.out.println("Fecha oferta " + oferta.getFechamax());
 				};
 			}
+			System.out.println("con Fecha de entrada");
 			model.addAttribute("ofertas",ofertasFinales);
 		}
 		
@@ -296,32 +298,71 @@ public class AdminController {
 			System.out.println(oferta.toString());
 		}
 		
+		model.addAttribute("rrhh", usuarioService.showAll("ROLE_RRHH"));
+		model.addAttribute("ciclos", cicloService.listAllCiclos());
 		model.addAttribute("today",today);
 		model.addAttribute("oferta",new Oferta());
-		return "rrhh/ofertas";
+		return "admin/ofertas";
+		
 	}
 	
-	@GetMapping("/ofertas")
-	public String details2(Authentication auth, HttpSession session,
-			@PathVariable(name = "id", required = false) Integer id, Model model) {
-
+	@PostMapping({"/ofertas/{id}"})
+	public String AddOrEditOferta(Authentication auth, HttpSession session,@Valid @ModelAttribute("oferta") Oferta oferta, 
+			BindingResult bindingResult,
+			@PathVariable(name="id", required=false) Integer id,
+			Model model, RedirectAttributes flash,@RequestParam("fechamax") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		
+		System.out.println(date);
+		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
 		
-		Calendar fecha = new GregorianCalendar();
+		if(bindingResult.hasErrors()) {
 
-		
-		String today=fecha.get(Calendar.YEAR)+"-"+fecha.get(Calendar.MONTH)+1+"-"+fecha.get(Calendar.DATE);
+			model.addAttribute("ofertas",usuario.getRrhh());
+			System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "redirect:/admin/ofertas";
+		}
 
-//		System.out.println(fecha2.before(fecha));
+		oferta.setRrhhid(usuario);
+		model.addAttribute("ofertas",usuario.getRrhh());
 		
-		model.addAttribute("today",today);
-		model.addAttribute("oferta",new Oferta());
-		model.addAttribute("ofertas",ofertaService.showAll());
-		return "rrhh/ofertas";
+		if(id == 0) {
+			ofertaService.addOferta(ofertaService.transform(oferta));
+			flash.addFlashAttribute("mensaje", "Oferta añadida correctamente");
+		}
+		else {
+			ofertaService.updateOferta(ofertaService.transform(oferta));
+			flash.addFlashAttribute("mensaje", "Oferta editada correctamente");
+		}
+		
+		return "redirect:/admin/ofertas";
 	}
 	
+	
+//	@GetMapping("/ofertas")
+//	public String details2(Authentication auth, HttpSession session,
+//			@PathVariable(name = "id", required = false) Integer id, Model model) {
+//
+//		String username = auth.getName();
+//		Usuario usuario = usuarioService.findUserByEmail(username);
+//		session.setAttribute("usuario", usuario);
+//		
+//		Calendar fecha = new GregorianCalendar();
+//
+//		
+//		String today=fecha.get(Calendar.YEAR)+"-"+fecha.get(Calendar.MONTH)+1+"-"+fecha.get(Calendar.DATE);
+//
+////		System.out.println(fecha2.before(fecha));
+//		
+//		model.addAttribute("today",today);
+//		model.addAttribute("oferta",new Oferta());
+//		model.addAttribute("ofertas",ofertaService.showAll());
+//		return "rrhh/ofertas";
+//	}
+//	
 	public static Calendar toCalendar(Date date){ 
 		  Calendar cal = Calendar.getInstance();
 		  cal.setTime(date);
