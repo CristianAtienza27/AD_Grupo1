@@ -190,22 +190,5 @@ public class Usuario {
 	public void setRrhh(List<Oferta> rrhh) {
 		this.rrhh = rrhh;
 	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono
-				+ ", enabled=" + enabled + ", email=" + email + ", password=" + password + ", role=" + role
-				+ ", empresa=" + empresa + ", cicloID=" + cicloID + ", rrhh=" + rrhh + "]";
-	}
-
-//	@Override
-//	public String toString() {
-//		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", cicloID=" + cicloID + "]";
-//	}
-	
-	
-	
-	
-	
 	
 }
