@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Inscrito;
@@ -42,6 +42,7 @@ public class UserController {
 	private static final String FORM_RRHH_VIEW = "user/datosRRHH";
 	private static final String NOTICIAS_VIEW = "user/noticias";
 	private static final String OFERTAS_VIEW = "user/ofertas";
+	private static final String MY_OFERTAS_VIEW = "user/misOfertas";
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -120,22 +121,34 @@ public class UserController {
 		try 
 		{
 			
-			List<Inscrito> inscrito = inscritoService.listAllOfertasByAlumno(usuario);
+//			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
+			List<Oferta> ofertas = new ArrayList<>();
 			
-			for (Inscrito inscrito2 : inscrito) {
-				System.out.println(inscrito2.getId() + " " + inscrito2.getIdAlumno());
-			}
+			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
+			
 //			for (int i = 0; i < inscrito.size(); i++) {
 //				for (int j = 0; j < ofertas.size(); j++) {
-//					if(!inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
+//					if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
 //						ofertas.remove(j);
 //					}
 //				}
 //			}
 			
+			for (Inscrito inscrito2 : inscrito) {
+				ofertas.add(inscrito2.getIdOferta());
+			}
+			
+//			for (Inscrito inscrito2 : inscrito) {
+//				System.out.println(inscrito2.getId() + " " + inscrito2.getIdAlumno());
+//			}
+			model.addAttribute("titulo", "Mis Ofertas");
+			model.addAttribute("ofertas", ofertas);
+			
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		return MY_OFERTAS_VIEW;
 	}
 	
 	@GetMapping({"/ofertas","/ofertas/ciclo{id}"})
@@ -163,7 +176,7 @@ public class UserController {
 		try 
 		{
 			
-			List<Inscrito> inscrito = inscritoService.listAllOfertasByAlumno(usuario);
+			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
 			
 			for (int i = 0; i < inscrito.size(); i++) {
 				for (int j = 0; j < ofertas.size(); j++) {
