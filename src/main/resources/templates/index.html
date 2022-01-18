@@ -60,6 +60,7 @@ footer {
 						</ul>
 						<ul th:if="${session.usuario.role} == 'ROLE_ALUMNO'" class="dropdown-menu">
 							<li><a class="dropdown-item" th:href="@{/user/details}">Perfil</a></li>
+							<li><a class="dropdown-item" th:href="@{/user/MisOfertas}">Mis Ofertas</a></li>
 							<li><a class="dropdown-item" th:href="@{/user/noticias}">Noticias</a></li>
 							<li><a class="dropdown-item" th:href="@{/user/ofertas}">Ofertas</a></li>
 						</ul>
