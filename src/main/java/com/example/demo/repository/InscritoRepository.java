@@ -13,6 +13,6 @@ import com.example.demo.entity.Usuario;
 public interface InscritoRepository extends JpaRepository<Inscrito, Long>{
 	public Inscrito findById(int id);
 	//public Inscrito findByFecha_inscripcion(Date date);
-	public List<Inscrito> findByidAlumno(Usuario alumnoId);
+	public List<Inscrito> findByidAlumno(Usuario alumno);
 	public Collection<Inscrito> findByidOferta(int ofertaId);
 }
