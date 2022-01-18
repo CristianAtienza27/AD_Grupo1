@@ -63,11 +63,6 @@
 											<p th:text="${oferta.requisitos}"></p>
 											<p th:text="'Numero de candidatos: '+${oferta.numCandidatos}"></p>
 											<p th:text="'Ciclo: ' +${oferta.cicloid.nombre}"></p>
-											<form
-												th:action="@{'/user/oferta/'+${oferta.id}+'/'+${session.usuario.id}}"
-												method="POST">
-												<button type="submit" class="btn btn-primary">Inscribirse</button>
-											</form>
 										</div>
 									</div>
 								</div>
