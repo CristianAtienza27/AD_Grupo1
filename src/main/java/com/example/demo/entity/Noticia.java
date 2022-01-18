@@ -15,6 +15,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Noticia {
 	
@@ -39,27 +41,25 @@ public class Noticia {
 	
 	@Column(name="fecha_creacion")
 	@Temporal(TemporalType.DATE)
-	@NotNull(message="El campo fecha de creacion no puede ser nulo")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fecha_creacion;
 	
 	@ManyToOne
 	@JoinColumn(name="cicloID")
 	private Ciclo cicloID;
 	
-	public Noticia(int id, String titulo,String descripcion,String imagen) {
-		super();
-		this.id = id;
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.imagen = imagen;
-	}
 
-	public Noticia(int id, String titulo, String descripcion, String imagen, Ciclo cicloID) {
+	public Noticia(int id,
+			@NotNull @NotEmpty(message = "El campo título no puede ir vacío") @Size(min = 3, max = 50, message = "El campo título debe tener entre 3 y 50 caracteres") String titulo,
+			@NotNull @NotEmpty(message = "El campo descripción no puede ir vacío") @Size(min = 3, max = 255, message = "El campo descripción debe tener entre 3 y 255 caracteres") String descripcion,
+			String imagen, @NotNull(message = "El campo fecha de creacion no puede ser nulo") Date fecha_creacion,
+			Ciclo cicloID) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.imagen = imagen;
+		this.fecha_creacion = fecha_creacion;
 		this.cicloID = cicloID;
 	}
 
@@ -106,5 +106,15 @@ public class Noticia {
 	public void setCicloID(Ciclo cicloID) {
 		this.cicloID = cicloID;
 	}
+
+	public Date getFecha_creacion() {
+		return fecha_creacion;
+	}
+
+	public void setFecha_creacion(Date fecha_creacion) {
+		this.fecha_creacion = fecha_creacion;
+	}
+	
+	
 	
 }
