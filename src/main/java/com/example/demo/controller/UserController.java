@@ -110,6 +110,34 @@ public class UserController {
 		return NOTICIAS_VIEW;
 	}
 	
+	@GetMapping("/MisOfertas")
+	public String showMyOfertas(Authentication auth, HttpSession session, Model model) {
+		
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		try 
+		{
+			
+			List<Inscrito> inscrito = inscritoService.listAllOfertasByAlumno(usuario);
+			
+			for (Inscrito inscrito2 : inscrito) {
+				System.out.println(inscrito2.getId() + " " + inscrito2.getIdAlumno());
+			}
+//			for (int i = 0; i < inscrito.size(); i++) {
+//				for (int j = 0; j < ofertas.size(); j++) {
+//					if(!inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
+//						ofertas.remove(j);
+//					}
+//				}
+//			}
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	@GetMapping({"/ofertas","/ofertas/ciclo{id}"})
 	public String showOfertas(@PathVariable(name="id",required=false) Integer id,
 			Authentication auth, HttpSession session, Model model) {
@@ -135,7 +163,7 @@ public class UserController {
 		try 
 		{
 			
-			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
+			List<Inscrito> inscrito = inscritoService.listAllOfertasByAlumno(usuario);
 			
 			for (int i = 0; i < inscrito.size(); i++) {
 				for (int j = 0; j < ofertas.size(); j++) {

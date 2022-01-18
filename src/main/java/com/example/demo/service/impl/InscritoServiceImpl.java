@@ -39,8 +39,7 @@ public class InscritoServiceImpl implements InscritoService{
 	}
 
 	@Override
-	public List<Inscrito> findByidAlumno(Usuario id) {
-		// TODO Auto-generated method stub
+	public List<Inscrito> listAllOfertasByAlumno(Usuario id) {
 		return inscritoRepository.findByidAlumno(id);
 	}
 
