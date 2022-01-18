@@ -120,7 +120,7 @@ public class UserController {
 		try 
 		{
 			
-			List<Inscrito> inscrito = inscritoService.listAllOfertasByAlumno(usuario);
+			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
 			
 			for (Inscrito inscrito2 : inscrito) {
 				System.out.println(inscrito2.getId() + " " + inscrito2.getIdAlumno());
@@ -163,7 +163,7 @@ public class UserController {
 		try 
 		{
 			
-			List<Inscrito> inscrito = inscritoService.listAllOfertasByAlumno(usuario);
+			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
 			
 			for (int i = 0; i < inscrito.size(); i++) {
 				for (int j = 0; j < ofertas.size(); j++) {
