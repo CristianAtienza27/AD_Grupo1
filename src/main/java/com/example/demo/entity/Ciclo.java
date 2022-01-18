@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -34,6 +35,7 @@ public class Ciclo {
 	List <Usuario> alumnos = new ArrayList<>();
 	
 	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
+	@OrderBy("fecha_creacion ASC")
 	List <Noticia> noticias = new ArrayList<>();
 	
 	@OneToMany(mappedBy="cicloid", orphanRemoval=true)
