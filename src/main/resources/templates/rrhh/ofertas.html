@@ -64,7 +64,9 @@
 							<th th:text="${oferta.numCandidatos}"></th>
 							<th th:text="${oferta.requisitos}"></th>
 							<th th:text="${oferta.fechamax}"></th>
-							<th><a data-bs-toggle="modal"
+							<th>
+							<a class="btn btn-info" th:href="@{'/rrhh/alumnos/' + ${oferta.id}}">Ver alumnos inscritos</a>
+							<a data-bs-toggle="modal"
 								th:attr="data-bs-target='#modalOferta' + ${oferta.id}"
 								class="btn btn-warning">Editar</a>
 								<div th:replace="admin/modals/formOferta :: modalOferta"></div></th>

@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -215,12 +217,12 @@ public class AdminController {
 			@PathVariable(name="id", required=false) Integer id,
 			Model model, RedirectAttributes flash,@RequestParam("imagen") MultipartFile file) {
 		
-		if(bindingResult.hasErrors()) {
-			
-			model.addAttribute("noticias", noticiaService.listAllNoticias());
-			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
-			return "redirect:/admin/noticias";
-		}
+//		if(bindingResult.hasErrors()) {
+//			
+//			model.addAttribute("noticias", noticiaService.listAllNoticias());
+//			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+//			return "redirect:/admin/noticias";
+//		}
 		
 		String image = null;
 		String[] path = null;
@@ -235,6 +237,17 @@ public class AdminController {
 		
 		if(id == 0) {
 			noticia.setImagen(path != null ? (path[path.length-1]) : null);
+			Calendar fecha = new GregorianCalendar();
+			
+			String today=fecha.get(Calendar.YEAR)+"-"+fecha.get(Calendar.MONTH)+1+"-"+fecha.get(Calendar.DATE);
+			Date date;
+			try {
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(today);
+				noticia.setFecha_creacion(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			noticiaService.addNoticia(noticiaService.transform(noticia));
 			flash.addFlashAttribute("mensaje", "Noticia añadida correctamente");
 		}

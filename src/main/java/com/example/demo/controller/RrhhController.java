@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -17,11 +19,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Inscrito;
 import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.CicloService;
+import com.example.demo.service.InscritoService;
 import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
 
@@ -38,6 +43,31 @@ public class RrhhController {
 	
 	@Autowired
 	private CicloService cicloService;
+	
+	@Autowired
+	private InscritoService inscritoService;
+	
+	@GetMapping("/alumnos/{id}")
+	public ModelAndView alumnos(@PathVariable int id,Authentication auth, HttpSession session) {
+		
+		Oferta oferta = ofertaService.findById(id);
+		List<Inscrito> inscritos = inscritoService.findByidOferta(oferta);
+		List<Usuario> usuarios = new ArrayList<>();
+		
+		for (Inscrito inscrito : inscritos) {
+			usuarios.add(inscrito.getIdAlumno());
+		}
+		
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		
+		ModelAndView mav = new ModelAndView("admin/usuarios");
+		mav.addObject("titulo", "Alumnos");
+		mav.addObject("users", usuarios);
+		return mav;
+	}
 	
 	@GetMapping("/ofertas")
 	public String details(Authentication auth, HttpSession session,

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Inscrito;
+import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.InscritoModel;
 import com.example.demo.repository.InscritoRepository;
@@ -41,6 +42,12 @@ public class InscritoServiceImpl implements InscritoService{
 	public List<Inscrito> findByidAlumno(Usuario id) {
 		// TODO Auto-generated method stub
 		return inscritoRepository.findByidAlumno(id);
+	}
+
+	@Override
+	public List<Inscrito> findByidOferta(Oferta id) {
+		// TODO Auto-generated method stub
+		return inscritoRepository.findByidOferta(id);
 	}
 	
 }

@@ -68,7 +68,8 @@
 							<th th:text="${oferta.fechamax}"></th>
 							<th th:text="${oferta.rrhhid.nombre} + ' ' + ${oferta.rrhhid.apellidos}"></th>
 							<th th:text="${oferta.cicloid.nombre}"></th>
-							<th><a data-bs-toggle="modal"
+							<th>
+								<a data-bs-toggle="modal"
 								th:attr="data-bs-target='#modalOferta' + ${oferta.id}"
 								class="btn btn-warning">Editar</a>
 								<div th:replace="admin/modals/formOferta :: modalOferta"></div></th>

@@ -62,6 +62,7 @@
 							<th th:text="${user.email}"></th>
 							<th th:text="${user.telefono}"></th>
 							<th th:text="${titulo} == 'Alumnos' ? ${user.cicloID.nombre} : ${user.empresa}"></th>
+							<div th:if="${session.usuario.role == 'ROLE_ADMIN'}">
 							<th th:if="${user.role == 'ROLE_ALUMNO'}">
 								<form th:if="${user.enabled == true}"
 									th:action="@{'/admin/disableUser/' + ${user.id}}" method="POST">
@@ -72,6 +73,7 @@
 									<button type="submit" class="btn btn-success">Activar</button>
 								</form>
 							</th>
+							
 							<th th:if="${user.role == 'ROLE_ALUMNO'}">
 							<a data-bs-toggle="modal"
 								th:attr="data-bs-target='#modalDeleteUser' + ${user.id}"
@@ -87,6 +89,7 @@
 								th:attr="data-bs-target='#modalDeleteUser' + ${user.id}"
 								class="btn btn-danger">Eliminar</a>
 								<div th:replace="admin/modals/deleteUser :: modalDeleteUser"></div>
+							</div>
 						</tr>
 					</tbody>
 				</table>

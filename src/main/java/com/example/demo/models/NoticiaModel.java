@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import java.util.Date;
+
 import com.example.demo.entity.Ciclo;
 
 public class NoticiaModel {
@@ -12,22 +14,18 @@ public class NoticiaModel {
 	
 	private String imagen;
 	
+	private Date fecha_creacion;
+	
 	private Ciclo cicloID;
 
-	public NoticiaModel(int id, String titulo, String descripcion, String imagen) {
-		super();
-		this.id = id;
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.imagen = imagen;
-	}
 
-	public NoticiaModel(int id, String titulo, String descripcion, String imagen, Ciclo cicloID) {
+	public NoticiaModel(int id, String titulo, String descripcion, String imagen, Date fecha_creacion, Ciclo cicloID) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.imagen = imagen;
+		this.fecha_creacion = fecha_creacion;
 		this.cicloID = cicloID;
 	}
 
@@ -74,5 +72,15 @@ public class NoticiaModel {
 	public void setCicloID(Ciclo cicloID) {
 		this.cicloID = cicloID;
 	}
+
+	public Date getFecha_creacion() {
+		return fecha_creacion;
+	}
+
+	public void setFecha_creacion(Date fecha_creacion) {
+		this.fecha_creacion = fecha_creacion;
+	}
+	
+	
 	
 }
