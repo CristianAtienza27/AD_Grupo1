@@ -39,7 +39,7 @@ public class InscritoServiceImpl implements InscritoService{
 	}
 
 	@Override
-	public List<Inscrito> listAllOfertasByAlumno(Usuario id) {
+	public List<Inscrito> findByidAlumno(Usuario id) {
 		return inscritoRepository.findByidAlumno(id);
 	}
 
