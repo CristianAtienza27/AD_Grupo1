@@ -43,7 +43,7 @@
 						th:attr="data-bs-target='#modalOferta' + ${oferta.id}"
 						class="btn btn-success">Añadir</a>
 					<div th:if="${session.usuario.role} == 'ROLE_ADMIN'">
-						<a class="btn btn-info" th:href="@{'/admin/ofertas/' + ${today}}">Filtrar</a>
+						<a class="btn btn-info" th:href="@{'/admin/ofertas/' + ${today}}">Ver Anteriores</a>
 					</div>
 					<div th:replace="admin/modals/formOferta :: modalOferta"></div>
 				</div>

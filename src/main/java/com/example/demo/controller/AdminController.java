@@ -298,7 +298,7 @@ public class AdminController {
 		}else {
 			List<Oferta> ofertas = ofertaService.showAll();
 			for (Oferta oferta : ofertas) {
-				if(fecha.before(toCalendar(oferta.getFechamax()))){
+				if(fecha.after(toCalendar(oferta.getFechamax()))){
 					ofertasFinales.add(oferta);
 					System.out.println("Fecha oferta " + oferta.getFechamax());
 				};
