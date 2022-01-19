@@ -12,7 +12,7 @@
 			<div class="modal-body border-0 p-4">
 
 				<form class="form-subscribe" method="POST"
-					th:action="@{/rrhh/ofertas/} + ${oferta.id}" th:object="${oferta}">
+					th:action="@{/admin/ofertas/} + ${oferta.id}" th:object="${oferta}">
 					<!-- Email address input-->
 					<div class="row">
 						<div class="col">
@@ -46,7 +46,7 @@
 							<select th:if="${session.usuario.role != 'ROLE_RRHH'}" class="form-select" aria-label="Default select example" name="rrhhid">
 <!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
 							<div th:each="p : ${rrhh}">
-								<option th:text="${p.nombre} + ' ' + ${p.apellidos}" th:value="${oferta.rrhhid}"></option>
+								<option th:text="${p.nombre} + ' ' + ${p.apellidos}" th:value="${p.id}"></option>
 							</div>
 						</select>
 						<br>

@@ -121,27 +121,14 @@ public class UserController {
 		try 
 		{
 			
-//			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
 			List<Oferta> ofertas = new ArrayList<>();
 			
 			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
 			
-//			for (int i = 0; i < inscrito.size(); i++) {
-//				for (int j = 0; j < ofertas.size(); j++) {
-//					if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
-//						ofertas.remove(j);
-//					}
-//				}
-//			}
-			
 			for (Inscrito inscrito2 : inscrito) {
 				ofertas.add(inscrito2.getIdOferta());
 			}
-			
-//			for (Inscrito inscrito2 : inscrito) {
-//				System.out.println(inscrito2.getId() + " " + inscrito2.getIdAlumno());
-//			}
-			model.addAttribute("titulo", "Mis Ofertas");
+
 			model.addAttribute("ofertas", ofertas);
 			
 		}catch(Exception e) {
