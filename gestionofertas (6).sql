@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-12-2021 a las 23:28:50
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 7.3.31
+-- Tiempo de generación: 25-01-2022 a las 23:28:55
+-- Versión del servidor: 10.4.22-MariaDB
+-- Versión de PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,11 @@ CREATE TABLE `ciclo` (
 --
 
 INSERT INTO `ciclo` (`id`, `nombre`, `tipo`) VALUES
-(1, 'DAW', 'Informática');
+(1, 'DAM', 'CFGS'),
+(2, 'DAW', 'CFGS'),
+(3, 'ASIR', 'CFGS'),
+(4, 'Comercio', 'Empresa'),
+(5, 'Electricidad', 'FP Basica');
 
 -- --------------------------------------------------------
 
@@ -55,7 +59,7 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(12);
+(39);
 
 -- --------------------------------------------------------
 
@@ -70,6 +74,15 @@ CREATE TABLE `inscrito` (
   `id_oferta` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `inscrito`
+--
+
+INSERT INTO `inscrito` (`id`, `fecha_inscripcion`, `id_alumno`, `id_oferta`) VALUES
+(35, '2022-01-18', 1, 4),
+(34, '2022-01-18', 1, 1),
+(38, '2022-01-25', 1, 37);
+
 -- --------------------------------------------------------
 
 --
@@ -81,8 +94,19 @@ CREATE TABLE `noticia` (
   `descripcion` varchar(255) NOT NULL,
   `imagen` varchar(50) DEFAULT NULL,
   `titulo` varchar(50) NOT NULL,
-  `cicloid` int(11) DEFAULT NULL
+  `cicloid` int(11) DEFAULT NULL,
+  `fecha_creacion` date DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `noticia`
+--
+
+INSERT INTO `noticia` (`id`, `descripcion`, `imagen`, `titulo`, `cicloid`, `fecha_creacion`) VALUES
+(1, 'Animar a Felix, hay que aprobar', '71G1KUtJk+L._AC_SY355_.jpg', 'Futbolin', 1, NULL),
+(2, 'Partido entre Raul Gil y Pepe Viyuela', '71VTKeHIxnL._AC_SL1500_.jpg', 'Ping Pong', 2, NULL),
+(3, 'Incendio', '1500923201_322998_1500923574_noticia_normal.jpg', 'La FP se incendia', 5, NULL),
+(4, 'Raul sigue sin actualizar los apuntes', 'ionic.png', 'Ionic', 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -93,12 +117,25 @@ CREATE TABLE `noticia` (
 CREATE TABLE `oferta` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
-  `fechamax` date NOT NULL,
+  `fechamax` date DEFAULT NULL,
   `num_candidatos` int(11) NOT NULL,
   `requisitos` longtext DEFAULT NULL,
   `titular` varchar(60) NOT NULL,
+  `cicloid` int(11) DEFAULT NULL,
   `rrhhid` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `oferta`
+--
+
+INSERT INTO `oferta` (`id`, `descripcion`, `fechamax`, `num_candidatos`, `requisitos`, `titular`, `cicloid`, `rrhhid`) VALUES
+(1, 'Hay que animar a Felix', '2022-02-16', 5, 'Tener manos y medir mas de 120cm', 'Animador/a para el partido de futbolin', 1, 4),
+(2, 'Hay que desanimar a Raul', '2021-12-22', 5, 'Tener manos y medir mas de 120cm', 'Desanimador/a para el partido de futbolin', 1, 2),
+(3, 'Se necesitan  bomberos, la fp esta ardiendo', '2022-04-15', 10, 'Tener mas de 3 dientes', 'La FP se incendia, necesitamos bomberos', 1, 4),
+(4, 'Convencer a Raul de que tiene que trabajar', '2023-03-31', 1, 'Padecer de alopecia', 'Raul, trabaja', 1, 4),
+(19, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', '2022-01-18', 5, 'Pasar la prueba', 'Prueba 1', 1, 4),
+(37, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', '2022-01-19', 9, 'Pasar la prueba', 'Prueba 1', 2, 4);
 
 -- --------------------------------------------------------
 
@@ -124,11 +161,11 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `apellidos`, `email`, `empresa`, `enabled`, `nombre`, `password`, `role`, `telefono`, `cicloid`) VALUES
-(1, 'admin', 'admin@admin.com', NULL, b'1', 'admin', '$2a$10$HF/Jvoidey8l/GKgt90jOesfMl9r68A0RKnPqIKVbQqz5KVgOm6Tq', 'ROLE_ADMIN', '628282828', NULL),
-(6, 'López', 'pl@mail.com', NULL, b'1', 'Pepe', '$2a$10$R1vuu1QqV7L6pg9gDTkBauEjJkOiozzozpeHcK79FaEePR5RRsqfC', 'ROLE_ALUMNO', '67676767', 1),
-(9, 'Lop', 'plo@mail.com', NULL, b'0', 'Pepe', '$2a$10$fj4rJCX3YWIlTKzoNJoZE.v8lCBlsVCYPepdTLggxLWPO7InUhUcK', 'ROLE_ALUMNO', '628282828', 1),
-(10, 'Lop', 'mlop@mail.com', NULL, b'0', 'Manuel', '$2a$10$3Ac4ryO.xpeJwMcgvAmww.mQ4M5JrygXHqHTYz/XnSaskKnfw3cTu', 'ROLE_ALUMNO', '628282828', 1),
-(11, 'López', 'rl@mail.com', 'Ikea', b'1', 'Rodrigo', '$2a$10$SWdm7yxR3hnGObeYNo2xTOXODhRuQI.15Kjsx9pnCZsYOU6XsjnA6', 'ROLE_RRHH', '628282828', NULL);
+(1, 'atienza', 'cristian@gmail.com', NULL, b'1', 'Cristian', '$2a$10$ItGe6TlMw1fFrzy0fvhm/OTbgZQxVS0NGrn2mtnoDtVSmA144BUby', 'ROLE_ALUMNO', '34343433', 1),
+(2, 'López', 'pepe@mail.com', 'Education S.A.', b'1', 'Pepe', '$2a$10$BcDlCVmfjAy9mdt8yfAEeudVsKSR0QxQGxsNm8/lccpcAdHG/3Yee', 'ROLE_RRHH', '335354545', NULL),
+(4, 'admin', 'admin@admin.com', NULL, b'1', 'admin', '$2a$10$cNApfkgOgj8hYOBoUT1E1.JSrPoFNO4zE3swG0pmxFBI4CCDGjO9O', 'ROLE_ADMIN', '628282828', 1),
+(9, 'Ruiz', 'pepe1@mail.com', NULL, b'0', 'Pepe', '$2a$10$2Qx1z7dztpjPhuQufjdm5OjskPFijeYehg6SmXgP6v4AX0YTkXiY6', 'ROLE_ALUMNO', '7373737373', 2),
+(11, 'Ruiz', 'manu@mail.com', NULL, b'0', 'Manuel', '$2a$10$4cwazBr33vk7i0q4CV1XpO9JAvXhbbZyWm0dmJm14J./EEdRCVazy', 'ROLE_ALUMNO', '8282828282', 2);
 
 --
 -- Índices para tablas volcadas
@@ -160,6 +197,7 @@ ALTER TABLE `noticia`
 --
 ALTER TABLE `oferta`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `FKf6955dhj3tehx9i3x5b2y7ioi` (`cicloid`),
   ADD KEY `FK5rgussq1v72jb9qfkimvjvl1g` (`rrhhid`);
 
 --
@@ -167,7 +205,6 @@ ALTER TABLE `oferta`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UK_5171l57faosmj8myawaucatdw` (`email`),
   ADD KEY `FKjmwaheya509vojaum0gv1if4k` (`cicloid`);
 COMMIT;
 

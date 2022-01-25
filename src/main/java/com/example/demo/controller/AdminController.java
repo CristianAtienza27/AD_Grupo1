@@ -302,6 +302,7 @@ public class AdminController {
 			model.addAttribute("ofertas",ofertaService.showAll());
 		}else {
 			List<Oferta> ofertas = ofertaService.showAll();
+		
 			for (Oferta oferta : ofertas) {
 				if(fecha.after(toCalendar(oferta.getFechamax()))){
 					ofertasFinales.add(oferta);
@@ -378,7 +379,7 @@ public class AdminController {
 		
 		return mav;
 	}
-	
+/	
 	public static Calendar toCalendar(Date date){ 
 		  Calendar cal = Calendar.getInstance();
 		  cal.setTime(date);
