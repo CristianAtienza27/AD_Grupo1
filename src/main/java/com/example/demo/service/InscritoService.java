@@ -11,7 +11,8 @@ public interface InscritoService {
 	Inscrito transform(InscritoModel inscritoModel);
 	InscritoModel transform(Inscrito ciclo);
 	Inscrito addInscrito(InscritoModel transform);
-	List<Inscrito> findSolicitudesByCiclo();
+	List<Inscrito> findSolicitudesByCiclo(int id);
+	List<Inscrito> findSolicitudes();
 	List<Inscrito> findByidAlumno(Usuario id);
 	List<Inscrito> findByidOferta(Oferta id);
 }

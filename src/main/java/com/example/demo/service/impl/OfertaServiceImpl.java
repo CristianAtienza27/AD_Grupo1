@@ -75,10 +75,15 @@ public class OfertaServiceImpl implements OfertaService{
 		return ofertaRepository.findByRrhhid(usuarioService.transform(rrhh));
 	}
 
-//	@Override
-//	public List<Oferta> listAllOfertasNoInscritasByAlumno(int id) {
-//		return ofertaRepository.findOfertasNoInscritosByAlumno(id);
-//	}
+	@Override
+	public List<Oferta> listAllOfertasNoInscritasByAlumno(int id) {
+		return ofertaRepository.findOfertasNoInscritosByAlumno(id);
+	}
+
+	@Override
+	public List<Oferta> listAllOfertasNoInscritasByAlumnoAndCiclo(int alumnoId, int cicloId) {
+		return ofertaRepository.findOfertasNoInscritosByAlumnoAndByCiclo(alumnoId, cicloId);
+	}
 
 //	@Override
 //	public List<Oferta> findByCiclo(CicloModel ciclo) {

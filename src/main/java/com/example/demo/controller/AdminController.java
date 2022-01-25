@@ -32,6 +32,7 @@ import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Noticia;
 import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
+import com.example.demo.models.CicloModel;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.InscritoService;
@@ -299,21 +300,15 @@ public class AdminController {
 		
 		if(fechaDeEntrada==null) {
 			model.addAttribute("ofertas",ofertaService.showAll());
-			System.out.println("sin Fecha de entrada");
 		}else {
 			List<Oferta> ofertas = ofertaService.showAll();
 			for (Oferta oferta : ofertas) {
 				if(fecha.after(toCalendar(oferta.getFechamax()))){
 					ofertasFinales.add(oferta);
-					System.out.println("Fecha oferta " + oferta.getFechamax());
 				};
 			}
 			System.out.println("con Fecha de entrada");
 			model.addAttribute("ofertas",ofertasFinales);
-		}
-		
-		for (Oferta oferta : ofertasFinales) {
-			System.out.println(oferta.toString());
 		}
 		
 		model.addAttribute("rrhh", usuarioService.showAll("ROLE_RRHH"));
@@ -359,40 +354,31 @@ public class AdminController {
 		return "redirect:/admin/ofertas";
 	}
 	
-	@GetMapping("/solicitudes")
-	public ModelAndView showSolicitudes(Authentication auth, HttpSession session, Model model) {
+	@GetMapping({"/solicitudes","/solicitudes/ciclo{id}"})
+	public ModelAndView showSolicitudes(@PathVariable(name = "id", required = false) Integer id,
+			Authentication auth, HttpSession session, Model model) {
+		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
 		
 		ModelAndView mav = new ModelAndView(SOLICITUDES_VIEW);
-		mav.addObject("solicitudes", inscritoService.findSolicitudesByCiclo());
+		
+		mav.addObject("ciclos", cicloService.listAllCiclos());
+		
+		if(id != null) {
+			CicloModel ciclo = cicloService.transform(cicloService.findCicloById(id));
+			mav.addObject("filtro", ciclo.getNombre());
+			mav.addObject("solicitudes", inscritoService.findSolicitudesByCiclo(id));
+			
+		}
+		else {
+			mav.addObject("solicitudes", inscritoService.findSolicitudes());
+		}
 		
 		return mav;
 	}
 	
-	
-//	@GetMapping("/ofertas")
-//	public String details2(Authentication auth, HttpSession session,
-//			@PathVariable(name = "id", required = false) Integer id, Model model) {
-//
-//		String username = auth.getName();
-//		Usuario usuario = usuarioService.findUserByEmail(username);
-//		session.setAttribute("usuario", usuario);
-//		
-//		Calendar fecha = new GregorianCalendar();
-//
-//		
-//		String today=fecha.get(Calendar.YEAR)+"-"+fecha.get(Calendar.MONTH)+1+"-"+fecha.get(Calendar.DATE);
-//
-////		System.out.println(fecha2.before(fecha));
-//		
-//		model.addAttribute("today",today);
-//		model.addAttribute("oferta",new Oferta());
-//		model.addAttribute("ofertas",ofertaService.showAll());
-//		return "rrhh/ofertas";
-//	}
-//	
 	public static Calendar toCalendar(Date date){ 
 		  Calendar cal = Calendar.getInstance();
 		  cal.setTime(date);

@@ -17,6 +17,7 @@ public interface OfertaService {
 	Oferta findById(int id);
 	List<Oferta> listAllOfertasByCiclo(CicloModel ciclo);
 	List<Oferta> listAllOfertasByRrhh(UsuarioModel rrhh);
-//	List<Oferta> listAllOfertasNoInscritasByAlumno(int id);
+	List<Oferta> listAllOfertasNoInscritasByAlumno(int id);
+	List<Oferta> listAllOfertasNoInscritasByAlumnoAndCiclo(int alumnoId, int cicloId);
 	List<Oferta> showAll();
 }

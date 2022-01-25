@@ -47,12 +47,18 @@
 								data-bs-target="#panelsStayOpen-collapseOne"
 								aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
 								Solicitudes</button>
+							<a th:href="@{/admin/solicitudes}" class="btn btn-white" type="button">Ver Todas</a>
+							<select class="form-select" aria-label="Default select example" th:onchange="'window.location.href = \'' + @{/admin/solicitudes/} + 'ciclo\' + this.value ' ">
+								<option th:value="0">Buscar por Grado</option>  					
+								<option th:each="ciclo : ${ciclos}" th:value="${ciclo.id}"><p th:text="${ciclo.nombre}"></p></option>
+							</select>
 						</h2>
 						<div id="panelsStayOpen-collapseOne"
 							class="accordion-collapse collapse show"
 							aria-labelledby="panelsStayOpen-herrbradingOne">
 							<!--  th:selected="${filtro} == ${ciclo.nombre) ? true : false" rrbr -->
 							<div class="row row-cols-1 row-cols-md-3 g-4 accordion-body">
+							<h3 th:if="${solicitudes.empty}">No hay solicitudes disponibles de <b th:text="${filtro}"></b></h3>
 								<div th:each="solicitud : ${solicitudes}" class="col">
 									<div class="card h-100">
 										<div class="card-body">

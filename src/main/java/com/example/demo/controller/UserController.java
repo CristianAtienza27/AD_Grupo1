@@ -123,13 +123,9 @@ public class UserController {
 		{
 			
 			List<Oferta> ofertas = new ArrayList<>();
-			
 			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
-			System.out.println(inscrito);
 			
 			inscrito.sort(Comparator.comparing(Inscrito::getFecha_inscripcion).reversed());
-			
-			System.out.println(inscrito);
 			
 			for (Inscrito inscrito2 : inscrito) {
 				ofertas.add(inscrito2.getIdOferta());
@@ -157,30 +153,13 @@ public class UserController {
 		
 		if(id == null)
 		{
-			ofertas = ofertaService.showAll();
+			ofertas = ofertaService.listAllOfertasNoInscritasByAlumno(usuario.getId());
 			model.addAttribute("filtro", "Mostrar todas");
 		}
 		else {
 			ciclo = cicloService.transform(cicloService.findCicloById(id));
-			ofertas = ofertaService.listAllOfertasByCiclo(ciclo);
+			ofertas = ofertaService.listAllOfertasNoInscritasByAlumnoAndCiclo(usuario.getId(), id);
 			model.addAttribute("filtro", ciclo.getNombre());
-		}
-				
-		try 
-		{
-			
-			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
-			
-			for (int i = 0; i < inscrito.size(); i++) {
-				for (int j = 0; j < ofertas.size(); j++) {
-					if(inscrito.get(i).getIdOferta().equals(ofertas.get(j))) {
-						ofertas.remove(j);
-					}
-				}
-			}
-			
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
 		}
 		
 		model.addAttribute("ciclos", cicloService.listAllCiclos());
@@ -191,7 +170,8 @@ public class UserController {
 	
 	
 	@PostMapping("/oferta/{idOferta}/{idUsuario}")
-	public String inscripcion(@PathVariable int idOferta,@PathVariable int idUsuario, Authentication auth, HttpSession session, Model model) {
+	public String inscripcion(@PathVariable int idOferta,@PathVariable int idUsuario, 
+			Authentication auth, HttpSession session, RedirectAttributes flash, Model model) {
 		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
@@ -216,7 +196,8 @@ public class UserController {
 		inscrito.setIdOferta(ofertaService.findById(idOferta));
 		
 		inscritoService.addInscrito(inscritoService.transform(inscrito));
-
+		flash.addFlashAttribute("mensaje", "Inscripción realizada con éxito");
+		
 		return "redirect:/user/ofertas";
 	}
 

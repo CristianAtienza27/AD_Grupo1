@@ -41,7 +41,9 @@ public class InscritoServiceImpl implements InscritoService{
 
 	@Override
 	public List<Inscrito> findByidAlumno(Usuario id) {
-		return inscritoRepository.findByidAlumno(id);
+		return inscritoRepository.findAll().stream()
+				.filter(solicitud -> solicitud.getIdAlumno() == id)
+				.map(i->(i)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -50,10 +52,16 @@ public class InscritoServiceImpl implements InscritoService{
 	}
 
 	@Override
-	public List<Inscrito> findSolicitudesByCiclo() {
+	public List<Inscrito> findSolicitudesByCiclo(int id) {
 		return inscritoRepository.findAll().stream()
-        .filter(solicitud -> solicitud.getIdOferta().getCicloid().getId() == 1)
+        .filter(solicitud -> solicitud.getIdOferta().getCicloid().getId() == id)
         .map(c->(c)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Inscrito> findSolicitudes() {
+		return inscritoRepository.findAll().stream()
+				.map(i->(i)).collect(Collectors.toList());
 	}
 	
 }
