@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -124,6 +125,11 @@ public class UserController {
 			List<Oferta> ofertas = new ArrayList<>();
 			
 			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
+			System.out.println(inscrito);
+			
+			inscrito.sort(Comparator.comparing(Inscrito::getFecha_inscripcion).reversed());
+			
+			System.out.println(inscrito);
 			
 			for (Inscrito inscrito2 : inscrito) {
 				ofertas.add(inscrito2.getIdOferta());

@@ -143,4 +143,50 @@ public class RrhhController {
 			return "redirect:/rrhh/ofertas";
 			
 	}
+	
+	@GetMapping("/ofertas/solicitudes")
+	public String solicitudes(Authentication auth, HttpSession session,Model model) {
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		List<Oferta> ofertas = usuario.getRrhh();
+		List<Inscrito> inscrito=new ArrayList<>();
+		for (Oferta oferta : ofertas) {
+			if(inscritoService.findByidOferta(oferta)!=null)
+				inscrito.addAll(inscritoService.findByidOferta(oferta));
+		}
+		
+		model.addAttribute("solicitudes",inscrito);
+		
+		return "rrhh/solicitudes";
+	}
+	
+	@PostMapping("/ofertas/solicitudes/filtro")
+	public String solicitudesFiltro(Authentication auth, HttpSession session,Model model,
+			@RequestParam("fechaInicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date inicio,
+			@RequestParam("fechaFin") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fin) {
+		
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		List<Oferta> ofertas = usuario.getRrhh();
+		List<Inscrito> inscrito=new ArrayList<>();
+		List<Inscrito> inscritoFinal=new ArrayList<>();
+		
+		for (Oferta oferta : ofertas) {
+			if(inscritoService.findByidOferta(oferta)!=null)
+				inscrito.addAll(inscritoService.findByidOferta(oferta));
+		}
+		
+		for (Inscrito inscrito2 : inscrito) {
+			if(inscrito2.getFecha_inscripcion().after(inicio) && inscrito2.getFecha_inscripcion().before(fin))
+				inscritoFinal.add(inscrito2);
+		}
+		
+		model.addAttribute("solicitudes",inscritoFinal);
+		
+		return "rrhh/solicitudes";
+	}
 }

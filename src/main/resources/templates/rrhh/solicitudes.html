@@ -6,7 +6,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Datos</title>
+<title>Ofertas</title>
 <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
 <!-- Bootstrap icons-->
 <link rel="stylesheet" type="text/css"
@@ -47,52 +47,58 @@ footer {
 </head>
 <body id="page-top">
 	<!-- Navigation-->
-	 <nav th:replace="index :: nav" class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
-     </nav>
+	<nav th:replace="index :: nav"
+		class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+	</nav>
+	<!-- Mashead header-->
 	<header class="masthead">
 		<div class="container px-5">
-			<div class="row col-md-6">
-				<div class="offset-6">
-					<form th:action="@{/user/details/update}" th:object="${user}" method="POST">
-						<input type="hidden" th:field="*{id}" id="id">
-						<div class="mb-3">
-							<label class="form-label">Nombre </label> <input type="text"
-								class="form-control" th:field="*{nombre}" id="nombre">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Apellidos </label> <input type="text"
-								class="form-control" th:field="*{apellidos}" id="apellidos">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Teléfono </label> <input type="number"
-								class="form-control" th:field="*{telefono}" id="telefono">
-						</div>
-						<label class="form-label">Ciclos </label>
-						 <select class="form-select" aria-label="Default select example" name="cicloID">
-<!--                                         	<option selected value="0" disabled>Selecciona Ciclo</option> -->
-							<div th:each="ciclo : ${ciclos}">
-								<option th:text="${ciclo.nombre}" th:value="${ciclo.id}"></option>
-							</div>
-						</select>
-						<br>
-						<div class="mb-3">
-							<label class="form-label">Email </label> <input type="email"
-								class="form-control" th:field=*{email} id="telefono">
-						</div>
-						<div class="mb-3">
-							<label class="form-label">Contraseña </label> <input type="password"
-								class="form-control" th:field="*{password}" id="password">
-						</div>
-						<input type="hidden" th:field="*{role}" id="role">
-						<button type="submit" class="btn btn-primary">Actualizar</button>
-					</form>
+			<div class="row gx-5 align-items-center">
+				<div>
+					<h1 class="display-1 lh-1 mb-3">Solicitudes</h1>
 				</div>
+				<form th:if="${session.usuario!=null}" th:action="@{/rrhh/ofertas/solicitudes/filtro}" method="POST">
+				<div class="row justify-content-md-center">
+					<div class="col">
+						
+					</div>
+					<div class="col">
+						<p>Fecha de inicio</p>
+						<input type="date" id="fechaInicio" name="fechaInicio">
+					</div>
+					<div class="col">
+						<p>Fecha de fin</p>
+						<input type="date" id="fechaFin" name="fechaFin">
+						<button class="btn btn-info" type="submit">Filtrar</button>
+					</div>
+				</div>
+				</form>
+				
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Alumno</th>
+							<th scope="col">Oferta</th>
+							<th scope="col">Fecha de inscripcion</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="solicitud: ${solicitudes}">
+							<th th:text="${solicitud.idAlumno.nombre + ' ' + solicitud.idAlumno.apellidos}"></th>
+							<th th:text="${solicitud.idOferta.titular}"></th>
+							<th th:text="${solicitud.fecha_inscripcion}"></th>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</header>
-	
+	<!-- Quote/testimonial aside-->
+	<!-- App features section-->
+
 	<footer th:replace="index :: footer" class="footer bg-light">
 	</footer>
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Core theme JS-->
