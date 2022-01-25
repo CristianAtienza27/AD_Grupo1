@@ -25,11 +25,22 @@
 <!-- Core theme CSS (includes Bootstrap)-->
 <link href="css/styles.css" rel="stylesheet" />
 <style>
+html {
+  min-height: 100%;
+  position: relative;
+}
+body {
+  margin: 0;
+  margin-bottom: 40px;
+}
 footer {
-    clear: both;
-    position: relative;
-    height: 200px;
-    margin-top: -200px;
+  background-color: black;
+  position:fixed;
+  left:0px;
+  bottom:0px;
+  width: 100%;
+  height: 40px;
+  color: white;
 }
 </style>
 </head>
@@ -61,13 +72,14 @@ footer {
 						</ul>
 						<ul th:if="${session.usuario.role} == 'ROLE_ALUMNO'" class="dropdown-menu">
 							<li><a class="dropdown-item" th:href="@{/user/details}">Perfil</a></li>
-							<li><a class="dropdown-item" th:href="@{/user/MisOfertas}">Mis Ofertas</a></li>
 							<li><a class="dropdown-item" th:href="@{/user/noticias}">Noticias</a></li>
 							<li><a class="dropdown-item" th:href="@{/user/ofertas}">Ofertas</a></li>
+							<li><a class="dropdown-item" th:href="@{/user/MisOfertas}">Mis Ofertas</a></li>
 						</ul>
 						<ul th:if="${session.usuario.role} == 'ROLE_RRHH'" class="dropdown-menu">
 							<li><a class="dropdown-item" th:href="@{/user/details}">Perfil</a></li>
 							<li><a class="dropdown-item" th:href="@{/rrhh/ofertas}">Trabajos</a></li>
+							<li><a class="dropdown-item" th:href="@{/rrhh/ofertas/solicitudes}">Solicitudes</a></li>
 						</ul>
 					</li>
 						&nbsp;&nbsp;
