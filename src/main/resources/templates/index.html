@@ -57,6 +57,7 @@ footer {
 							<li ><a class="dropdown-item" th:href="@{/admin/ciclos}">Ciclos</a></li>
 							<li ><a class="dropdown-item" th:href="@{/admin/noticias}">Noticias</a></li>
 							<li><a class="dropdown-item" th:href="@{/admin/ofertas}">Ofertas</a></li>
+							<li><a class="dropdown-item" th:href="@{/admin/solicitudes}">Solicitudes</a></li>
 						</ul>
 						<ul th:if="${session.usuario.role} == 'ROLE_ALUMNO'" class="dropdown-menu">
 							<li><a class="dropdown-item" th:href="@{/user/details}">Perfil</a></li>

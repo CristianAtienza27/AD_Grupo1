@@ -31,7 +31,7 @@ public class Inscrito {
 	@Temporal(TemporalType.DATE)
 	@NotNull(message="El campo fecha de inscripción no puede ser nulo")
 	private Date fecha_inscripcion;
-
+	
 	public Inscrito(int id, Usuario idAlumno, Oferta idOferta, Date fecha_inscripcion) {
 		super();
 		this.id = id;

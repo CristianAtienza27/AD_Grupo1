@@ -76,6 +76,11 @@ public class OfertaServiceImpl implements OfertaService{
 	}
 
 //	@Override
+//	public List<Oferta> listAllOfertasNoInscritasByAlumno(int id) {
+//		return ofertaRepository.findOfertasNoInscritosByAlumno(id);
+//	}
+
+//	@Override
 //	public List<Oferta> findByCiclo(CicloModel ciclo) {
 //		return ofertaRepository.findByCicloid(cicloService.transform(ciclo));
 //	}

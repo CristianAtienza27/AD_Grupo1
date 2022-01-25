@@ -68,7 +68,7 @@ public class UserController {
 
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
-		session.setAttribute("usuario", usuario);
+		session.setAttribute("usuario", usuario);		
 
 		if(usuario.getRole().equals("ROLE_ALUMNO")) {
 			model.addAttribute("user", usuario);

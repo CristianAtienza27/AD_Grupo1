@@ -34,6 +34,7 @@ import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.service.CicloService;
+import com.example.demo.service.InscritoService;
 import com.example.demo.service.NoticiaService;
 import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
@@ -48,6 +49,7 @@ public class AdminController {
 	private static final String USERS_VIEW = "admin/usuarios";
 	private static final String NOTICIAS_VIEW = "admin/noticias";
 	private static final String CICLOS_VIEW = "admin/ciclos";
+	private static final String SOLICITUDES_VIEW = "admin/solicitudes";
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -63,6 +65,9 @@ public class AdminController {
 	
 	@Autowired
 	private OfertaService ofertaService;
+	
+	@Autowired
+	private InscritoService inscritoService;
 	
 	// 					USUARIOS					// 	
 
@@ -352,6 +357,18 @@ public class AdminController {
 		}
 		
 		return "redirect:/admin/ofertas";
+	}
+	
+	@GetMapping("/solicitudes")
+	public ModelAndView showSolicitudes(Authentication auth, HttpSession session, Model model) {
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
+		
+		ModelAndView mav = new ModelAndView(SOLICITUDES_VIEW);
+		mav.addObject("solicitudes", inscritoService.findSolicitudesByCiclo());
+		
+		return mav;
 	}
 	
 	

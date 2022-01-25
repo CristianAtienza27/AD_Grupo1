@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,14 @@ public class InscritoServiceImpl implements InscritoService{
 
 	@Override
 	public List<Inscrito> findByidOferta(Oferta id) {
-		// TODO Auto-generated method stub
 		return inscritoRepository.findByidOferta(id);
+	}
+
+	@Override
+	public List<Inscrito> findSolicitudesByCiclo() {
+		return inscritoRepository.findAll().stream()
+        .filter(solicitud -> solicitud.getIdOferta().getCicloid().getId() == 1)
+        .map(c->(c)).collect(Collectors.toList());
 	}
 	
 }

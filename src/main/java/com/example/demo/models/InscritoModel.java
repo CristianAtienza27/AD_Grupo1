@@ -14,6 +14,7 @@ public class InscritoModel {
 	private Oferta idOferta;
 	
 	private Date fecha_inscripcion;
+	
 
 	public InscritoModel(int id, Usuario idAlumno, Oferta idOferta, Date fecha_inscripcion) {
 		super();
@@ -22,7 +23,7 @@ public class InscritoModel {
 		this.idOferta = idOferta;
 		this.fecha_inscripcion = fecha_inscripcion;
 	}
-
+	
 	public InscritoModel() {
 		super();
 	}
