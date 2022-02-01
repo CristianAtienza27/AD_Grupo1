@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +36,8 @@ import com.example.demo.service.UsuarioService;
 public class RrhhController {
 
 	
+	private static final String FORM_RRHH_VIEW = "user/datosRRHH";
+	
 	@Autowired
 	private UsuarioService usuarioService;
 	
@@ -46,6 +49,9 @@ public class RrhhController {
 	
 	@Autowired
 	private InscritoService inscritoService;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@GetMapping("/alumnos/{id}")
 	public ModelAndView alumnos(@PathVariable int id,Authentication auth, HttpSession session) {
@@ -188,5 +194,35 @@ public class RrhhController {
 		model.addAttribute("solicitudes",inscritoFinal);
 		
 		return "rrhh/solicitudes";
+	}
+	
+	@GetMapping("/details")
+	public String details(HttpSession session, Authentication auth,
+			@PathVariable(name = "id", required = false) Integer id, Model model) {
+
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);		
+
+		model.addAttribute("user", usuario);
+		return FORM_RRHH_VIEW;
+		
+	}
+	
+	@PostMapping("/details/update")
+	public String updateUser(@Valid @ModelAttribute("user") Usuario usuario, BindingResult bindingResult, Model model,
+			RedirectAttributes flash) {
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("user", usuario);
+			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
+		} else {
+			usuario.setEnabled(true);
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+			usuarioService.updateUser(usuarioService.transform(usuario));
+			flash.addFlashAttribute("mensaje", "Datos del usuario actualizados satisfactoriamente");
+		}
+
+		return "redirect:/user/details/";
 	}
 }

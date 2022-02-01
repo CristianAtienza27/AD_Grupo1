@@ -27,7 +27,7 @@ public class Inscrito {
 	@JoinColumn(name="idOferta")
 	private Oferta idOferta;
 	
-	@Column(name="fecha_inscripcion")
+	@Column(name="fechainscripcion")
 	@Temporal(TemporalType.DATE)
 	@NotNull(message="El campo fecha de inscripción no puede ser nulo")
 	private Date fechainscripcion;
