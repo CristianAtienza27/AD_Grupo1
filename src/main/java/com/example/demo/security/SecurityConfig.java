@@ -27,10 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
 	}
 
-	/**
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/static/**","/assets/**","/css/**","/js/**","/public/**","/auth/**","/logout","/api/**").permitAll()
+		http.csrf().disable().authorizeRequests()
+		.antMatchers("/static/**","/assets/**","/css/**","/js/**","/public/**","/auth/**","/logout","/api/**").permitAll()
 		.antMatchers(HttpMethod.POST,"/api/**").permitAll()
 		.antMatchers(HttpMethod.PUT,"/api/**").permitAll()
 		.antMatchers(HttpMethod.DELETE,"/api/**").permitAll()
@@ -42,14 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.loginProcessingUrl("/auth/login-post").permitAll()
 			.and()
 		.logout().logoutSuccessUrl("/public?logout");		
-	}**/
-	
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
-		.antMatchers("/static/**","/assets/**","/css/**","/js/**","/public/**","/auth/**","/logout","/api/**").permitAll()
-		.antMatchers(HttpMethod.POST,"/api/**").permitAll()
-		.antMatchers(HttpMethod.PUT,"/api/**").permitAll()
-		.antMatchers(HttpMethod.DELETE,"/api/**").permitAll();
 	}
 
 }
