@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +30,22 @@ public class ApiController {
 	public Ciclo getCiclo(@PathVariable int id) {
 		return cicloService.findCicloById(id);
 	}
-
+	
+	@PostMapping("/cicle")
+	public Ciclo newCicle(@RequestBody CicloModel newCiclo) {
+		return cicloService.addCiclo(newCiclo);
+	}
+	
+	@PostMapping("/cicle/{id}")
+	public Ciclo editCicle(@RequestBody CicloModel actual, @PathVariable int id) {
+		CicloModel ciclo = cicloService.transform(cicloService.findCicloById(id));
+		if(ciclo!=null) {
+			actual.setId(id);
+			return cicloService.updateCiclo(actual);
+		}
+		else {
+			return null;
+		}
+	}
+	
 }
