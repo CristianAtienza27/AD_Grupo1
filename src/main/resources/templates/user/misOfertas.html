@@ -75,13 +75,13 @@ footer {
 								<div th:each="oferta : ${ofertas}" class="col">
 									<div class="card h-100">
 										<div class="card-body">
-											<h5 class="card-title" th:text="${oferta.titular}"></h5>
-											<p th:text="${oferta.descripcion}" class="card-text"></p>
+											<h5 class="card-title" th:text="${oferta.idOferta.titular}"></h5>
+											<p th:text="${oferta.idOferta.descripcion}" class="card-text"></p>
 										</div>
 										<div class="card-footer">
-											<p th:text="${oferta.requisitos}"></p>
-											<p th:text="'Numero de candidatos: '+${oferta.numCandidatos}"></p>
-											<p th:text="'Ciclo: ' +${oferta.cicloid.nombre}"></p>
+											<p th:text="${oferta.idOferta.requisitos}"></p>
+											<p th:text="'Numero de candidatos: '+${oferta.idOferta.numCandidatos}"></p>
+											<p th:text="'Ciclo: ' +${oferta.idOferta.cicloid.nombre}"></p>
 										</div>
 									</div>
 								</div>

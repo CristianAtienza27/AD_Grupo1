@@ -118,25 +118,7 @@ public class UserController {
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
-		
-		try 
-		{
-			
-			List<Oferta> ofertas = new ArrayList<>();
-			List<Inscrito> inscrito = inscritoService.findByidAlumno(usuario);
-			
-			inscrito.sort(Comparator.comparing(Inscrito::getFecha_inscripcion).reversed());
-			
-			for (Inscrito inscrito2 : inscrito) {
-				ofertas.add(inscrito2.getIdOferta());
-			}
-
-			model.addAttribute("ofertas", ofertas);
-			
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
+		model.addAttribute("ofertas", inscritoService.findByidAlumno(usuario));
 		return MY_OFERTAS_VIEW;
 	}
 	

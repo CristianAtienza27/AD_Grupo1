@@ -41,9 +41,7 @@ public class InscritoServiceImpl implements InscritoService{
 
 	@Override
 	public List<Inscrito> findByidAlumno(Usuario id) {
-		return inscritoRepository.findAll().stream()
-				.filter(solicitud -> solicitud.getIdAlumno() == id)
-				.map(i->(i)).collect(Collectors.toList());
+		return inscritoRepository.findByidAlumnoOrderByFechainscripcionDesc(id);
 	}
 
 	@Override
