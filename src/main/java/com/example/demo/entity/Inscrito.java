@@ -27,17 +27,17 @@ public class Inscrito {
 	@JoinColumn(name="idOferta")
 	private Oferta idOferta;
 	
-	@Column(name="fecha_inscripcion")
+	@Column(name="fechainscripcion")
 	@Temporal(TemporalType.DATE)
 	@NotNull(message="El campo fecha de inscripción no puede ser nulo")
-	private Date fecha_inscripcion;
+	private Date fechainscripcion;
 	
 	public Inscrito(int id, Usuario idAlumno, Oferta idOferta, Date fecha_inscripcion) {
 		super();
 		this.id = id;
 		this.idAlumno = idAlumno;
 		this.idOferta = idOferta;
-		this.fecha_inscripcion = fecha_inscripcion;
+		this.fechainscripcion = fecha_inscripcion;
 	}
 
 	public Inscrito() {
@@ -69,17 +69,17 @@ public class Inscrito {
 	}
 
 	public Date getFecha_inscripcion() {
-		return fecha_inscripcion;
+		return fechainscripcion;
 	}
 
 	public void setFecha_inscripcion(Date fecha_inscripcion) {
-		this.fecha_inscripcion = fecha_inscripcion;
+		this.fechainscripcion = fecha_inscripcion;
 	}
 
 	@Override
 	public String toString() {
 		return "Inscrito [id=" + id + ", idAlumno=" + idAlumno + ", idOferta=" + idOferta + ", fecha_inscripcion="
-				+ fecha_inscripcion + "]";
+				+ fechainscripcion + "]";
 	}
 	
 	
