@@ -36,8 +36,8 @@ import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/alumno")
+public class AlumnoController {
 
 	private static final String FORM_ALUMNO_VIEW = "user/datosAlumno";
 	private static final String FORM_RRHH_VIEW = "user/datosRRHH";
@@ -71,15 +71,9 @@ public class UserController {
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);		
 
-		if(usuario.getRole().equals("ROLE_ALUMNO")) {
-			model.addAttribute("user", usuario);
-			model.addAttribute("ciclos", cicloService.listAllCiclos());
-			return FORM_ALUMNO_VIEW;
-		}
-		else {
-			model.addAttribute("user", usuario);
-			return FORM_RRHH_VIEW;
-		}
+		model.addAttribute("user", usuario);
+		model.addAttribute("ciclos", cicloService.listAllCiclos());
+		return FORM_ALUMNO_VIEW;
 		
 	}
 

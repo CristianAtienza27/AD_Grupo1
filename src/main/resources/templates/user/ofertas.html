@@ -70,8 +70,8 @@ footer {
 						<div id="panelsStayOpen-collapseOne"
 							class="accordion-collapse collapse show"
 							aria-labelledby="panelsStayOpen-herrbradingOne">
-							<a th:href="@{/user/ofertas}" class="btn btn-white" type="button">Ver Todas</a>
-							<select class="form-select" aria-label="Default select example" th:onchange="'window.location.href = \'' + @{/user/ofertas/} + 'ciclo\' + this.value ' ">
+							<a th:href="@{/alumno/ofertas}" class="btn btn-white" type="button">Ver Todas</a>
+							<select class="form-select" aria-label="Default select example" th:onchange="'window.location.href = \'' + @{/alumno/ofertas/} + 'ciclo\' + this.value ' ">
 								<option th:value="0">Buscar por Grado</option>  					
 								<option th:each="ciclo : ${ciclos}" th:value="${ciclo.id}"><p th:text="${ciclo.nombre}"></p></option>
 							</select>
@@ -89,7 +89,7 @@ footer {
 											<p th:text="'Numero de candidatos: '+${oferta.numCandidatos}"></p>
 											<p th:text="'Ciclo: ' +${oferta.cicloid.nombre}"></p>
 											<form
-												th:action="@{'/user/oferta/'+${oferta.id}+'/'+${session.usuario.id}}"
+												th:action="@{'/alumno/oferta/'+${oferta.id}+'/'+${session.usuario.id}}"
 												method="POST">
 												<button type="submit" class="btn btn-primary">Inscribirse</button>
 											</form>

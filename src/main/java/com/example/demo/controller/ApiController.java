@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,13 +25,23 @@ public class ApiController {
 	private CicloService cicloService;
 	
 	@GetMapping("/getCicles")
-	public List<CicloModel> listarCiclos(){
-		return cicloService.listAllCiclos();
+	public ResponseEntity<?> listarCiclos(){
+		List<CicloModel> ciclos=cicloService.listAllCiclos();
+		if(ciclos.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}else {
+			return ResponseEntity.ok(ciclos);
+		}
 	}
 	
 	@GetMapping("/cicle/{id}")
-	public Ciclo getCiclo(@PathVariable int id) {
-		return cicloService.findCicloById(id);
+	public ResponseEntity<?> getCiclo(@PathVariable int id) {
+		Ciclo ciclo =  cicloService.findCicloById(id);
+		if(ciclo == null) {
+			return ResponseEntity.notFound().build();
+		}else {
+			return ResponseEntity.ok(ciclo);
+		}
 	}
 	
 	@PostMapping("/cicle")
@@ -51,8 +62,9 @@ public class ApiController {
 	}
 	
 	@DeleteMapping("/cicle/{id}")
-	public int deleteCicle(@PathVariable int id) {
-		return cicloService.removeCiclo(id);
+	public ResponseEntity<?> deleteCicle(@PathVariable int id) {
+			cicloService.removeCiclo(id);
+			return ResponseEntity.noContent().build();
 	}
 	
 }
