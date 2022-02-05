@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -34,6 +37,7 @@ import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.CicloModel;
 import com.example.demo.models.UsuarioModel;
+import com.example.demo.security.CicloPDFExporter;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.InscritoService;
 import com.example.demo.service.NoticiaService;
@@ -42,6 +46,7 @@ import com.example.demo.service.UsuarioService;
 import com.example.demo.upload.FileController;
 import com.example.demo.upload.StorageException;
 import com.example.demo.upload.StorageService;
+import com.lowagie.text.DocumentException;
 
 @Controller
 @RequestMapping("/admin")
@@ -378,6 +383,23 @@ public class AdminController {
 		
 		return mav;
 	}
+	
+	@GetMapping("/export/pdf/{id}")
+	public void exportToPDF(HttpServletResponse response, @PathVariable int id) throws DocumentException, IOException{
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+		
+		String headerKey="Content-Disposition";
+		String headerValue="attachment; filename=ofertasporciclo_"+currentDateTime+".pdf";
+		response.setHeader(headerKey, headerValue);
+		
+		List<Oferta> ofertas = ofertaService.listAllOfertasByCiclo(cicloService.transform(cicloService.findCicloById(id)));
+		
+		CicloPDFExporter exporter = new CicloPDFExporter(ofertas);
+		exporter.export(response,cicloService.findCicloById(id));		
+	}
+	
 //	
 	public static Calendar toCalendar(Date date){ 
 		  Calendar cal = Calendar.getInstance();

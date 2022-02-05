@@ -83,6 +83,7 @@ footer {
 								class="btn btn-danger">Eliminar</a>
 								<div th:replace="admin/modals/deleteCiclo :: modalDeleteCiclo">
 							</th>
+							<th><a th:href="@{'/admin/export/pdf/'+${ciclo.id}}" class="btn btn-info">PDF</a></th>
 							</div>
 						</tr>
 					</tbody>
