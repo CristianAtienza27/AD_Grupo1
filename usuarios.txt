@@ -1,3 +1,0 @@
-admin@admin.com => 1234 (ADMIN)
-pepe@mail.com => 1234 (RRHH)
-cristian@gmail.com => 1234 (ALUMNO)

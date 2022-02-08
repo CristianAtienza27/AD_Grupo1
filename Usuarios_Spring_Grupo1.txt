@@ -1,0 +1,19 @@
+Usuarios Spring
+
+ADMIN:
+admin@admin.com
+1234
+
+ALUMNOS:
+cristian@gmail.com
+1234
+
+raul@gmail.com
+1234
+
+RRHH:
+pepe@gmail.com
+1234
+
+rafa@gmail.com
+1234

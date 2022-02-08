@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2022 a las 23:28:55
+-- Tiempo de generación: 08-02-2022 a las 23:12:54
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 7.3.33
 
@@ -42,7 +42,9 @@ INSERT INTO `ciclo` (`id`, `nombre`, `tipo`) VALUES
 (2, 'DAW', 'CFGS'),
 (3, 'ASIR', 'CFGS'),
 (4, 'Comercio', 'Empresa'),
-(5, 'Electricidad', 'FP Basica');
+(5, 'Electricidad', 'FP BÁSICA'),
+(40, 'PIR', 'PSICOLOGÍA'),
+(41, 'Electromecánica', 'FP Basica');
 
 -- --------------------------------------------------------
 
@@ -59,7 +61,7 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(39);
+(49);
 
 -- --------------------------------------------------------
 
@@ -81,7 +83,9 @@ CREATE TABLE `inscrito` (
 INSERT INTO `inscrito` (`id`, `fecha_inscripcion`, `id_alumno`, `id_oferta`) VALUES
 (35, '2022-01-18', 1, 4),
 (34, '2022-01-18', 1, 1),
-(38, '2022-01-25', 1, 37);
+(43, '2022-11-08', 1, 2),
+(44, '2022-11-08', 1, 42),
+(48, '2022-11-08', 45, 47);
 
 -- --------------------------------------------------------
 
@@ -103,10 +107,8 @@ CREATE TABLE `noticia` (
 --
 
 INSERT INTO `noticia` (`id`, `descripcion`, `imagen`, `titulo`, `cicloid`, `fecha_creacion`) VALUES
-(1, 'Animar a Felix, hay que aprobar', '71G1KUtJk+L._AC_SY355_.jpg', 'Futbolin', 1, NULL),
-(2, 'Partido entre Raul Gil y Pepe Viyuela', '71VTKeHIxnL._AC_SL1500_.jpg', 'Ping Pong', 2, NULL),
-(3, 'Incendio', '1500923201_322998_1500923574_noticia_normal.jpg', 'La FP se incendia', 5, NULL),
-(4, 'Raul sigue sin actualizar los apuntes', 'ionic.png', 'Ionic', 4, NULL);
+(1, 'Salesianos incorpora cursos de Ionic 5 para fomentar la formación.', '71G1KUtJk+L._AC_SY355_.jpg', 'IONIC 5', 1, NULL),
+(2, 'Salesianos incorpora cursos de PHP Laravel 6 para fomentar la formación', '71VTKeHIxnL._AC_SL1500_.jpg', 'PHP Laravel 6', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -130,12 +132,12 @@ CREATE TABLE `oferta` (
 --
 
 INSERT INTO `oferta` (`id`, `descripcion`, `fechamax`, `num_candidatos`, `requisitos`, `titular`, `cicloid`, `rrhhid`) VALUES
-(1, 'Hay que animar a Felix', '2022-02-16', 5, 'Tener manos y medir mas de 120cm', 'Animador/a para el partido de futbolin', 1, 4),
-(2, 'Hay que desanimar a Raul', '2021-12-22', 5, 'Tener manos y medir mas de 120cm', 'Desanimador/a para el partido de futbolin', 1, 2),
-(3, 'Se necesitan  bomberos, la fp esta ardiendo', '2022-04-15', 10, 'Tener mas de 3 dientes', 'La FP se incendia, necesitamos bomberos', 1, 4),
-(4, 'Convencer a Raul de que tiene que trabajar', '2023-03-31', 1, 'Padecer de alopecia', 'Raul, trabaja', 1, 4),
-(19, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', '2022-01-18', 5, 'Pasar la prueba', 'Prueba 1', 1, 4),
-(37, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', '2022-01-19', 9, 'Pasar la prueba', 'Prueba 1', 2, 4);
+(1, 'Se busca desarrollador front-end para tareas de desarrollo web y móvil', '2022-02-19', 5, '5 años de experiencia, ingles medio, Angular', 'Desarrollador Front-end', 1, 2),
+(2, 'Se busca desarrollador back-end para desarrollo en Java Spring', '2022-02-26', 5, '3 años de experiencia,  Java 8', 'Desarrollador Back-end', 1, 2),
+(3, 'Se necesitan  bomberos, la fp esta ardiendo', '2022-04-15', 10, 'Tener mas de 3 dientes', 'La FP se incendia, necesitamos bomberos', 1, 2),
+(4, 'Se busca técnico de sistemas para vacante en multinacional', '2023-03-10', 1, '3 años de experiencia', 'Técnico de Sistemas', 1, 2),
+(42, 'Se busca desarrollador PHP con conocimientos en Laravel 6', '2022-02-24', 0, 'PHP Avanzado, Laravel 6 o +', 'Desarrollador PHP', 2, 2),
+(47, 'Se busca desarrollador front-end para desarrollo móvil.', '2022-02-09', 0, '5 años de experiencia, ingles medio, Angular', 'Desarrollador Ionic 5', 2, 46);
 
 -- --------------------------------------------------------
 
@@ -161,11 +163,13 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `apellidos`, `email`, `empresa`, `enabled`, `nombre`, `password`, `role`, `telefono`, `cicloid`) VALUES
-(1, 'atienza', 'cristian@gmail.com', NULL, b'1', 'Cristian', '$2a$10$ItGe6TlMw1fFrzy0fvhm/OTbgZQxVS0NGrn2mtnoDtVSmA144BUby', 'ROLE_ALUMNO', '34343433', 1),
-(2, 'López', 'pepe@mail.com', 'Education S.A.', b'1', 'Pepe', '$2a$10$BcDlCVmfjAy9mdt8yfAEeudVsKSR0QxQGxsNm8/lccpcAdHG/3Yee', 'ROLE_RRHH', '335354545', NULL),
+(1, 'atienza', 'cristian@gmail.com', NULL, b'1', 'Cristian', '$2a$10$d1MnrRYqZZYAL.ntyXo1b.I.7jnKyonR1ivAiHED/0gdUMNkPc59W', 'ROLE_ALUMNO', '34343433', 1),
+(2, 'López', 'pepe@gmail.com', 'Education S.A.', b'1', 'Pepe', '$2a$10$NZKwcDj4FHDYSHoVBXRHAepfkliljZ576GddiUv33KfiwMjjDl.uW', 'ROLE_RRHH', '335354545', NULL),
 (4, 'admin', 'admin@admin.com', NULL, b'1', 'admin', '$2a$10$cNApfkgOgj8hYOBoUT1E1.JSrPoFNO4zE3swG0pmxFBI4CCDGjO9O', 'ROLE_ADMIN', '628282828', 1),
 (9, 'Ruiz', 'pepe1@mail.com', NULL, b'0', 'Pepe', '$2a$10$2Qx1z7dztpjPhuQufjdm5OjskPFijeYehg6SmXgP6v4AX0YTkXiY6', 'ROLE_ALUMNO', '7373737373', 2),
-(11, 'Ruiz', 'manu@mail.com', NULL, b'0', 'Manuel', '$2a$10$4cwazBr33vk7i0q4CV1XpO9JAvXhbbZyWm0dmJm14J./EEdRCVazy', 'ROLE_ALUMNO', '8282828282', 2);
+(11, 'Ruiz', 'manu@mail.com', NULL, b'0', 'Manuel', '$2a$10$4cwazBr33vk7i0q4CV1XpO9JAvXhbbZyWm0dmJm14J./EEdRCVazy', 'ROLE_ALUMNO', '8282828282', 2),
+(45, 'Reyes', 'raul@gmail.com', NULL, b'1', 'Raul', '$2a$10$XHssYYGCZPoMJK2jd0MvBO2FBsf8DhZZCCajfuFgh70biAhJYEwRG', 'ROLE_ALUMNO', '691191818', 2),
+(46, 'Castañeda', 'rafa@gmail.com', 'Alten', b'1', 'Rafael', '$2a$10$s6FTpqLsr36zIr3raLQHe.K.fpFoHEPPevQKNdhksN4RVe3VtyxZO', 'ROLE_RRHH', '62827382', NULL);
 
 --
 -- Índices para tablas volcadas

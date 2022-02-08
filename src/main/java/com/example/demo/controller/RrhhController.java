@@ -177,11 +177,10 @@ public class RrhhController {
 	}
 	
 	@GetMapping("/details")
-	public String details(HttpSession session, Authentication auth,
-			@PathVariable(name = "id", required = false) Integer id, Model model) {
+	public String details(HttpSession session, Authentication auth, Model model) {
 
-		String username = auth.getName();
-		Usuario usuario = usuarioService.findUserByEmail(username);
+		Usuario usuario = usuarioService.findUserByEmail(auth.getName());
+
 		session.setAttribute("usuario", usuario);		
 
 		model.addAttribute("user", usuario);
@@ -203,6 +202,6 @@ public class RrhhController {
 			flash.addFlashAttribute("mensaje", "Datos del usuario actualizados satisfactoriamente");
 		}
 
-		return "redirect:/user/details/";
+		return "redirect:/rrhh/details/";
 	}
 }

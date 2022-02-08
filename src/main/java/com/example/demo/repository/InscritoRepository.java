@@ -19,6 +19,8 @@ public interface InscritoRepository extends JpaRepository<Inscrito, Long>{
 	public List<Inscrito> findByidOferta(Oferta ofertaId);
 	
 	@Query(value="SELECT I.id, I.fecha_inscripcion, I.id_alumno, I.id_oferta "
-			+ "FROM oferta O JOIN inscrito I ON O.id = I.id_oferta WHERE O.rrhhid = ?1 and I.fecha_inscripcion >= ?2 and I.fecha_inscripcion <= ?3", nativeQuery=true)
+			+ "FROM oferta O JOIN inscrito I ON O.id = I.id_oferta "
+			+ "WHERE O.rrhhid = ?1 and I.fecha_inscripcion >= ?2 and I.fecha_inscripcion <= ?3 "
+			+ "ORDER BY O.num_candidatos DESC", nativeQuery=true)
 	public List<Inscrito> findInscripcionesByAlumnoByFecha(int id, Date inicio , Date fin);
 }

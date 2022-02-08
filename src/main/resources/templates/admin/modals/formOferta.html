@@ -12,7 +12,7 @@
 			<div class="modal-body border-0 p-4">
 
 				<form class="form-subscribe" method="POST"
-					th:action="@{/admin/ofertas/} + ${oferta.id}" th:object="${oferta}">
+					th:action="@{/rrhh/ofertas/} + ${oferta.id}" th:object="${oferta}">
 					<!-- Email address input-->
 					<div class="row">
 						<div class="col">
@@ -28,11 +28,7 @@
 								class="form-text text-danger"
 								th:if="${#fields.hasErrors('descripcion')}"
 								th:errors="*{descripcion}"></small> <br> 
-							<input
-								class="form-control form-control-lg" id="numCandidatos" type="number"
-								th:value="${oferta.numCandidatos}" placeholder="Numero de candidatos" name="numCandidatos" /> <small
-								class="form-text text-danger"
-								th:if="${#fields.hasErrors('numCandidatos')}" th:errors="*{oferta.numCandidatos}"></small><br>
+							<input type="hidden" name="numCandidatos" value="0"/> 
 							<input class="form-control form-control-lg" id="requisitos"
 								type="text" placeholder="Requisitos" th:value="${oferta.requisitos}"  name="requisitos" /> <small
 								class="form-text text-danger"

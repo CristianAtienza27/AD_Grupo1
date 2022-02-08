@@ -58,7 +58,7 @@ h2 {
   color: white;
 }
 #menu {
-  margin: 3mm 20mm 3mm 60mm;
+  margin: 3mm 30mm 3mm 70mm;
   height: 290mm;
   box-sizing: border-box;
 }
@@ -66,8 +66,9 @@ h2 {
   column-count: 2;
 }
 .section {
-  width: 90mm;
+  width: 100%;
   padding: 0 6mm;
+  border-bottom-style: solid;
 }
 h3 {
   font-size: 25px;
@@ -93,6 +94,13 @@ h4 {
   font-size: 17px;
   margin-bottom: 20px;
 }
+
+.cicle{
+  line-height: 20px;
+  font-size: 20px;
+  font-family: monospace;
+}
+
 </style>
 </head>
 <body>
@@ -102,7 +110,7 @@ h4 {
     </div>
 
     <div id="company">
-      <div><p th:text="'Ciclo ' + ${ciclo.nombre}"></p></div>
+      <div><p class="cicle" th:text="'Ciclo ' + ${ciclo.nombre}"></p></div>
       <div><p th:text="'Departamento de ' + ${ciclo.tipo}"></p></div>
       <div><a href="https://cadiz.salesianos.edu/">Web: cadiz.salesianos.edu</a></div>
     </div>
@@ -115,8 +123,10 @@ h4 {
         <div>
 		<p class="title" th:text="${count.count + ' ' + oferta.titular}"></p>
         <p class="description" th:text="${oferta.descripcion}"></p>
+        <p class="description">Requisitos: </p>
+        <p class="description" th:text="${oferta.requisitos}"></p>
         </div>
-		</div>
+	</div>
     </div>
   </div>
 </body>

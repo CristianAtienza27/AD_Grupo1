@@ -60,9 +60,6 @@ public class AlumnoController{
 	private InscritoService inscritoService;
 	
 	@Autowired
-	private PdfService pdfService;
-	
-	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@GetMapping("/details")
@@ -93,7 +90,7 @@ public class AlumnoController{
 			flash.addFlashAttribute("mensaje", "Datos del usuario actualizados satisfactoriamente");
 		}
 
-		return "redirect:/user/details/";
+		return "redirect:/alumno/details/";
 	}
 	
 	@GetMapping("/noticias")
@@ -146,10 +143,9 @@ public class AlumnoController{
 		return OFERTAS_VIEW;
 	}
 	
-	
-	@PostMapping("/oferta/{idOferta}/{idUsuario}")
-	public String inscripcion(@PathVariable int idOferta,@PathVariable int idUsuario, 
-			Authentication auth, HttpSession session, RedirectAttributes flash, Model model) {
+	@PostMapping("/oferta/{idOferta}")
+	public String inscripcion(@PathVariable int idOferta, Authentication auth, 
+			HttpSession session, RedirectAttributes flash, Model model) {
 		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
@@ -176,7 +172,7 @@ public class AlumnoController{
 		inscritoService.addInscrito(inscritoService.transform(inscrito));
 		flash.addFlashAttribute("mensaje", "Inscripción realizada con éxito");
 		
-		return "redirect:/user/ofertas";
+		return "redirect:/alumno/MisOfertas";
 	}
 
 }
