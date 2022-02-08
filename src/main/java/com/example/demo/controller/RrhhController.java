@@ -171,21 +171,7 @@ public class RrhhController {
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);
 		
-		List<Oferta> ofertas = usuario.getRrhh();
-		List<Inscrito> inscrito=new ArrayList<>();
-		List<Inscrito> inscritoFinal=new ArrayList<>();
-		
-		for (Oferta oferta : ofertas) {
-			if(inscritoService.findByidOferta(oferta)!=null)
-				inscrito.addAll(inscritoService.findByidOferta(oferta));
-		}
-		
-		for (Inscrito inscrito2 : inscrito) {
-			if(inscrito2.getFecha_inscripcion().after(inicio) && inscrito2.getFecha_inscripcion().before(fin))
-				inscritoFinal.add(inscrito2);
-		}
-		
-		model.addAttribute("solicitudes",inscritoFinal);
+		model.addAttribute("solicitudes", inscritoService.findInscripcionesByFecha(usuario.getId(),inicio ,fin));
 		
 		return "rrhh/solicitudes";
 	}

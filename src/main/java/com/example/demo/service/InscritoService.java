@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.entity.Inscrito;
@@ -15,4 +16,5 @@ public interface InscritoService {
 	List<Inscrito> findSolicitudes();
 	List<Inscrito> findByidAlumno(Usuario id);
 	List<Inscrito> findByidOferta(Oferta id);
+	List<Inscrito> findInscripcionesByFecha(int id, Date inicio , Date fin);
 }

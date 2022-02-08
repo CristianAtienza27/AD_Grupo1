@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,11 @@ public class InscritoServiceImpl implements InscritoService{
 	public List<Inscrito> findSolicitudes() {
 		return inscritoRepository.findAll().stream()
 				.map(i->(i)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Inscrito> findInscripcionesByFecha(int id, Date inicio, Date fin) {
+		return inscritoRepository.findInscripcionesByAlumnoByFecha(id, inicio, fin);
 	}
 	
 }
