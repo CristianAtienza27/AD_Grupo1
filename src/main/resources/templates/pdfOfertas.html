@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+html {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+body {
+  margin: 0;
+}
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 297mm;
+  width: 60mm;
+  background-color: red;
+  color: white;
+}
+#heading {
+  background-color: black;
+  padding-bottom: 50mm;
+}
+h1 {
+  font-family: monospace;
+  font-size: 30px;
+  margin: 0;
+  margin-top: 30px;
+  padding: 20px;
+}
+h2 {
+  font-size: 24px;
+  letter-spacing: 3px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0 20px;
+}
+#company {
+  color: black;
+  bottom: 0;
+  left: 0;
+  padding: 0 0 20px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 26px;
+  letter-spacing: 1.4px;
+}
+#company a {
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: white;
+}
+#menu {
+  margin: 3mm 20mm 3mm 60mm;
+  height: 290mm;
+  box-sizing: border-box;
+}
+#columns {
+  column-count: 2;
+}
+.section {
+  width: 90mm;
+  padding: 0 6mm;
+}
+h3 {
+  font-size: 25px;
+  margin-top: 20px;
+  padding: 0 6mm;
+}
+h4 {
+  clear: both;
+  font-weight: normal;
+}
+.price {
+  display: block;
+  float: right;
+  color: gray;
+  line-height: 28px;
+}
+.title {
+  line-height: 28px;
+  font-size: 24px;
+  font-family: monospace;
+}
+.description {
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
+  <div id="sidebar">
+    <div id="heading">
+    <img style="margin: 15px" width="200" height="140" src="https://salesianosrioja.com/wp-content/uploads/2016/03/Logo-Salesianos_vertical.png"/>
+    </div>
+
+    <div id="company">
+      <div><p th:text="'Ciclo ' + ${ciclo.nombre}"></p></div>
+      <div><p th:text="'Departamento de ' + ${ciclo.tipo}"></p></div>
+      <div><a href="https://cadiz.salesianos.edu/">Web: cadiz.salesianos.edu</a></div>
+    </div>
+  </div>
+
+  <div id="menu">
+  <h3>Listado de ofertas</h3>
+    <div id="columns" th:each="oferta,count :${ofertas}">
+      <div class="section">
+        <div>
+		<p class="title" th:text="${count.count + ' ' + oferta.titular}"></p>
+        <p class="description" th:text="${oferta.descripcion}"></p>
+        </div>
+		</div>
+    </div>
+  </div>
+</body>
+</html>

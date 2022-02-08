@@ -54,8 +54,10 @@ public class ApiController {
 	}
 	
 	@DeleteMapping("/cicle/{id}")
-	public int deleteCicle(@PathVariable int id) {
-		return cicloService.removeCiclo(id);
+	public ResponseEntity<?> deleteCicle(@PathVariable int id) {
+		cicloService.removeCiclo(id);
+		return ResponseEntity.noContent().build();
+		
 	}
 	
 }

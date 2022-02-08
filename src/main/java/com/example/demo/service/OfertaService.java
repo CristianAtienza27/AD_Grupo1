@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.List;
 
-import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Oferta;
 import com.example.demo.models.CicloModel;
 import com.example.demo.models.OfertaModel;
@@ -16,6 +16,7 @@ public interface OfertaService {
 	int removeOferta(int id);
 	Oferta findById(int id);
 	List<Oferta> listAllOfertasByCiclo(CicloModel ciclo);
+	List<Oferta> listAllActivasOfertasByCiclo(CicloModel ciclo);
 	List<Oferta> listAllOfertasByRrhh(UsuarioModel rrhh);
 	List<Oferta> listAllOfertasNoInscritasByAlumno(int id);
 	List<Oferta> listAllOfertasNoInscritasByAlumnoAndCiclo(int alumnoId, int cicloId);

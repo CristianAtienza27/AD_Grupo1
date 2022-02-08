@@ -2,9 +2,7 @@ package com.example.demo.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -33,11 +31,12 @@ import com.example.demo.service.CicloService;
 import com.example.demo.service.InscritoService;
 import com.example.demo.service.NoticiaService;
 import com.example.demo.service.OfertaService;
+import com.example.demo.service.PdfService;
 import com.example.demo.service.UsuarioService;
 
 @Controller
 @RequestMapping("/alumno")
-public class AlumnoController {
+public class AlumnoController{
 
 	private static final String FORM_ALUMNO_VIEW = "user/datosAlumno";
 	private static final String FORM_RRHH_VIEW = "user/datosRRHH";
@@ -61,12 +60,15 @@ public class AlumnoController {
 	private InscritoService inscritoService;
 	
 	@Autowired
+	private PdfService pdfService;
+	
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@GetMapping("/details")
 	public String details(HttpSession session, Authentication auth,
 			@PathVariable(name = "id", required = false) Integer id, Model model) {
-
+		
 		String username = auth.getName();
 		Usuario usuario = usuarioService.findUserByEmail(username);
 		session.setAttribute("usuario", usuario);		

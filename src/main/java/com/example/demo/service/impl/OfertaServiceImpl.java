@@ -1,6 +1,9 @@
 package com.example.demo.service.impl;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,10 +87,13 @@ public class OfertaServiceImpl implements OfertaService{
 	public List<Oferta> listAllOfertasNoInscritasByAlumnoAndCiclo(int alumnoId, int cicloId) {
 		return ofertaRepository.findOfertasNoInscritosByAlumnoAndByCiclo(alumnoId, cicloId);
 	}
-
-//	@Override
-//	public List<Oferta> findByCiclo(CicloModel ciclo) {
-//		return ofertaRepository.findByCicloid(cicloService.transform(ciclo));
-//	}
+	
+	@Override
+	public List<Oferta> listAllActivasOfertasByCiclo(CicloModel ciclo) {
+		return ofertaRepository.findByCicloid(cicloService.transform(ciclo)).stream()
+				.filter(oferta -> oferta.getFechamax().after(new Date(System.currentTimeMillis())))
+				.sorted(Comparator.comparing(Oferta::getNumCandidatos))
+		        .map(c->(c)).collect(Collectors.toList());
+	}
 
 }

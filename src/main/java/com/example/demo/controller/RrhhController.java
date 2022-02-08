@@ -97,23 +97,17 @@ public class RrhhController {
 			@PathVariable(name="id", required=false) Integer id,
 			Model model, RedirectAttributes flash,@RequestParam("fechamax") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		
-		System.out.println(date);
+		String username = auth.getName();
+		Usuario usuario = usuarioService.findUserByEmail(username);
+		session.setAttribute("usuario", usuario);
 		
 		if(bindingResult.hasErrors()) {
-			
-			String username = auth.getName();
-			Usuario usuario = usuarioService.findUserByEmail(username);
-			session.setAttribute("usuario", usuario);
 
 			model.addAttribute("ofertas",usuario.getRrhh());
 			System.out.println(bindingResult.getAllErrors().get(0).getDefaultMessage());
 			flash.addFlashAttribute("fallo", bindingResult.getAllErrors().get(0).getDefaultMessage());
 			return "redirect:/rrhh/ofertas";
 		}
-		
-		String username = auth.getName();
-		Usuario usuario = usuarioService.findUserByEmail(username);
-		session.setAttribute("usuario", usuario);
 
 		model.addAttribute("ofertas",usuario.getRrhh());
 		

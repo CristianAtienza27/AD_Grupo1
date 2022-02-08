@@ -42,6 +42,7 @@ import com.example.demo.service.CicloService;
 import com.example.demo.service.InscritoService;
 import com.example.demo.service.NoticiaService;
 import com.example.demo.service.OfertaService;
+import com.example.demo.service.PdfService;
 import com.example.demo.service.UsuarioService;
 import com.example.demo.upload.FileController;
 import com.example.demo.upload.StorageException;
@@ -73,6 +74,9 @@ public class AdminController {
 	private OfertaService ofertaService;
 	
 	@Autowired
+	private PdfService pdfService;
+	
+	@Autowired
 	private InscritoService inscritoService;
 	
 	// 					USUARIOS					// 	
@@ -86,6 +90,8 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView(USERS_VIEW);
 		mav.addObject("titulo", "Alumnos");
 		mav.addObject("users", usuarioService.showAll("ROLE_ALUMNO"));
+		
+		System.out.println(new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(new Date()));
 				
 		return mav;
 	}
@@ -405,6 +411,21 @@ public class AdminController {
 		  Calendar cal = Calendar.getInstance();
 		  cal.setTime(date);
 		  return cal;
+	}
+	
+	@GetMapping("/export/pdf1/{id}")
+	public String exportToPDF1(@PathVariable int id,RedirectAttributes flash) {
+		try {
+			CicloModel ciclo = cicloService.transform(cicloService.findCicloById(id));
+			pdfService.createPdf(ofertaService.listAllActivasOfertasByCiclo(ciclo), ciclo);
+			flash.addFlashAttribute("mensaje","PDF creado con éxito");
+			return "redirect:/admin/ciclos";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "redirect:/admin/ciclos";
+		}
+
 	}
 	
 }
