@@ -37,7 +37,6 @@ import com.example.demo.entity.Oferta;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.CicloModel;
 import com.example.demo.models.UsuarioModel;
-import com.example.demo.security.CicloPDFExporter;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.InscritoService;
 import com.example.demo.service.NoticiaService;
@@ -388,22 +387,6 @@ public class AdminController {
 		}
 		
 		return mav;
-	}
-	
-	@GetMapping("/export/pdf/{id}")
-	public void exportToPDF(HttpServletResponse response, @PathVariable int id) throws DocumentException, IOException{
-		response.setContentType("application/pdf");
-		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-		String currentDateTime = dateFormatter.format(new Date());
-		
-		String headerKey="Content-Disposition";
-		String headerValue="attachment; filename=ofertasporciclo_"+currentDateTime+".pdf";
-		response.setHeader(headerKey, headerValue);
-		
-		List<Oferta> ofertas = ofertaService.listAllOfertasByCiclo(cicloService.transform(cicloService.findCicloById(id)));
-		
-		CicloPDFExporter exporter = new CicloPDFExporter(ofertas);
-		exporter.export(response,cicloService.findCicloById(id));		
 	}
 	
 //	

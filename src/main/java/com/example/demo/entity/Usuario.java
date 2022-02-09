@@ -64,6 +64,9 @@ public class Usuario {
 	@Column(name="empresa", length=200)
 	private String empresa;
 	
+	@Column(name="token")
+	private String token;
+	
 	@ManyToOne
 	@JoinColumn(name="cicloID")
 	private Ciclo cicloID;
@@ -189,6 +192,14 @@ public class Usuario {
 
 	public void setRrhh(List<Oferta> rrhh) {
 		this.rrhh = rrhh;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }

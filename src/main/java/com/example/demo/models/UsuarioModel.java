@@ -34,6 +34,8 @@ public class UsuarioModel {
 	
 	private String empresa;
 	
+	private String token;
+	
 	private Ciclo cicloID;
 	
 	public UsuarioModel(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,
@@ -153,6 +155,18 @@ public class UsuarioModel {
 	public void setCicloID(Ciclo cicloID) {
 		this.cicloID = cicloID;
 	}
+
+	public String getToken() {
+		return token;
+	}
+
+
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+
 
 	@Override
 	public String toString() {
