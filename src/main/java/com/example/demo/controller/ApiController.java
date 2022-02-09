@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,15 +30,19 @@ import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.CicloModel;
 import com.example.demo.service.CicloService;
+import com.example.demo.service.UsuarioService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+
+@CrossOrigin(origins="*",methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api")
 public class ApiController {
 	
-
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -46,14 +52,17 @@ public class ApiController {
 	
 	@PostMapping("/login/")
 	public Usuario login(@RequestParam("user") String username,@RequestParam("password") String password) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String token = getJWTToken(username);
-		Usuario usuario = new Usuario();
-		usuario.setEmail(username);
-		usuario.setPassword(password);
-		usuario.setToken(token);
-		return usuario;
+		if(usuarioService.findUserByEmail(username).getRole().equals("ROLE_ALUMNO")) {
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			String token = getJWTToken(username);
+			Usuario usuario = new Usuario();
+			usuario.setEmail(username);
+			usuario.setPassword(password);
+			usuario.setToken(token);
+			return usuario;
+		}
+		return null;
 	}
 	
 	@GetMapping("/getCicles")
