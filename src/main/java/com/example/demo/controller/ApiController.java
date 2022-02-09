@@ -57,37 +57,55 @@ public class ApiController {
 	}
 	
 	@GetMapping("/getCicles")
-	public List<CicloModel> listarCiclos(@RequestHeader("Authentication") String token){
+	public List<CicloModel> listarCiclos(@RequestHeader String token){
+		if(token.isEmpty())
+			return null;
+		else
 			return cicloService.listAllCiclos();
 	}
 	
 	@GetMapping("/cicle/{id}")
-	public Ciclo getCiclo(@PathVariable int id) {
-		return cicloService.findCicloById(id);
+	public Ciclo getCiclo(@RequestHeader String token,@PathVariable int id) {
+		if(token.isEmpty())
+			return null;
+		else
+			return cicloService.findCicloById(id);
 	}
 	
 	@PostMapping("/cicle")
-	public ResponseEntity<?> newCicle(@RequestBody CicloModel newCiclo) {
-		cicloService.addCiclo(newCiclo);
-		return ResponseEntity.status(HttpStatus.CREATED).body(newCiclo);
+	public ResponseEntity<?> newCicle(@RequestHeader String token,@RequestBody CicloModel newCiclo) {
+		if(token.isEmpty())
+			return ResponseEntity.noContent().build();
+		else {
+			cicloService.addCiclo(newCiclo);
+			return ResponseEntity.status(HttpStatus.CREATED).body(newCiclo);
+		}
 	}
 	
 	@PutMapping("/cicle/{id}")
-	public ResponseEntity<?> editCicle(@RequestBody CicloModel actual, @PathVariable int id) {
-		CicloModel ciclo = cicloService.transform(cicloService.findCicloById(id));
-		if(ciclo!=null) {
-			actual.setId(id);
-			return ResponseEntity.ok(cicloService.updateCiclo(actual));
-		}
-		else {
+	public ResponseEntity<?> editCicle(@RequestHeader String token,@RequestBody CicloModel actual, @PathVariable int id) {
+		if(token.isEmpty()) {
 			return ResponseEntity.notFound().build();
+		}else {
+			CicloModel ciclo = cicloService.transform(cicloService.findCicloById(id));
+			if(ciclo!=null) {
+				actual.setId(id);
+				return ResponseEntity.ok(cicloService.updateCiclo(actual));
+			}
+			else {
+				return ResponseEntity.notFound().build();
+			}
 		}
 	}
 	
 	@DeleteMapping("/cicle/{id}")
-	public ResponseEntity<?> deleteCicle(@PathVariable int id) {
+	public ResponseEntity<?> deleteCicle(@RequestHeader String token,@PathVariable int id) {
+		if(token.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}else {
 		cicloService.removeCiclo(id);
 		return ResponseEntity.noContent().build();
+		}
 		
 	}
 	
