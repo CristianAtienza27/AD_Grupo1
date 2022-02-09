@@ -23,6 +23,11 @@ public interface OfertaRepository extends JpaRepository<Oferta, Integer>{
 			+ "WHERE I.id_alumno IS NULL OR I.id_alumno !=?1", nativeQuery=true)
 	public List<Oferta> findOfertasNoInscritosByAlumno(int id);
 	
+	@Query(value="SELECT DISTINCT O.titular, O.descripcion, O.fechamax, O.requisitos "
+			+ "FROM oferta O LEFT JOIN inscrito I ON O.id = I.id_oferta "
+			+ "WHERE I.id_alumno IS NOT NULL OR I.id_alumno =?1", nativeQuery=true)
+	public List<Oferta> findOfertasInscritosByAlumno(int id);
+	
 	@Query(value="SELECT DISTINCT O.id, O.descripcion, O.fechamax, O.num_candidatos, O.requisitos, O.titular, O.cicloid, O.rrhhid "
 			+ "FROM oferta O LEFT JOIN inscrito I ON O.id = I.id_oferta "
 			+ "WHERE I.id_alumno IS NULL AND o.cicloid = ?2 OR I.id_alumno != ?1 AND o.cicloid = ?2", nativeQuery=true)

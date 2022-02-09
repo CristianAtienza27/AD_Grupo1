@@ -96,4 +96,9 @@ public class OfertaServiceImpl implements OfertaService{
 		        .map(c->(c)).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<Oferta> listAllOfertasInscritasByAlumno(int id) {
+		return ofertaRepository.findOfertasInscritosByAlumno(id);
+	}
+
 }

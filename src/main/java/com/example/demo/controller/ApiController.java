@@ -27,9 +27,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Ciclo;
+import com.example.demo.entity.Inscrito;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.CicloModel;
 import com.example.demo.service.CicloService;
+import com.example.demo.service.InscritoService;
+import com.example.demo.service.OfertaService;
 import com.example.demo.service.UsuarioService;
 
 import io.jsonwebtoken.Jwts;
@@ -50,9 +53,19 @@ public class ApiController {
 	@Autowired
 	private CicloService cicloService;
 	
+	@Autowired
+	private OfertaService ofertaService;
+	
+	@Autowired 
+	private InscritoService inscritoService;
+	
+	private String email;
+	
+	
 	@PostMapping("/login/")
 	public Usuario login(@RequestParam("user") String username,@RequestParam("password") String password) {
 		if(usuarioService.findUserByEmail(username).getRole().equals("ROLE_ALUMNO")) {
+			email=usuarioService.findUserByEmail(username).getEmail();
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String token = getJWTToken(username);
@@ -63,6 +76,11 @@ public class ApiController {
 			return usuario;
 		}
 		return null;
+	}
+	
+	@GetMapping("/getOfertas")
+	public List<Inscrito> listarOfertas(@RequestHeader String token){
+		return inscritoService.findByidAlumno(usuarioService.findUserByEmail(email));
 	}
 	
 	@GetMapping("/getCicles")
