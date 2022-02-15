@@ -14,6 +14,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Ciclo {
 	
@@ -31,13 +33,16 @@ public class Ciclo {
 	@Size(min=3, max=60, message="El campo tipo debe tener entre 3 y 60 caracteres")
 	private String tipo;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
 	List <Usuario> alumnos = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="cicloID", orphanRemoval=true)
 	@OrderBy("fecha_creacion ASC")
 	List <Noticia> noticias = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="cicloid", orphanRemoval=true)
 	List <Oferta> ofertas = new ArrayList<>();
 	
@@ -48,13 +53,13 @@ public class Ciclo {
 		this.tipo = tipo;
 	}
 
-	public Ciclo(int id, String nombre, String tipo, List<Usuario> alumnos) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.tipo = tipo;
-		this.alumnos = alumnos;
-	}
+//	public Ciclo(int id, String nombre, String tipo, List<Usuario> alumnos) {
+//		super();
+//		this.id = id;
+//		this.nombre = nombre;
+//		this.tipo = tipo;
+//		this.alumnos = alumnos;
+//	}
 	
 
 	public Ciclo() {
@@ -85,13 +90,13 @@ public class Ciclo {
 		this.tipo = tipo;
 	}
 
-	public List<Usuario> getAlumnos() {
-		return alumnos;
-	}
-
-	public void setAlumnos(List<Usuario> alumnos) {
-		this.alumnos = alumnos;
-	}
+//	public List<Usuario> getAlumnos() {
+//		return alumnos;
+//	}
+//
+//	public void setAlumnos(List<Usuario> alumnos) {
+//		this.alumnos = alumnos;
+//	}
 
 	public List<Noticia> getNoticias() {
 		return noticias;

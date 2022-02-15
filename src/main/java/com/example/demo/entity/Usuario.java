@@ -17,6 +17,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Usuario {
 	@Id
@@ -71,9 +73,20 @@ public class Usuario {
 	@JoinColumn(name="cicloID")
 	private Ciclo cicloID;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="rrhhid", orphanRemoval=true)
 	@OrderBy("fechamax ASC")
 	List <Oferta> rrhh = new ArrayList<>();
+	
+	
+
+	public Usuario(int id, String email, String password)
+	{
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+	}
 
 	public Usuario(int id, String nombre, String apellidos,String telefono, boolean enabled, String email, String password,
 			String role, String empresa) {

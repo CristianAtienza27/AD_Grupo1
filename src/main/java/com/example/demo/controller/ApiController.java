@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.Date;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ import com.example.demo.entity.Ciclo;
 import com.example.demo.entity.Inscrito;
 import com.example.demo.entity.Usuario;
 import com.example.demo.models.CicloModel;
+import com.example.demo.models.InscritoModel;
 import com.example.demo.service.CicloService;
 import com.example.demo.service.InscritoService;
 import com.example.demo.service.OfertaService;
@@ -39,7 +41,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 
-@CrossOrigin(origins="*",methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins="http://localhost:8100",methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api")
 public class ApiController {
@@ -61,31 +63,44 @@ public class ApiController {
 	
 	private String email;
 	
+	private String token = "";
 	
-	@PostMapping("/login/")
-	public Usuario login(@RequestParam("user") String username,@RequestParam("password") String password) {
-		if(usuarioService.findUserByEmail(username).getRole().equals("ROLE_ALUMNO")) {
-			email=usuarioService.findUserByEmail(username).getEmail();
-			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String token = getJWTToken(username);
-			Usuario usuario = new Usuario();
-			usuario.setEmail(username);
-			usuario.setPassword(password);
-			usuario.setToken(token);
-			return usuario;
+	
+	@PostMapping("/login")
+	public Usuario login(@RequestBody Usuario user) {
+		
+		System.out.println(user.getEmail() + ' ' + user.getPassword());
+		
+		Usuario usuario = usuarioService.findUserByEmail(user.getEmail());
+
+		if (usuario != null) {
+			if (usuario.getRole().equals("ROLE_ALUMNO")) {
+				email = usuario.getEmail();
+				Authentication authentication = authenticationManager
+						.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				token = getJWTToken(user.getEmail());
+				usuario.setToken(token);
+				return usuario;
+			} 
 		}
+		
 		return null;
 	}
 	
 	@GetMapping("/getOfertas")
-	public List<Inscrito> listarOfertas(@RequestHeader String token){
-		return inscritoService.findByidAlumno(usuarioService.findUserByEmail(email));
+	public ResponseEntity<?> listarOfertas(){
+		List<Inscrito> inscripciones = null;
+		
+		if(!token.isEmpty())
+			inscripciones = inscritoService.findByidAlumno(usuarioService.findUserByEmail(email));
+
+		return ResponseEntity.status(HttpStatus.OK).body(inscripciones);
 	}
 	
 	@GetMapping("/getCicles")
-	public List<CicloModel> listarCiclos(@RequestHeader String token){
-		if(token.isEmpty())
+	public List<CicloModel> listarCiclos(){
+		if(!token.isEmpty())
 			return null;
 		else
 			return cicloService.listAllCiclos();
