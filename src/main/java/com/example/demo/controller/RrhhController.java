@@ -217,6 +217,6 @@ public class RrhhController {
 			flash.addFlashAttribute("mensaje", "Datos del usuario actualizados satisfactoriamente");
 		}
 
-		return "redirect:/user/details/";
+		return "redirect:/rrhh/details/";
 	}
 }
