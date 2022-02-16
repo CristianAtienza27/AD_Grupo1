@@ -93,7 +93,7 @@ public class AlumnoController{
 			flash.addFlashAttribute("mensaje", "Datos del usuario actualizados satisfactoriamente");
 		}
 
-		return "redirect:/user/details/";
+		return "redirect:/alumno/details/";
 	}
 	
 	@GetMapping("/noticias")
