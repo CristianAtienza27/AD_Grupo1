@@ -37,7 +37,6 @@ public class Oferta {
 	private String descripcion;
 
 	@Column(name = "requisitos")
-	@Lob
 	@NotEmpty(message = "El campo requisitos no puede ir vacío")
 	private String requisitos;
 
